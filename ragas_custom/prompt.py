@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import ast
 import json
 import logging
 import os
@@ -9,9 +8,9 @@ import typing as t
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.prompt_values import PromptValue as BasePromptValue
 from langchain_core.pydantic_v1 import BaseModel, root_validator
+from deep_translator import GoogleTranslator
 
 from ragas.llms import BaseRagasLLM
-from ragas.llms.json_load import json_loader
 from ragas.utils import get_cache_dir
 
 Example = t.Dict[str, t.Any]
@@ -160,13 +159,35 @@ class Prompt(BaseModel):
             )
         for key, value in kwargs.items():
             if isinstance(value, str):
-                kwargs[key] = json.dumps(value, ensure_ascii=False)
+                kwargs[key] = json.dumps(value)
 
         prompt = self.to_string()
         return PromptValue(prompt_str=prompt.format(**kwargs))
 
+    @staticmethod
+    def translate_dict(data, language):
+        translator = GoogleTranslator(source='en', target=language)
+        
+        def translate_aux(data_temp):
+            if isinstance(data_temp, dict):
+                for key, value in data_temp.items():
+                    if key == "keyphrases" and isinstance(value, list):
+                        data_temp[key] = [translator.translate(item) for item in value if isinstance(item, str)]
+                    elif isinstance(value, str):
+                        data_temp[key] = translator.translate(value)
+                    elif isinstance(value, list):
+                        data_temp[key] = [translate_aux(item) for item in value]
+                    elif isinstance(value, dict):
+                        data_temp[key] = translate_aux(value)
+            elif isinstance(data_temp, list):
+                data_temp = [translate_aux(item) for item in data_temp]
+                
+            return data_temp
+
+        return translate_aux(data)
+            
     def adapt(
-        self, language: str, llm: BaseRagasLLM, cache_dir: t.Optional[str] = None
+        self, language: str, cache_dir: t.Optional[str] = None
     ) -> Prompt:
         def get_all_keys(nested_json):
             keys = set()
@@ -182,95 +203,25 @@ class Prompt(BaseModel):
         # TODO: Add callbacks
         cache_dir = cache_dir if cache_dir else get_cache_dir()
         if os.path.exists(os.path.join(cache_dir, language, f"{self.name}.json")):
-            self_cp = self._load(language, self.name, cache_dir)
+            self_cp_dict = self._load(language, self.name, cache_dir).dict()
 
-            self.language = self_cp.language
-            self.examples = self_cp.examples
+            for key in self_cp_dict.keys():
+                setattr(self, key, self_cp_dict[key])
 
-            return self_cp
+            return self
 
         logger.info("Adapting %s to %s", self.name, language)
-        prompts = [str_translation.format(translate_to=language, input=self.instruction)]
-        output_keys = []
 
-        for example in self.examples:
-            prompts.extend(
-                [
-                    str_translation.format(
-                        translate_to=language, input=example.get(key)
-                    )
-                    for key in self.input_keys
-                ]
-            )
-            prompts.append(
-                json_translatation.format(
-                    translate_to=language, input=example.get(self.output_key)
-                )
-                if self.output_type.lower() == "json"
-                else str_translation.format(
-                    translate_to=language, input=example.get(self.output_key)
-                )
-            )
-            if self.output_type.lower() == "json":
-                output = example.get(self.output_key)
-                if isinstance(output, str):
-                    output = json.loads(output)
-                if isinstance(output, dict):
-                    output_keys.append(get_all_keys(output))
-                elif isinstance(output, list) and all(
-                    isinstance(item, dict) for item in output
-                ):
-                    output_keys.append([get_all_keys(item) for item in output])
+        dict_var = self.dict()
+        removed_keys = ['name', 'input_keys', 'output_key', 'output_type', 'language']
 
+        for key in removed_keys:
+            del dict_var[key]
 
-        # NOTE: this is a slow loop, consider Executor to fasten this
-        results = []
-        for p in prompts:
-            results.append(llm.generate_text(p).generations[0][0].text)
-
-        self.instruction = results[0]
-        del results[0]
-
-        per_example_items = len(self.input_keys) + 1
-        grouped_results = [
-            results[i : i + per_example_items]
-            for i in range(0, len(results), per_example_items)
-        ]
-
-        assert len(grouped_results) == len(
-            self.examples
-        ), "examples and adapted examples must be of equal length"
-        for i, example in enumerate(grouped_results):
-            example_dict = {}
-            example_dict.update(
-                {k: v for k, v in zip(self.input_keys, example[: len(self.input_keys)])}
-            )
-            if self.output_type.lower() == "json":
-                example_dict[self.output_key] = json_loader._safe_load(example[-1], llm)
-                if example_dict[self.output_key] == {}:
-                    # Extracting the dictionary part using string slicing
-                    dict_str = example[-1].split("(")[0].strip()
-
-                    try:
-                        example_dict[self.output_key] = ast.literal_eval(dict_str)
-                    except:
-                        raise Exception(f"It's not possible to interpreter python code. Result: \n{dict_str}\n\n\n")
-
-                    output = example_dict[self.output_key]
-                    if isinstance(output, dict):
-                        assert (
-                            set(output.keys()) == output_keys[i]
-                        ), f"Adapted output keys {set(output.keys())=} do not match with the original output keys: {output_keys[i]=}"
-                    elif isinstance(output, list) and all(
-                        isinstance(item, dict) for item in output
-                    ):
-                        assert all(
-                            set(item.keys()) in output_keys[i] for item in output
-                        ), "Adapted output keys do not match with the original output keys"
-            else:
-                example_dict[self.to_string] = example[-1]
-                
-            self.examples[i] = example_dict
+        translated_dict = Prompt.translate_dict(dict_var, language)
+        
+        for key in translated_dict.keys():
+            setattr(self, key, translated_dict[key])
 
         self.language = language
 
@@ -295,64 +246,3 @@ class Prompt(BaseModel):
         logger.info("Loading %s from %s", name, cache_dir)
         path = os.path.join(cache_dir, language, f"{name}.json")
         return cls(**json.load(open(path)))
-
-
-str_translation = Prompt(
-    name="str_translation",
-    instruction="Language translation. Respond only with the translation. Do not write an introduction or summary.",
-    examples=[
-        {
-            "translate_to": "hindi",
-            "input": "Who was  Albert Einstein and what is he best known for?",
-            "output": "अल्बर्ट आइंस्टीन कौन थे और वे किसके लिए सबसे ज्यादा प्रसिद्ध हैं?",
-        },
-        {
-            "translate_to": "dutch",
-            "input": "Who was queen Elizabeth and what is she best known for?",
-            "output": "Wie was koningin Elizabeth en waar is zij het meest bekend om?",
-        },
-    ],
-    input_keys=["translate_to", "input"],
-    output_key="output",
-    output_type="str",
-)
-
-json_translatation = Prompt(
-    name="json_translation",
-    instruction="Translate values in given json to target language and output the translated json. Respond only with valid JSON. Do not write an introduction or summary.",
-    examples=[
-        {
-            "translate_to": "hindi",
-            "input": {
-                "statements": [
-                    "Albert Einstein was born in Germany.",
-                    "Albert Einstein was best known for his theory of relativity.",
-                ]
-            },
-            "output": {
-                "statements": [
-                    "अल्बर्ट आइंस्टीन का जन्म जर्मनी में हुआ था।",
-                    "अल्बर्ट आइंस्टीन अपने सापेक्षता के सिद्धांत के लिए सबसे अधिक प्रसिद्ध थे।",
-                ]
-            },
-        },
-        {
-            "translate_to": "dutch",
-            "input": {
-                "statements": [
-                    "Paris is the capital of France.",
-                    "Croissants are a popular French pastry.",
-                ]
-            },
-            "output": {
-                "statements": [
-                    "Parijs is de hoofdstad van Frankrijk.",
-                    "Croissants zijn een populair Frans gebak.",
-                ]
-            },
-        },
-    ],
-    input_keys=["translate_to", "input"],
-    output_key="output",
-    output_type="json",
-)

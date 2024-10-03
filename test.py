@@ -6,11 +6,9 @@ from ragas.embeddings import LangchainEmbeddingsWrapper
 from langchain_ollama import OllamaEmbeddings, ChatOllama, OllamaLLM
 from langchain_openai import ChatOpenAI
 from langchain_openai.embeddings import OpenAIEmbeddings
-from ragas.testset.prompts import filter_question_prompt
-from ragas.llms.prompt import str_translation, json_translatation
-
+from ragas.testset.prompts import context_scoring_prompt, translate_all
 data = 'teste'
-language = "Português"
+language = "pt"
 distributions = {
     simple:0.4,
     reasoning:0.2,
@@ -18,7 +16,4 @@ distributions = {
     conditional:0.2
     }
 
-filter_question_prompt.adapt(language, LangchainLLMWrapper(ChatOllama(model='llama3.2')))
-
-
-print(filter_question_prompt.to_string())
+translate_all(language, 'dsaas')
