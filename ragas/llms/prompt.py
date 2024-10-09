@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 import os
@@ -11,6 +12,7 @@ from langchain_core.pydantic_v1 import BaseModel, root_validator
 from deep_translator import GoogleTranslator
 
 from ragas.llms import BaseRagasLLM
+from ragas.llms.json_load import json_loader
 from ragas.utils import get_cache_dir
 
 Example = t.Dict[str, t.Any]
@@ -162,7 +164,9 @@ class Prompt(BaseModel):
                 kwargs[key] = json.dumps(value)
 
         prompt = self.to_string()
-        return PromptValue(prompt_str=prompt.format(**kwargs))
+        prompt_str=prompt.format(**kwargs)
+        return PromptValue(prompt_str=prompt_str)
+
 
     @staticmethod
     def translate_dict(data, language):
@@ -185,9 +189,9 @@ class Prompt(BaseModel):
             return data_temp
 
         return translate_aux(data)
-            
+    
     def adapt(
-        self, language: str, cache_dir: t.Optional[str] = None
+        self, language: str, llm, cache_dir: t.Optional[str] = None
     ) -> Prompt:
         def get_all_keys(nested_json):
             keys = set()
@@ -246,3 +250,64 @@ class Prompt(BaseModel):
         logger.info("Loading %s from %s", name, cache_dir)
         path = os.path.join(cache_dir, language, f"{name}.json")
         return cls(**json.load(open(path)))
+
+
+str_translation = Prompt(
+    name="str_translation",
+    instruction="Language translation",
+    examples=[
+        {
+            "translate_to": "hindi",
+            "input": "Who was  Albert Einstein and what is he best known for?",
+            "output": "अल्बर्ट आइंस्टीन कौन थे और वे किसके लिए सबसे ज्यादा प्रसिद्ध हैं?",
+        },
+        {
+            "translate_to": "dutch",
+            "input": "Who was queen Elizabeth and what is she best known for?",
+            "output": "Wie was koningin Elizabeth en waar is zij het meest bekend om?",
+        },
+    ],
+    input_keys=["translate_to", "input"],
+    output_key="output",
+    output_type="str",
+)
+
+json_translatation = Prompt(
+    name="json_translation",
+    instruction="Translate values in given json to target language and output the translated json",
+    examples=[
+        {
+            "translate_to": "hindi",
+            "input": {
+                "statements": [
+                    "Albert Einstein was born in Germany.",
+                    "Albert Einstein was best known for his theory of relativity.",
+                ]
+            },
+            "output": {
+                "statements": [
+                    "अल्बर्ट आइंस्टीन का जन्म जर्मनी में हुआ था।",
+                    "अल्बर्ट आइंस्टीन अपने सापेक्षता के सिद्धांत के लिए सबसे अधिक प्रसिद्ध थे।",
+                ]
+            },
+        },
+        {
+            "translate_to": "dutch",
+            "input": {
+                "statements": [
+                    "Paris is the capital of France.",
+                    "Croissants are a popular French pastry.",
+                ]
+            },
+            "output": {
+                "statements": [
+                    "Parijs is de hoofdstad van Frankrijk.",
+                    "Croissants zijn een populair Frans gebak.",
+                ]
+            },
+        },
+    ],
+    input_keys=["translate_to", "input"],
+    output_key="output",
+    output_type="json",
+)

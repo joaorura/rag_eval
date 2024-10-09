@@ -1,12 +1,13 @@
-import os
-import json
+import pkgutil
+import importlib
+import ragas
 
-from copy import copy
-from deep_translator import GoogleTranslator
 from langchain_core.pydantic_v1 import BaseModel
+from copy import copy
 
-from ragas.llms.output_parser import RagasoutputParser, get_json_format_instructions, FIX_OUTPUT_FORMAT
+from ragas.llms.output_parser import RagasoutputParser, get_json_format_instructions
 from ragas.llms.prompt import Prompt
+
 
 class AnswerFormat(BaseModel):
     answer: str
@@ -54,6 +55,7 @@ multi_context_question_prompt = Prompt(
         3. The rewritten question must be fully answerable from information present in context1 and context2. 
         4. Read and understand both contexts and rewrite the question so that answering requires insight from both context1 and context2.
         5. phrases like 'based on the provided context','according to the context?',etc are not allowed to appear in the question.""",
+    output_format_instruction="Answer only with the wording of the question, without introductions, preambles, notes or additional context.",
     examples=[
         {
             "question": "What process turns plants green?",
@@ -83,6 +85,7 @@ conditional_question_prompt = Prompt(
         2. The rewritten question must be reasonable and must be understood and responded by humans.
         3. The rewritten question must be fully answerable from information present context.
         4. phrases like 'provided context','according to the context?',etc are not allowed to appear in the question.""",
+    output_format_instruction="Answer only with the wording of the question, without introductions, preambles, notes or additional context.",
     examples=[
         {
             "question": "What is the function of the roots of a plant?",
@@ -105,6 +108,7 @@ compress_question_prompt = Prompt(
     name="compress_question",
     instruction="""Rewrite the following question to make it more indirect and shorter while retaining the essence of the original question.
     The goal is to create a question that conveys the same meaning but in a less direct manner. The rewritten question should shorter so use abbreviation wherever possible.""",
+    output_format_instruction="Answer only with the wording of the question, without introductions, preambles, notes or additional context.",
     examples=[
         {
             "question": "What is the distance between the Earth and the Moon?",
@@ -129,7 +133,6 @@ conversational_question_prompt = Prompt(
         2. The rewritten question must be reasonable and must be understood and responded by humans.
         3. The rewritten question must be fully answerable from information present context.
         4. phrases like 'provided context','according to the context?',etc are not allowed to appear in the question.""",
-    output_format_instruction='Respond only with valid JSON. Do not write any introduction, summary, or commentary. Just return the JSON.',
     examples=[
         {
             "question": "What are the advantages and disadvantages of remote work?",
@@ -189,8 +192,7 @@ question_answer_prompt = Prompt(
 
 keyphrase_extraction_prompt = Prompt(
     name="keyphrase_extraction",
-    instruction="Extract the top 3 to 5 keyphrases from the provided text, focusing on the most significant and distinctive aspects.",
-    output_format_instruction='Respond only with valid JSON. Do not write any introduction, summary, or commentary. Just return the JSON.',
+    instruction="Extract the top 3 to 5 keyphrases from the provided text, focusing on the most significant and distinctive aspects. ",
     examples=[
         {
             "text": "A black hole is a region of spacetime where gravity is so strong that nothing, including light and other electromagnetic waves, has enough energy to escape it. The theory of general relativity predicts that a sufficiently compact mass can deform spacetime to form a black hole.",
@@ -223,6 +225,7 @@ keyphrase_extraction_prompt = Prompt(
 seed_question_prompt = Prompt(
     name="seed_question",
     instruction="Generate a question that can be fully answered from given context. The question should be formed using topic",
+    output_format_instruction="Answer only with the wording of the question, without introductions, preambles, notes or additional context.",
     examples=[
         {
             "context": "Photosynthesis in plants involves converting light energy into chemical energy, using chlorophyll and other pigments to absorb light. This process is crucial for plant growth and the production of oxygen.",
@@ -249,7 +252,6 @@ seed_question_prompt = Prompt(
 main_topic_extraction_prompt = Prompt(
     name="main_topic_extraction",
     instruction="Identify and extract the two main topics discussed in depth in the given text.",
-    output_format_instruction='Respond only with valid JSON. Do not write any introduction, summary, or commentary. Just return the JSON.',
     examples=[
         {
             "text": "Blockchain technology presents a decentralized ledger that ensures the integrity and transparency of data transactions. It underpins cryptocurrencies like Bitcoin, providing a secure and immutable record of all transactions. Beyond finance, blockchain has potential applications in supply chain management, where it can streamline operations, enhance traceability, and improve fraud prevention. It allows for real-time tracking of goods and transparent sharing of data among participants.",
@@ -279,7 +281,6 @@ main_topic_extraction_prompt = Prompt(
 find_relevant_context_prompt = Prompt(
     name="find_relevant_context",
     instruction="Given a question and set of contexts, find the most relevant contexts to answer the question.",
-    output_format_instruction='Respond only with valid JSON. Do not write any introduction, summary, or commentary. Just return the JSON.',
     examples=[
         {
             "question": "What is the capital of France?",
@@ -312,6 +313,7 @@ find_relevant_context_prompt = Prompt(
 question_rewrite_prompt = Prompt(
     name="rewrite_question",
     instruction="""Given a context, question and feedback, rewrite the question to improve its clarity and answerability based on the feedback provided.""",
+    output_format_instruction="Answer only with the wording of the question, without introductions, preambles, notes or additional context.",
     examples=[
         {
             "context": "The Eiffel Tower was constructed using iron and was originally intended as a temporary exhibit for the 1889 World's Fair held in Paris. Despite its initial temporary purpose, the Eiffel Tower quickly became a symbol of Parisian ingenuity and an iconic landmark of the city, attracting millions of visitors each year. The tower's design, created by Gustave Eiffel, was initially met with criticism from some French artists and intellectuals, but it has since been celebrated as a masterpiece of structural engineering and architectural design.",
@@ -360,11 +362,12 @@ context_scoring_prompt = Prompt(
     name="score_context",
     instruction="""
     Given a context, perform the following task and output the answer in VALID JSON format: Assess the provided context and assign a numerical score of 1 (Low), 2 (Medium), or 3 (High) for each of the following criteria in your JSON response:
-        "clarity": Evaluate the precision and understandability of the information presented. High scores (3) are reserved for contexts that are both precise in their information and easy to understand. Low scores (1) are for contexts where the information is vague or hard to comprehend.
-        "depth": Determine the level of detailed examination and the inclusion of innovative insights within the context. A high score indicates a comprehensive and insightful analysis, while a low score suggests a superficial treatment of the topic.
-        "structure": Assess how well the content is organized and whether it flows logically. High scores are awarded to contexts that demonstrate coherent organization and logical progression, whereas low scores indicate a lack of structure or clarity in progression.
-        "relevance": Judge the pertinence of the content to the main topic, awarding high scores to contexts tightly focused on the subject without unnecessary digressions, and low scores to those that are cluttered with irrelevant information.
-    Structure your JSON output to reflect these criteria as keys with their corresponding scores as values.
+
+clarity: Evaluate the precision and understandability of the information presented. High scores (3) are reserved for contexts that are both precise in their information and easy to understand. Low scores (1) are for contexts where the information is vague or hard to comprehend.
+depth: Determine the level of detailed examination and the inclusion of innovative insights within the context. A high score indicates a comprehensive and insightful analysis, while a low score suggests a superficial treatment of the topic.
+structure: Assess how well the content is organized and whether it flows logically. High scores are awarded to contexts that demonstrate coherent organization and logical progression, whereas low scores indicate a lack of structure or clarity in progression.
+relevance: Judge the pertinence of the content to the main topic, awarding high scores to contexts tightly focused on the subject without unnecessary digressions, and low scores to those that are cluttered with irrelevant information.
+Structure your JSON output to reflect these criteria as keys with their corresponding scores as values
     """,
     output_format_instruction=get_json_format_instructions(ContextScoring),
     examples=[
@@ -410,7 +413,7 @@ Provide feedback and a verdict in JSON format, including suggestions for improve
             "output": QuestionFilter.parse_obj(
                 {
                     "feedback": "The question is too vague and broad, asking for a 'discovery about space' without specifying any particular aspect, time frame, or context of interest. This could refer to a wide range of topics, from the discovery of new celestial bodies to advancements in space travel technology. To improve clarity and answerability, the question could specify the type of discovery (e.g., astronomical, technological), the time frame (e.g., recent, historical), or the context (e.g., within a specific research study or space mission).",
-                    "verdict": 0,
+                    "verdict": "0",
                 }
             ).dict(),
         },
@@ -419,7 +422,7 @@ Provide feedback and a verdict in JSON format, including suggestions for improve
             "output": QuestionFilter.parse_obj(
                 {
                     "feedback": "This question asks for a comparison of the ALMA-13B-R model's performance against other translation models within the WMT'23 study, specifically referring to results in 'context1' and 'context2'. While it clearly specifies the model of interest (ALMA-13B-R) and the study (WMT'23), it assumes access to and understanding of 'context1' and 'context2' without explaining what these contexts entail. This makes the question unclear for those not familiar with the WMT'23 study or these specific contexts. To improve clarity and answerability for a broader audience, the question could benefit from defining or describing 'context1' and 'context2' or explaining the criteria used for comparison in these contexts.",
-                    "verdict": 0,
+                    "verdict": "0",
                 }
             ).dict(),
         },
@@ -462,7 +465,7 @@ evolution_elimination_prompt = Prompt(
     instruction="""Check if the given two questions are equal based on following requirements:
     1. They have same constraints and requirements.
     2. They have same depth and breadth of the inquiry.
-    Output verdict as 1 if they are equal and 0 if they are not.""",
+    Output verdict as 1 if they are equal and 0 if they are not""",
     output_format_instruction=get_json_format_instructions(EvolutionElimination),
     examples=[
         {
@@ -502,7 +505,6 @@ evolution_elimination_prompt = Prompt(
     language="english",
 )
 
-
 testset_prompts = [
     reasoning_question_prompt,
     multi_context_question_prompt,
@@ -520,10 +522,11 @@ testset_prompts = [
     evolution_elimination_prompt,
 ]
 
-all_prompts = copy(testset_prompts)
-all_prompts.extend([FIX_OUTPUT_FORMAT])
-
-def translate_all(language, cache_dir):
-    for prompt in all_prompts:
-        if isinstance(prompt, Prompt):
-            prompt.adapt(language, cache_dir)
+def translate_prompts(language, cache_dir):
+    for _, module_name, _ in pkgutil.walk_packages(ragas.__path__, ragas.__name__ + '.'):
+        module = importlib.import_module(module_name)
+        for name, obj in vars(module).items():
+            if isinstance(obj, Prompt):
+                if obj.name == '' or obj.name is None:
+                    obj.name = name
+                obj.adapt(language, None, cache_dir)
