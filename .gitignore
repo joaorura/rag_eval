@@ -1,2 +1,5 @@
 cache
 storage
+test
+*.env
+__pycache__
