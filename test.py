@@ -22,6 +22,7 @@ metrics = [
     "context_recall",
     "context_utilization",
     "context_entity_recall",
+    "faithfulness"
 ]
 filtered_df = combined_df[['Modelos'] + metrics]
 
