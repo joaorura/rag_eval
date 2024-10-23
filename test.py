@@ -1,40 +1,15 @@
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+import datasets
+import json
+from util import import_ragas_custom, load_env_variables_from_all_env_files
 
-# Carregar os dados dos arquivos CSV
-test1 = pd.read_csv('result_opennai_llama3_1.csv')
-test2 = pd.read_csv('result_opennai_llama3_2_3b.csv')
+import_ragas_custom('ragas_custom_2')
 
-# Adicionar uma coluna para identificar a origem dos dados
-test1['Modelos'] = 'Llama 3.1 8b'
-test2['Modelos'] = 'Llama 3.2 3b'
 
-# Combinar os dois DataFrames
-combined_df = pd.concat([test1, test2])
+from ragas.testset.synthesizers.testset_schema import Testset
 
-# Filtrar as métricas desejadas
-metrics = [
-    "answer_relevancy",
-    "answer_correctness",
-    "answer_similarity",
-    "context_precision",
-    "context_recall",
-    "context_utilization",
-    "context_entity_recall",
-    "faithfulness"
-]
-filtered_df = combined_df[['Modelos'] + metrics]
+test = Testset.from_jsonl('testset_openai_4omini.jsonl')
 
-print(filtered_df)
-# Derreter o DataFrame para o formato longo
-melted_df = filtered_df.melt(id_vars='Modelos', var_name='Métricas', value_name='Valores')
+dataset = test.to_hf_dataset()
 
-print(melted_df)
-# Criar o gráfico de barras
-plt.figure(figsize=(18, 14))
-sns.barplot(data=melted_df, x='Métricas', y='Valores', hue='Modelos')
-plt.title('Avaliação RAG default com os modelos Llama 3.1 8b e Llama 3.2 3b')
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+t = datasets.Dataset.from_list(dataset['eval_sample'])
+print(t)

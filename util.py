@@ -3,9 +3,7 @@ import glob
 import shutil
 import importlib.util
 
-local_ragas_path = 'ragas'
-
-def import_ragas_custom():
+def import_ragas_custom(local_ragas_path):
     spec = importlib.util.find_spec('ragas')
     if spec is None or spec.origin is None:
         raise ImportError("Não foi possível encontrar a biblioteca 'ragas'.")

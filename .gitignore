@@ -1,4 +1,4 @@
-cache
+cache*
 storage
 test
 *.env
