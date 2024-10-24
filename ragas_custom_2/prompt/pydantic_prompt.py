@@ -10,15 +10,16 @@ import typing as t
 
 from langchain_core.exceptions import OutputParserException
 from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompt_values import StringPromptValue as PromptValue
 from pydantic import BaseModel
 from deep_translator import GoogleTranslator
 
 from ragas._version import __version__
-from ragas.callbacks import new_group
+from ragas.callbacks import ChainType, new_group
 from ragas.exceptions import RagasOutputParserException
-from ragas.llms.prompt import PromptValue
 
 from .base import BasePrompt, StringIO, _check_if_language_is_supported
+from .utils import extract_json, get_all_strings, update_strings
 
 if t.TYPE_CHECKING:
     from langchain_core.callbacks import Callbacks
@@ -64,6 +65,7 @@ class PydanticPromptStrings:
     )
     examples_intro = "These are some examples to show how to perform the above instruction"
     instruction_prompt = "Now perform the above instruction with the following input"
+    only_json = "Respond only with a valid JSON object that complies with the specified schema."
 
     language = 'english'
 
@@ -131,7 +133,12 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
     instruction: str
     examples: t.List[t.Tuple[InputModel, OutputModel]] = []
     strings: PydanticPromptStrings = PydanticPromptStrings()
+    
+    def __init__(self, name: str | None = None, language: str = "english", original_hash: str | None = None):
+        super().__init__(name, language, original_hash)
 
+        self.parser = RagasOutputParser(pydantic_object=self.output_model, language=self.language)
+    
     def _generate_instruction(self) -> str:
         return self.instruction
 
@@ -160,6 +167,7 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
                 self.strings.examples_intro + '\n'
                 + "\n\n".join(example_strings)
             )
+        # if no examples are provided
         else:
             return ""
 
@@ -170,13 +178,13 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
             + self._generate_output_signature()
             + "\n"
             + self._generate_examples()
-            + "\n"
-            + self.strings.instruction_prompt + '\n'
+            + "\n" + self.strings.instruction_prompt + '\n'
             + (
                 "input: " + data.model_dump_json(indent=4) + "\n"
                 if data is not None
                 else "input: (None)\n"
             )
+            + self.strings.only_json + "\n"
             + "output: "
         )
 
@@ -188,8 +196,36 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         stop: t.Optional[t.List[str]] = None,
         callbacks: t.Optional[Callbacks] = None,
     ) -> OutputModel:
+        """
+        Generate a single output using the provided language model and input data.
+
+        This method is a special case of `generate_multiple` where only one output is generated.
+
+        Parameters
+        ----------
+        llm : BaseRagasLLM
+            The language model to use for generation.
+        data : InputModel
+            The input data for generation.
+        temperature : float, optional
+            The temperature parameter for controlling randomness in generation.
+        stop : List[str], optional
+            A list of stop sequences to end generation.
+        callbacks : Callbacks, optional
+            Callback functions to be called during the generation process.
+
+        Returns
+        -------
+        OutputModel
+            The generated output.
+
+        Notes
+        -----
+        This method internally calls `generate_multiple` with `n=1` and returns the first (and only) result.
+        """
         callbacks = callbacks or []
 
+        # this is just a special case of generate_multiple
         output_single = await self.generate_multiple(
             llm=llm,
             data=data,
@@ -209,14 +245,43 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         stop: t.Optional[t.List[str]] = None,
         callbacks: t.Optional[Callbacks] = None,
     ) -> t.List[OutputModel]:
+        """
+        Generate multiple outputs using the provided language model and input data.
+
+        Parameters
+        ----------
+        llm : BaseRagasLLM
+            The language model to use for generation.
+        data : InputModel
+            The input data for generation.
+        n : int, optional
+            The number of outputs to generate. Default is 1.
+        temperature : float, optional
+            The temperature parameter for controlling randomness in generation.
+        stop : List[str], optional
+            A list of stop sequences to end generation.
+        callbacks : Callbacks, optional
+            Callback functions to be called during the generation process.
+
+        Returns
+        -------
+        List[OutputModel]
+            A list of generated outputs.
+
+        Raises
+        ------
+        RagasOutputParserException
+            If there's an error parsing the output.
+        """
         callbacks = callbacks or []
         processed_data = self.process_input(data)
         prompt_rm, prompt_cb = new_group(
             name=self.name,
             inputs={"data": processed_data},
             callbacks=callbacks,
+            metadata={"type": ChainType.RAGAS_PROMPT},
         )
-        prompt_value = PromptValue(prompt_str=self.to_string(processed_data))
+        prompt_value = PromptValue(text=self.to_string(processed_data))
         resp = await llm.generate(
             prompt_value,
             n=n,
@@ -226,11 +291,11 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         )
 
         output_models = []
-        parser = RagasOutputParser(pydantic_object=self.output_model, language=self.language)
+        
         for i in range(n):
             output_string = resp.generations[0][i].text
             try:
-                answer = await parser.parse_output_string(
+                answer = await self.parser.parse_output_string(
                     output_string=output_string,
                     prompt_value=prompt_value,
                     llm=llm,
@@ -254,48 +319,59 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         return output
 
     async def adapt(
-        self, target_language: str, llm: t.Optional[BaseRagasLLM] = None
+        self, target_language: str, llm: BaseRagasLLM, adapt_instruction: bool = False,
+        translate_with_google: bool = False
     ) -> "PydanticPrompt[InputModel, OutputModel]":
+        """
+        Adapt the prompt to a new language.
+        """
+        
+        if self.language == target_language:
+            return copy.deepcopy(self)
+        
+        # throws ValueError if language is not supported
         _check_if_language_is_supported(target_language)
 
-        if self.language == target_language:
-            return self
-        
+        # set the original hash, this is used to
+        # identify the original prompt object when loading from file
         if self.original_hash is None:
             self.original_hash = hash(self)
 
-        translator = GoogleTranslator(source='en', target=target_language)
+        strings = get_all_strings(self.examples)
+        translator = None
 
-        def translate(obj):
-            if isinstance(obj, dict):
-                return {k: translate(v) for k, v in obj.items()}
-            elif isinstance(obj, (list, tuple, set)):
-                return type(obj)(translate(item) for item in obj)
-            elif hasattr(obj, '__dict__'):
-                obj = copy.deepcopy(obj)
-                for k, v in obj.__dict__.items():
-                    setattr(obj, k, translate(v))
-                return obj
-            elif isinstance(obj, str):
-                return translator.translate(obj)
-            else:
-                return obj
-        
+        if translate_with_google:
+            translator = GoogleTranslator(source=self.language, target=target_language)
+            strings = [translator.translate(s) for s in strings]
+        else:
+            translated_strings = await translate_statements_prompt.generate(
+                llm=llm,
+                data=ToTranslate(target_language=target_language, statements=strings),
+            )
+
+        translated_examples = update_strings(
+            obj=self.examples,
+            old_strings=strings,
+            new_strings=translated_strings.statements,
+        )
+
         new_prompt = copy.deepcopy(self)
-        new_prompt.strings = new_prompt.strings.adapt(target_language)
-
-        vars = dir(new_prompt)
-        vars.remove('strings')
-        vars.remove('language')
-        vars.remove('name')
-
-        for name in vars:
-            value = getattr(new_prompt, name)
-            if not callable(value) and not name.startswith('_'):
-                setattr(new_prompt, name, translate(value))
-
+        new_prompt.examples = translated_examples
         new_prompt.language = target_language
-        new_prompt.original_hash = hash(new_prompt)
+
+        if adapt_instruction:
+            if translate_with_google:
+                translated_instruction = translator.translate(self.instruction)
+            else:
+                translated_instruction = await translate_statements_prompt.generate(
+                    llm=llm,
+                    data=ToTranslate(
+                        target_language=target_language, statements=[self.instruction]
+                    ),
+                )
+            new_prompt.instruction = translated_instruction.statements[0]
+
+        self.parser.adapt(target_language)
 
         return new_prompt
 
@@ -333,51 +409,43 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         )
 
     def save(self, file_path: str):
+        """
+        Save the prompt to a file.
+        """
+        data = {
+            "ragas_version": __version__,
+            "original_hash": (
+                hash(self) if self.original_hash is None else self.original_hash
+            ),
+            "language": self.language,
+            "instruction": self.instruction,
+            "examples": [
+                {"input": example[0].model_dump(), "output": example[1].model_dump()}
+                for example in self.examples
+            ],
+        }
         if os.path.exists(file_path):
             raise FileExistsError(f"The file '{file_path}' already exists.")
+        with open(file_path, "w") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            print(f"Prompt saved to {file_path}")
 
-        def _save(obj):
-            if isinstance(obj, dict):
-                return {k: _save(v) for k, v in obj.items()}
-            elif isinstance(obj, (list, tuple, set)):
-                return type(obj)(_save(item) for item in obj)
-            elif hasattr(obj, '__dict__'):
-                data = {k: _save(v) for k, v in obj.__dict__.items() if not k.startswith('_') and not callable(v)}
-                return data
-            else:
-                return obj
-        
-        diretorio, _ = os.path.split(file_path)
-        path_strings = os.path.join(diretorio, f'strings_{__version__}.json')
+        dir, _ = os.path.split(file_path)
+        path_strings = os.path.join(dir, f'strings_{__version__}.json')
 
         if not os.path.exists(path_strings):
             self.strings.save(path_strings)
 
-        data = {}
-        vars = dir(self)
-        vars.remove('strings')
-        vars.remove('name')
+        self.parser.save(dir)
 
-        for name in vars:
-            value = getattr(self, name)
-            if not callable(value) and not name.startswith('_'):
-                data[name] = _save(value)
-
-        if self.original_hash is None:
-            data['original_hash'] = hash(self)
-
-        data["ragas_version"] = __version__
-
-        with open(file_path, "w") as f:
-            json.dump(data, f, indent=4)
-            print(f"Prompt saved to {file_path}")
 
     @classmethod
     def load(cls, file_path: str) -> "PydanticPrompt[InputModel, OutputModel]":
         with open(file_path, "r") as f:
             data = json.load(f)
 
-        ragas_version = data.pop("ragas_version")
+        # You might want to add version compatibility checks here
+        ragas_version = data.get("ragas_version")
         if ragas_version != __version__:
             logger.warning(
                 "Prompt was saved with Ragas v%s, but you are loading it with Ragas v%s. "
@@ -385,31 +453,32 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
                 ragas_version,
                 __version__,
             )
-        
-        original_hash = data.pop("original_hash")
-
-        examples = data.pop("examples")
+        original_hash = data.get("original_hash")
 
         prompt = cls()
-        for name, value in data.items():
-            setattr(prompt, name, value)
-
-        prompt.examples = [
+        instruction = data["instruction"]
+        examples = [
             (
-                prompt.input_model(**example[0]),
-                prompt.output_model(**example[1]),
+                prompt.input_model(**example["input"]),
+                prompt.output_model(**example["output"]),
             )
-            for example in examples
+            for example in data["examples"]
         ]
-        
-        diretorio, _ = os.path.split(file_path)
-        path_strings = os.path.join(diretorio, f'strings_{__version__}.json')
+
+        prompt.instruction = instruction
+        prompt.examples = examples
+        prompt.language = data.get("language", prompt.language)
+
+        dir, _ = os.path.split(file_path)
+        path_strings = os.path.join(dir, f'strings_{__version__}.json')
 
         if os.path.exists(path_strings):
             prompt.strings = PydanticPromptStrings.load(path_strings)
+        
+        prompt.load(dir)
 
-        calculated_hash = hash(prompt)
-        if original_hash is not None and calculated_hash != original_hash:
+        # Optionally, verify the loaded prompt's hash matches the saved hash
+        if original_hash is not None and hash(prompt) != original_hash:
             logger.warning("Loaded prompt hash does not match the saved hash.")
 
         return prompt
@@ -429,6 +498,7 @@ class FixOutputFormat(PydanticPrompt[OutputStringAndPrompt, StringIO]):
 
 fix_output_format_prompt = FixOutputFormat()
 
+
 class RagasOutputParser(PydanticOutputParser[OutputModel]):
     async def parse_output_string(
         self,
@@ -437,11 +507,11 @@ class RagasOutputParser(PydanticOutputParser[OutputModel]):
         llm: BaseRagasLLM,
         callbacks: Callbacks,
         max_retries: int = 1,
-        language: str = 'english'
     ):
         callbacks = callbacks or []
         try:
-            result = super().parse(output_string)
+            jsonstr = extract_json(output_string)
+            result = super().parse(jsonstr)
         except OutputParserException:
             if max_retries != 0:
                 retry_rm, retry_cb = new_group(
@@ -449,9 +519,6 @@ class RagasOutputParser(PydanticOutputParser[OutputModel]):
                     inputs={"output_string": output_string},
                     callbacks=callbacks,
                 )
-
-                fix_output_format_prompt = fix_output_format_prompt.adapt(language)
-
                 fixed_output_string = await fix_output_format_prompt.generate(
                     llm=llm,
                     data=OutputStringAndPrompt(
@@ -471,3 +538,70 @@ class RagasOutputParser(PydanticOutputParser[OutputModel]):
             else:
                 raise RagasOutputParserException(num_retries=max_retries)
         return result
+
+    def adapt(target_language: str = 'english'):
+        fix_output_format_prompt = fix_output_format_prompt.adapt(target_language)
+
+    def save(file_path: str):
+        file_path = os.path.join(file_path, 'fix_output_format_prompt.json')
+        fix_output_format_prompt.save(file_path)
+
+    def load(file_path: str):
+        fix_output_format_prompt = fix_output_format_prompt.load(file_path)
+
+# Ragas Adaptation
+class ToTranslate(BaseModel):
+    target_language: str
+    statements: t.List[str]
+
+
+class Translated(BaseModel):
+    statements: t.List[str]
+
+
+class TranslateStatements(PydanticPrompt[ToTranslate, Translated]):
+    instruction = "Translate the following statements to the target language. Ensure that the number of output data rows is equal to the number of input data rows."
+    input_model = ToTranslate
+    output_model = Translated
+    examples = [
+        (
+            ToTranslate(
+                target_language="hindi",
+                statements=[
+                    "Albert Einstein was born in Germany.",
+                    "Albert Einstein was best known for his theory of relativity.",
+                ],
+            ),
+            Translated(
+                statements=[
+                    "अल्बर्ट आइंस्टीन का जन्म जर्मनी में हुआ था।",
+                    "अल्बर्ट आइंस्टीन अपने सापेक्षता के सिद्धांत के लिए सबसे अधिक प्रसिद्ध थे।",
+                ]
+            ),
+        ),
+        (
+            ToTranslate(
+                target_language="dutch",
+                statements=[
+                    "Paris is the capital of France.",
+                    "Croissants are a popular French pastry.",
+                ],
+            ),
+            Translated(
+                statements=[
+                    "Parijs is de hoofdstad van Frankrijk.",
+                    "Croissants zijn een populair Frans gebak.",
+                ]
+            ),
+        ),
+    ]
+
+    def process_output(self, output: Translated, input: ToTranslate) -> Translated:
+        if len(output.statements) != len(input.statements):
+            raise ValueError(
+                "The number of statements in the output does not match the number of statements in the input. Translation failed."
+            )
+        return output
+
+
+translate_statements_prompt = TranslateStatements()

@@ -1,7 +1,7 @@
 jupyter
 ipywidgets
 ipykernel
-ragas==0.2.1
+ragas==0.2.2
 deep-translator==1.11.4
 llama-index==0.11.19
 llama-index-llms-ollama==0.3.4

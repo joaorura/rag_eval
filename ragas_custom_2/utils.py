@@ -3,13 +3,13 @@ from __future__ import annotations
 import logging
 import os
 import re
-import warnings
 import nltk
+import typing as t
+import warnings
+from functools import lru_cache
 
 import numpy as np
-import typing as t
-
-from functools import lru_cache
+from datasets import Dataset
 from pysbd.languages import LANGUAGE_CODES
 from datasets import Dataset
 from deep_translator import GoogleTranslator
@@ -17,7 +17,6 @@ from deep_translator import GoogleTranslator
 if t.TYPE_CHECKING:
     from ragas.metrics.base import Metric
 
-DEBUG_ENV_VAR = "RAGAS_DEBUG"
 
 DEBUG_ENV_VAR = "RAGAS_DEBUG"
 
@@ -120,12 +119,12 @@ def is_nan(x):
 
 
 def get_feature_language(feature: Metric) -> t.Optional[str]:
-    from ragas.llms.prompt import Prompt
+    from ragas.prompt import BasePrompt
 
     languags = [
         value.language
         for _, value in vars(feature).items()
-        if isinstance(value, Prompt)
+        if isinstance(value, BasePrompt)
     ]
     return languags[0] if len(languags) > 0 else None
 
