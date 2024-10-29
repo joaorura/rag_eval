@@ -129,9 +129,11 @@ class TestsetGenerator:
 
     def generate_with_llamaindex_docs(
         self,
-        documents: t.Sequence[LlamaindexDocument],
+        documents: t.Sequence[LCDocument],
         testset_size: int,
         transforms: t.Optional[Transforms] = None,
+        transforms_llm: t.Optional[BaseRagasLLM] = None,
+        transforms_embedding_model: t.Optional[BaseRagasEmbeddings] = None,
         query_distribution: t.Optional[QueryDistribution] = None,
         run_config: t.Optional[RunConfig] = None,
         callbacks: t.Optional[Callbacks] = None,
@@ -141,24 +143,37 @@ class TestsetGenerator:
         """
         Generates an evaluation dataset based on given scenarios and parameters.
         """
-        transforms = transforms or default_transforms()
-
+        if transforms is None:
+            # use default transforms
+            if transforms_llm is None:
+                transforms_llm = self.llm
+                logger.info("Using TestGenerator.llm for transforms")
+            if transforms_embedding_model is None:
+                raise ValueError(
+                    "embedding_model must be provided for default_transforms. Alternatively you can provide your own transforms through the `transforms` parameter."
+                )
+            transforms = default_transforms(
+                llm=transforms_llm or self.llm,
+                embedding_model=transforms_embedding_model,
+            )
+        
         # convert the documents to Ragas nodes
         nodes = []
         for doc in documents:
-            node = Node(
-                type=NodeType.DOCUMENT,
-                properties={
-                    "page_content": doc.text,
-                    "document_metadata": doc.metadata,
-                },
-            )
-            nodes.append(node)
+            if doc.text is not None and doc.text.strip() != "":
+                node = Node(
+                    type=NodeType.DOCUMENT,
+                    properties={
+                        "page_content": doc.text,
+                        "document_metadata": doc.metadata,
+                    },
+                )
+                nodes.append(node)
 
         kg = KnowledgeGraph(nodes=nodes)
 
         # apply transforms and update the knowledge graph
-        apply_transforms(kg, transforms)
+        apply_transforms(kg, transforms, run_config)
         self.knowledge_graph = kg
 
         return self.generate(
