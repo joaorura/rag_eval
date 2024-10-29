@@ -1,15 +1,6 @@
-# Passo 1: Instalar a biblioteca unidecode
-# No terminal, execute:
-# pip install unidecode
+from ragas.testset.synthesizers.testset_schema import Testset
 
-# Passo 2: Importar a biblioteca unidecode
-from unidecode import unidecode
 
-# Passo 3: Criar a função para remover acentos
-def remover_acentos(texto):
-    return unidecode(texto)
+data = Testset.from_jsonl('testset_openai_4omini.jsonl')
 
-# Exemplo de uso
-texto_com_acento = "Olá, como você está?"
-texto_sem_acento = remover_acentos(texto_com_acento)
-print(texto_sem_acento)  # Saída: "Ola, como voce esta?"
+print(data.to_list()[4])
