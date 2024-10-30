@@ -5,8 +5,6 @@ import datasets
 import typing as t
 from uuid import uuid4
 
-from datasets import Dataset
-
 from ragas.embeddings import LlamaIndexEmbeddingsWrapper
 from ragas.evaluation import evaluate as ragas_evaluate
 from ragas.exceptions import ExceptionInRunner
@@ -52,7 +50,7 @@ def evaluate(
     if dataset is None:
         raise ValueError("Provide dataset!")
 
-    dataset = datasets.Dataset.from_list(dataset.to_hf_dataset()['eval_sample'])
+    dataset = dataset.to_hf_dataset()
     
     exec = Executor(
         desc="Running Query Engine",
@@ -80,7 +78,7 @@ def evaluate(
             contexts.append([n.node.text for n in r.source_nodes])
 
     # create HF dataset
-    hf_dataset = Dataset.from_dict(
+    hf_dataset = datasets.Dataset.from_dict(
         {
             "user_input": queries,
             "retrieved_contexts": contexts,
@@ -94,8 +92,6 @@ def evaluate(
             new_fingerprint=str(uuid4()),
         )
     
-    print(hf_dataset)
-
     results = ragas_evaluate(
         dataset=hf_dataset,
         metrics=metrics,
