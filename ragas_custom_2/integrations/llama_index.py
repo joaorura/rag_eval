@@ -98,6 +98,7 @@ def evaluate(
         llm=li_llm,
         embeddings=li_embeddings,
         raise_exceptions=raise_exceptions,
+        run_config=run_config
     )
 
     return results
