@@ -14,10 +14,8 @@ Python 3.12
 - Python 3.12
 - Conda enviroment
 
-### Used steps
+### Steps used 
 
 - Create conda env
 - Install requirements using pip (pip install -r requiments.txt)
-- Install poppler-utils (Used sudo apt)
-- Install tesseract-ocr (Used sudo apt)
 
