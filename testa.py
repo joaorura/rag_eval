@@ -1,17 +1,26 @@
-import nltk
-from nltk.translate.bleu_score import sentence_bleu
+import pandas as pd
+import glob
 
-# Define reference and candidate sentences
-reference = [['this', 'is', 'a', 'test'], ['this', 'is', 'test']]
-candidate = ['this', 'is', 'a', 'test']
+def combine_csv_files(file_list):
+    # Lista para armazenar DataFrames individuais
+    dataframes = []
+    
+    # Iterar sobre a lista de arquivos CSV
+    for file in file_list:
+        # Ler cada arquivo CSV em um DataFrame
+        df = pd.read_csv(file, index_col=0)
+        # Adicionar o DataFrame à lista
+        dataframes.append(df)
+    
+    # Concatenar todos os DataFrames em um único DataFrame
+    combined_df = pd.concat(dataframes, ignore_index=True)
+    
+    return combined_df
 
-# Calculate BLEU scores with different n-gram weights
-bleu1 = sentence_bleu(reference, candidate, weights=(1, 0, 0, 0))  # Unigram
-bleu2 = sentence_bleu(reference, candidate, weights=(0.5, 0.5, 0, 0))  # Bigram
-bleu3 = sentence_bleu(reference, candidate, weights=(0.33, 0.33, 0.33, 0))  # Trigram
-bleu4 = sentence_bleu(reference, candidate, weights=(0.25, 0.25, 0.25, 0.25))  # 4-gram
+# Exemplo de uso
+file_list = glob.glob('result_gpt4omini_gpt4omini*.csv')
+print(file_list)
+combined_df = combine_csv_files(file_list)
 
-print(f'BLEU-1: {bleu1}')
-print(f'BLEU-2: {bleu2}')
-print(f'BLEU-3: {bleu3}')
-print(f'BLEU-4: {bleu4}')
+
+combined_df.to_csv('result_gpt4omini_gpt4omini.csv')
