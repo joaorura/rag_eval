@@ -1,0 +1,41 @@
+name: MyDeployment
+
+control-plane:
+  port: 8000
+
+default-service: chat_workflow
+
+services:
+  chat_workflow:
+    name: Chat Workflow
+    source:
+      type: local
+      name: ./workflows
+    path: workflows:chat_w
+    python-dependencies:
+      - llama-index~=0.11.22
+      - llama-index-core~=0.11.22
+      - llama-index-llms-openai~=0.2.16
+      - llama-index-embeddings-openai~=0.2.5
+      - llama-index-vector-stores-qdrant~=0.3.3
+
+  index_workflow:
+    name: Index Workflow
+    source:
+      type: local
+      name: ./workflows
+    path: workflows:index_w
+
+  manage_workflow:
+    name: Manage Workflow
+    source:
+      type: local
+      name: ./workflows
+    path: workflows:manage_w
+
+  query_workflow:
+    name: Query Workflow
+    source:
+      type: local
+      name: ./workflows
+    path: workflows:query_w

@@ -1,0 +1,61 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+      - C:/Users/jmess/OneDrive/Documentos/GitHub/rag_eval/data:/data
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: redis-cli --raw incr ping
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  apiserver:
+    image: llamaindex/llama-deploy:main
+    environment:
+      QDRANT_HOST: qdrant
+      OPENAI_API_KEY: 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
+      MODEL_LLM: gpt-4o-mini-2024-07-18
+      MODEL_EMBEDDING: text-embedding-3-small
+    ports:
+      - "4501:4501"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: llamactl status
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - ./:/opt/app
+      - C:/Users/jmess/OneDrive/Documentos/GitHub/rag_eval/data:/data
+    working_dir: /opt/app
+
+  deploy_workflows:
+    image: llamaindex/llama-deploy:main
+    environment:
+      QDRANT_HOST: qdrant
+      OPENAI_API_KEY: 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
+      MODEL_LLM: gpt-4o-mini-2024-07-18
+      MODEL_EMBEDDING: text-embedding-3-small
+    volumes:
+      - ./deployment.yml:/opt/deployment.yml
+      - C:/Users/jmess/OneDrive/Documentos/GitHub/rag_eval/data:/data
+    working_dir: /opt/
+    depends_on:
+      apiserver:
+        condition: service_healthy
+    entrypoint: llamactl -s http://apiserver:4501 -t 60 deploy deployment.yml
+
+volumes:
+  qdrant_data:
