@@ -379,7 +379,7 @@ class PydanticPrompt(BasePrompt, t.Generic[InputModel, OutputModel]):
         new_prompt = copy.deepcopy(self)
         new_prompt.examples = translated_examples
         new_prompt.language = target_language
-        new_group.strings = await self.strings.adapt(target_language, llm, translate_with_google)
+        new_prompt.strings = await self.strings.adapt(target_language, llm, translate_with_google)
 
         if adapt_instruction:
             if translate_with_google:
