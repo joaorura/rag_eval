@@ -74,8 +74,12 @@ def evaluate(
         raise e
     else:
         for r in results:
-            answers.append(r.response)
-            contexts.append([n.node.text for n in r.source_nodes])
+            try:
+                answers.append(r.response)
+                contexts.append([n.node.text for n in r.source_nodes])
+            except:
+                print(r)
+                raise Exception(r)
 
     # create HF dataset
     hf_dataset = datasets.Dataset.from_dict(

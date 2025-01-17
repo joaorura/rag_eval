@@ -11,7 +11,7 @@ Python 3.12
 - Windows Subsystem For Linux (Windows have a problem to use pdf processors of langchain)
 - Ubuntu 22.04.5 LTS
 - Miniconda
-- Python 3.12
+- Python 3.12.8
 - Conda enviroment
 
 ### Steps used 
