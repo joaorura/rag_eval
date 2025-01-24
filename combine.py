@@ -18,9 +18,9 @@ def combine_csv_files(file_list):
     return combined_df
 
 # Exemplo de uso
-file_list = glob.glob('result_gpt4omini_llama3.2_1b*.csv')
+file_list = glob.glob('result_gpt4omini_mixtral-8x7b-instruct*.csv')
 print(file_list)
 combined_df = combine_csv_files(file_list)
 
 
-combined_df.to_csv('result_gpt4omini_llama3.2_1b.csv')
+combined_df.to_csv('result_gpt4omini_mixtral-8x7b-instruct.csv')
