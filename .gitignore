@@ -3,5 +3,6 @@ storage
 test
 *.env
 __pycache__
-relatorio_tcc.md
 *.md
+!docs/**/*.md
+!docs/*.md
