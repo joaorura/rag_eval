@@ -3,7 +3,7 @@
 - **Data**: 2026-09-28
 - **Branch**: `new_embeddings`
 - **Ambiente de Destino para Execução**: OpenCode
-- **Status**: Rascunho / Pronto para Validação
+- **Status**: ✅ Aprovado com Ressalvas (Revisão Opus 2026-09-28)
 
 ---
 
@@ -204,7 +204,7 @@ Para cada modelo $m$ e valor de $K \in \{2, 5, 10\}$:
   1. O relatório técnico formaliza esta limitação na seção de Ameaças à Validade Interna.
   2. Implementação de uma rotina de auditoria amostral qualitativa (~15% do testset) para registrar casos em que modelos locais recuperam trechos tecnicamente válidos do manual que não constavam no recorte estrito do gabarito sintetizado.
 
-### 7.1 Módulos a Serem Implementados
+### 7.5 Módulos a Serem Implementados
 1. **`scripts/benchmark_embeddings.py`**:
    - CLI configurável (`--models all`, `--top_k 2,5,10`, `--rebuild_index false`).
    - Carrega chaves de `.env`.
@@ -219,7 +219,7 @@ Para cada modelo $m$ e valor de $K \in \{2, 5, 10\}$:
      - Curva de recuperação por $K$ (Recall@2 vs Recall@5 vs Recall@10).
      - Gráfico de dispersão Eficiência (latência) vs Eficácia (MRR@5).
 
-### 7.2 Validação do Ambiente e Dependências
+### 7.6 Validação do Ambiente e Dependências
 - `requirements.txt` atualizado garantindo:
   - `llama-index-core`
   - `llama-index-embeddings-openai`
@@ -229,6 +229,7 @@ Para cada modelo $m$ e valor de $K \in \{2, 5, 10\}$:
   - `RapidFuzz>=3.11.0`
   - `rouge-score>=0.1.2`
   - `seaborn` / `matplotlib` / `pandas`
+  - `torch>=2.4.0` / `sentence-transformers>=3.0.0`
 
 ---
 
