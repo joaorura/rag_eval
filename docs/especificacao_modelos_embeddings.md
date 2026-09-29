@@ -14,7 +14,7 @@ Este documento consolida a ficha técnica detalhada dos 7 modelos avaliados no e
 | **M4** | `bge-m3` | Ollama / HuggingFace | 560M | FP16 / GGUF | 1024 | ~2.2 GB | 8.192 tokens | **Referência Aberta Multilíngue**: Líder em benchmarks globais multilíngues com suporte a PT-BR. |
 | **M5** | `multilingual-e5-large` | HuggingFace / FastEmbed | 560M | FP16 | 1024 | ~2.2 GB | 512 tokens | **Histórico de Produção**: Embedder já empregado no ambiente `haiku-rag`. |
 | **M6** | `nomic-embed-text` | Ollama Local | 137M | `Q4_K_M` | 768 | ~274 MB | 8.192 tokens | **Alta Eficiência**: Modelo ultraleve para inferência rápida e baixo consumo. |
-| **M7** | `bertimbau-base-portuguese-sts` | HuggingFace | 110M | FP32 / FP16 | 768 | ~435 MB | 512 tokens | **Especialista em PT-BR**: Baseado no BERTimbau, ajustado especificamente para português brasileiro. |
+| **M7** | `bertimbau-base-portuguese-sts-scale` | HuggingFace | 110M | FP32 / FP16 | 768 | ~435 MB | 512 tokens | **Especialista em PT-BR**: Baseado no BERTimbau, ajustado especificamente para português brasileiro. |
 
 ---
 
@@ -50,7 +50,8 @@ Este documento consolida a ficha técnica detalhada dos 7 modelos avaliados no e
 - **Origem**: Nomic AI.
 - **Destaque**: Treinado com pesos totalmente abertos, arquitetura eficiente e capacidade de absorver contextos longos (8192 tokens) em uma pegada de memória mínima.
 
-### M7: `bertimbau-base-portuguese-sts`
-- **Origem**: Ricardo Z. / Neuralmind.
+### M7: `bertimbau-base-portuguese-sts-scale`
+- **Origem**: Juridics / Neuralmind.
 - **Base**: `neuralmind/bert-base-portuguese-cased` pré-treinado no corpus BrWaC (Brazilian Web as Corpus).
+- **Repositório**: `juridics/bertimbau-base-portuguese-sts-scale` (HuggingFace).
 - **Ajuste Fino**: STS (Semantic Textual Similarity) para alinhamento estrito em português do Brasil.

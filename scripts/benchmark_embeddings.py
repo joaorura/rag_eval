@@ -81,7 +81,7 @@ MODELS_CONFIG = {
         "use_e5_prefixes": True,
     },
     "bertimbau_sts": {
-        "name": "ricardoz/bertimbau-base-portuguese-sts",
+        "name": "juridics/bertimbau-base-portuguese-sts-scale",
         "provider": "huggingface",
         "dimension": 768,
     },
