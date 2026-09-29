@@ -112,6 +112,27 @@ class BaseReranker(ABC):
         """
         pass
 
+    def unload(self) -> None:
+        """Unloads model resources from memory / VRAM."""
+        pass
+
+
+class NoneReranker(BaseReranker):
+    """Identity reranker representing pure retrieval baseline."""
+
+    def rerank(
+        self,
+        query: str,
+        nodes: list[NodeWithScore],
+        top_n: int = 5,
+    ) -> list[NodeWithScore]:
+        """Returns the top_n candidate nodes in original retrieval order."""
+        return nodes[:top_n]
+
+    def unload(self) -> None:
+        """No-op for baseline."""
+        pass
+
 
 class Qwen3OllamaReranker(BaseReranker):
     """Generative reranker using Qwen3 in Ollama with logprob softmax scoring."""
@@ -284,6 +305,14 @@ class CrossEncoderReranker(BaseReranker):
             )
             return nodes[:top_n]
 
+    def unload(self) -> None:
+        """Unloads the model from PyTorch/CUDA VRAM."""
+        if hasattr(self, "_model") and self._model is not None:
+            del self._model
+            self._model = None
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
 
 class RankGPTReranker(BaseReranker):
     """Listwise LLM reranker using LlamaIndex RankGPTRerank or listwise prompt."""
@@ -393,3 +422,8 @@ class RankGPTReranker(BaseReranker):
         remaining = [i for i in range(len(nodes)) if i not in valid_indices]
         ordered_indices = valid_indices + remaining
         return [nodes[i] for i in ordered_indices[:top_n]]
+
+    def unload(self) -> None:
+        """Cleans up internal LLM and postprocessor references."""
+        self._postprocessor = None
+        self._llm = None
