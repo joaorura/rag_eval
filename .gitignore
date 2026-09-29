@@ -6,3 +6,5 @@ __pycache__
 *.md
 !docs/**/*.md
 !docs/*.md
+!conductor/**
+!conductor/*.md
