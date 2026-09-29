@@ -8,3 +8,9 @@ __pycache__
 !docs/*.md
 !conductor/**
 !conductor/*.md
+!results/*.md
+
+.agent/
+.omo/
+.serena/
+.ipynb_checkpoints/

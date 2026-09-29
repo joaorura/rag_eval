@@ -112,9 +112,35 @@ def plot_reranker_graphs(
         print(f"Gráfico 2 salvo: {fpath2}")
 
     # 3. Trade-off: Latência incremental (ms) vs. MRR@5
-    fig, ax = plt.subplots(figsize=(10, 6))
-    markers = {"none": "o", "qwen3_4b_q4km": "s", "qwen3_8b_q5km": "^", "bge_reranker_v2_m3": "D", "rankgpt": "*"}
-    colors_base = {"qwen3_8b_q4km": "#1f77b4", "multilingual_e5_large": "#ff7f0e"}
+    fig, ax = plt.subplots(figsize=(11, 6.5))
+    markers = {
+        "none": ("o", 110),
+        "qwen3_4b_q4km": ("s", 130),
+        "qwen3_8b_q5km": ("^", 140),
+        "bge_reranker_v2_m3": ("D", 130),
+        "rankgpt": ("*", 210),
+    }
+    colors_base = {
+        "qwen3_8b_q4km": "#1f77b4",
+        "multilingual_e5_large": "#ff7f0e",
+    }
+    short_reranker_names = {
+        "none": "Puro (Sem Rerank)",
+        "qwen3_4b_q4km": "Qwen3-4B (Q4_K_M)",
+        "qwen3_8b_q5km": "Qwen3-8B (Q5_K_M)",
+        "bge_reranker_v2_m3": "BGE-v2-m3",
+        "rankgpt": "RankGPT (4o-mini)",
+    }
+
+    # Linhas de referência para os baselines puros
+    base_puros = df[df["reranker"] == "none"].set_index("base_model")["mrr@5_mean"].to_dict()
+    if "qwen3_8b_q4km" in base_puros:
+        ax.axhline(base_puros["qwen3_8b_q4km"], color="#1f77b4", linestyle=":", alpha=0.5, label="Baseline Puro Qwen3-8B")
+    if "multilingual_e5_large" in base_puros:
+        ax.axhline(base_puros["multilingual_e5_large"], color="#ff7f0e", linestyle=":", alpha=0.5, label="Baseline Puro E5-Large")
+
+    # Zona verde de baixa latência (< 2000 ms)
+    ax.axvspan(0, 2000, color="green", alpha=0.06, label="Zona de Baixa Latência (< 2.0s)")
 
     for _, row in df.iterrows():
         base = row["base_model"]
@@ -122,15 +148,34 @@ def plot_reranker_graphs(
         x = row["mean_latency_ms"]
         y = row["mrr@5_mean"]
         c = colors_base.get(base, "#333333")
-        m = markers.get(rerank, "o")
-        lbl = f"{'Qwen3' if 'qwen' in base else 'E5'} + {rerank}"
+        m, size = markers.get(rerank, ("o", 100))
+        r_name = short_reranker_names.get(rerank, rerank)
+        b_prefix = "Qwen3" if "qwen" in base else "E5"
+        lbl = f"{b_prefix} + {r_name}"
 
-        ax.scatter(x, y, color=c, marker=m, s=140 if rerank == "rankgpt" else 90, alpha=0.9)
-        ax.annotate(lbl, (x + 10, y + 0.003), fontsize=9)
+        ax.scatter(x, y, color=c, marker=m, s=size, alpha=0.85, edgecolors="black", linewidths=0.8, zorder=5)
 
-    ax.set_xlabel("Latência Incremental por Consulta (ms)")
-    ax.set_ylabel("MRR@5 Médio")
-    ax.set_title("Trade-off de Engenharia: Eficácia (MRR@5) vs. Custo Computacional (Latência)", fontsize=13, weight="bold")
+        # Ajuste adaptativo de offset para evitar sobreposição
+        offset_x = 80
+        offset_y = 0.003
+        if rerank == "bge_reranker_v2_m3" and "multilingual" in base:
+            offset_y = -0.008
+        elif rerank == "rankgpt" and "multilingual" in base:
+            offset_y = -0.008
+        elif rerank == "qwen3_8b_q5km":
+            offset_x = -320
+            offset_y = 0.004
+        elif rerank == "none":
+            offset_y = 0.004
+
+        ax.annotate(lbl, (x + offset_x, y + offset_y), fontsize=9, fontweight="semibold", color="#1a202c", zorder=6)
+
+    ax.set_xlabel("Latência Média por Consulta (ms)", fontsize=11, fontweight="bold")
+    ax.set_ylabel("MRR@5 Médio", fontsize=11, fontweight="bold")
+    ax.set_title("Trade-off de Engenharia: Eficácia de Ranqueamento (MRR@5) vs. Latência (ms)", fontsize=13, fontweight="bold")
+    ax.legend(loc="lower right", framealpha=0.9)
+    ax.grid(True, linestyle=":", alpha=0.6)
+
     fpath3 = os.path.join(output_dir, "tradeoff_latencia_mrr_rerankers.png")
     plt.savefig(fpath3, dpi=300, bbox_inches="tight")
     plt.close()
@@ -139,3 +184,4 @@ def plot_reranker_graphs(
 
 if __name__ == "__main__":
     plot_reranker_graphs()
+
