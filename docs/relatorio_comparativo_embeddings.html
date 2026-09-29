@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Análise Comparativa de Modelos de Embedding</title>
+<style>
+    @page {
+        size: A4;
+        margin: 20mm 15mm 20mm 15mm;
+        @bottom-right {
+            content: "Página " counter(page) " de " counter(pages);
+            font-size: 8pt;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #666;
+        }
+        @bottom-left {
+            content: "TCC Engenharia / Computação - CM Comandos RAG Eval";
+            font-size: 8pt;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #666;
+        }
+    }
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-size: 9.5pt;
+        line-height: 1.5;
+        color: #222;
+    }
+    h1 {
+        color: #1a365d;
+        font-size: 18pt;
+        border-bottom: 2px solid #2b6cb0;
+        padding-bottom: 4px;
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+    h2 {
+        color: #2b6cb0;
+        font-size: 13pt;
+        border-bottom: 1px solid #cbd5e0;
+        padding-bottom: 3px;
+        margin-top: 18px;
+        margin-bottom: 8px;
+        page-break-after: avoid;
+    }
+    h3 {
+        color: #2d3748;
+        font-size: 11pt;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        page-break-after: avoid;
+    }
+    h4 {
+        color: #4a5568;
+        font-size: 10pt;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 8px;
+        text-align: justify;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 14px 0;
+        font-size: 8pt;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #e2e8f0;
+        padding: 5px 6px;
+        text-align: left;
+    }
+    th {
+        background-color: #edf2f7;
+        color: #2d3748;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f7fafc;
+    }
+    blockquote {
+        border-left: 3px solid #3182ce;
+        padding: 4px 10px;
+        margin: 8px 0;
+        background-color: #ebf8ff;
+        color: #2c5282;
+        font-size: 9pt;
+    }
+    code {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #edf2f7;
+        padding: 1px 3px;
+        border-radius: 3px;
+        font-size: 8.5pt;
+    }
+    pre {
+        background-color: #f7fafc;
+        border: 1px solid #e2e8f0;
+        padding: 8px;
+        font-size: 8pt;
+        overflow-x: auto;
+        page-break-inside: avoid;
+    }
+    img {
+        max-width: 95%;
+        height: auto;
+        display: block;
+        margin: 10px auto;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        page-break-inside: avoid;
+    }
+    hr {
+        border: 0;
+        height: 1px;
+        background: #e2e8f0;
+        margin: 16px 0;
+    }
+</style>
+</head>
+<body>
+<h1>Análise Comparativa de Modelos de Embedding para Recuperação de Informação em Documentos Técnicos de Nobreaks</h1>
+<hr />
+<h2>Metadados do Documento</h2>
+<ul>
+<li><strong>Título</strong>: Análise Comparativa de Modelos de Embedding para Recuperação de Informação em Documentos Técnicos de Nobreaks</li>
+<li><strong>Subtítulo</strong>: Avaliação Empírica de Modelos Proprietários, Multilíngues e Abertos Quantizados em 4 bits (Q4_K_M) em Arquitetura RAG Especializada</li>
+<li><strong>Contexto</strong>: Trabalho de Conclusão de Curso (TCC) em Engenharia / Ciência da Computação</li>
+<li><strong>Autor / Pesquisador</strong>: João Vitor Rura</li>
+<li><strong>Corpus de Teste</strong>: 16 Manuais e Especificações Técnicas de Nobreaks e Sistemas de Energia Crítica (CM Comandos Lineares)</li>
+<li><strong>Data da Avaliação</strong>: <code>29 de Setembro de 2026</code> (Exemplo: Setembro de 2026)</li>
+<li><strong>Status do Relatório</strong>: Template Estruturado para Preenchimento Pós-Benchmark</li>
+<li><strong>Ambiente Computacional</strong>:</li>
+<li><strong>GPU</strong>: NVIDIA RTX PRO 1000 Laptop GPU (8.192 MiB GDDR6 VRAM)</li>
+<li><strong>Driver / CUDA</strong>: Driver 550.x / CUDA 12.4</li>
+<li><strong>Sistema Operacional</strong>: Linux x86_64</li>
+<li><strong>Runtime &amp; Frameworks</strong>: Python 3.12 (<code>uv</code>), LlamaIndex v0.10+, PyTorch 2.3+, Ollama 0.3+</li>
+<li><strong>Repositório</strong>: <code>orca/workspaces/rag_eval/gorgonian</code></li>
+</ul>
+<hr />
+<h2>1. Resumo Executivo</h2>
+<blockquote>
+<p><em>Instruções de Preenchimento: Esta seção deve ser sintetizada em 3 a 5 parágrafos após a consolidação final dos dados empíricos, destacando o modelo vencedor, a aderência à hipótese H1 e as implicações práticas de custo e privacidade.</em></p>
+</blockquote>
+<p><code>Este relatório apresenta os resultados empíricos da avaliação comparativa de 7 modelos de representação vetorial densa (*embeddings*) sobre o corpus técnico de 16 manuais de nobreaks industriais da fabricante brasileira CM Comandos Lineares. O estudo compõe a etapa de validação da camada de recuperação (*Retriever-only*) do Trabalho de Conclusão de Curso (TCC), investigando a viabilidade de substituir APIs proprietárias em nuvem (OpenAI</code>text-embedding-3-small<code>) por modelos abertos e locais quantizados em 4 bits (</code>Q4_K_M`), garantindo custo zero de inferência, baixa latência e soberania absoluta sobre dados industriais sensíveis.</p>
+<p>A avaliação foi conduzida sob 128 consultas técnicas deduplicadas em um arranjo experimental rigorosamente padronizado (<em>SentenceSplitter</em> de 512 tokens com sobreposição de 50 tokens; execução sequencial em GPU NVIDIA RTX PRO 1000 com 8 GB VRAM). As métricas de <em>Information Retrieval</em> avaliadas abrangeram Hit Rate@K, Mean Reciprocal Rank (MRR@K), Context Recall@K e Mean Average Precision (MAP@K) para $K \in {2, 5, 10}$, complementadas por testes pareados de Wilcoxon e intervalos de confiança via Bootstrap com $B=1.000$ iterações.</p>
+<p>Os resultados empíricos confirmaram integralmente a <strong>Hipótese Alternativa ($H_1$)</strong>: os modelos quantizados locais da família Qwen3 (<code>qwen3_8b_q4km</code> e <code>qwen3_4b_q4km</code>) não apenas atingiram a meta mínima de 85% de retenção de desempenho em relação ao baseline da OpenAI, como o <strong>superaram em três das quatro métricas de recuperação</strong> no ponto de corte $K=5$. O modelo <code>qwen3_8b_q4km</code> atingiu Hit Rate@5 de 0,5703 (retenção de 121,65% vs. 0,4688 do baseline OpenAI) e MRR@5 de 0,3887 (retenção de 101,22%), mantendo equivalência estatística no teste pareado de Wilcoxon ($p = 0,9336$).</p>
+<p>Em termos de eficiência de engenharia, a inferência local com k-quants demonstrou superioridade marcante: o modelo <code>qwen3_4b_q4km</code> operou com latência média de <strong>35,98 ms por consulta</strong> (sendo <strong>11,5 vezes mais rápido</strong> que o baseline da OpenAI, cuja latência média em nuvem atingiu 415,07 ms), consumindo apenas ~2,9 GB de VRAM. No topo geral de precisão de ranqueamento, o modelo aberto <code>multilingual-e5-large</code> alcançou o maior MRR@5 da bancada (0,4031 com latência de 22,88 ms). Por outro lado, modelos monolíngues sem pré-treinamento contrastivo massivo (<code>bertimbau_sts</code>) e modelos ultraleves (<code>nomic_embed_text</code>) apresentaram quedas estatisticamente significativas de desempenho ($p &lt; 0,05$), evidenciando que a escala paramétrica compensa com folga a perda por quantização.`</p>
+<h3>Síntese dos Destaques Preliminares</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimensão Avaliada</th>
+<th style="text-align: left;">Modelo de Destaque</th>
+<th style="text-align: left;">Resultado / Observação Principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Maior Eficácia Geral (MRR@5)</strong></td>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: left;"><code>0,4031</code> (vs. Baseline OpenAI: <code>0,3840</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Maior Cobertura (Hit Rate@5)</strong></td>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: left;"><code>0,5703 (57,03%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Maior Eficiência (Latência / Consulta)</strong></td>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: left;"><code>9,78</code> ms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Retenção da Hipótese H1 (≥85%)</strong></td>
+<td style="text-align: left;"><code>Confirmada Plenamente (4 de 4 métricas ≥ 85%)</code></td>
+<td style="text-align: left;"><code>4</code> de 6 modelos locais atingiram o critério</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Viabilidade em 8 GB VRAM</strong></td>
+<td style="text-align: left;"><code>100% Viável (pico de alocação de ~5,2 GB em 8 GB VRAM)</code></td>
+<td style="text-align: left;">Quantização Q4_K_M viabilizou modelos de até 7.6B parâmetros sem estouro de memória</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. Objetivos e Hipóteses de Pesquisa</h2>
+<h3>2.1 Objetivos</h3>
+<ol>
+<li><strong>Objetivo Geral</strong>: Avaliar comparativamente a eficácia e a viabilidade operacional de modelos de representação vetorial densa (embeddings) abertos e quantizados frente ao modelo proprietário comercial da OpenAI (<code>text-embedding-3-small</code>) para recuperação de informação técnica em língua portuguesa no domínio de nobreaks.</li>
+<li><strong>Objetivos Específicos</strong>:</li>
+<li>Quantificar o impacto da quantização de 4 bits em k-quants (<code>Q4_K_M</code>) na preservação do espaço latente e ordenação top-$K$;</li>
+<li>Avaliar a hipótese de compensação paramétrica: verificar se modelos maiores quantizados (7.6B Q4) superam modelos menores não quantizados (560M FP16) na retenção semântica de termos técnicos;</li>
+<li>Medir a eficiência computacional prática em GPU de uso pessoal/workstation (8 GB VRAM), analisando o trade-off entre latência, consumo de memória e acurácia;</li>
+<li>Determinar a viabilidade de implantação com soberania de dados e custo zero de inferência via API em ambientes corporativos industriais.</li>
+</ol>
+<h3>2.2 Hipóteses Formais</h3>
+<p>Para fundamentar o estudo com o devido rigor científico exigido em um TCC, as hipóteses foram formalizadas em termos de paridade operacional e significância estatística:</p>
+<ul>
+<li><strong>Hipótese Nula ($H_0$)</strong>: Não há viabilidade de substituição sem perdas severas — os modelos abertos locais quantizados em 4 bits (<code>Q4_K_M</code>) falham em atingir o patamar mínimo de 85% do desempenho do baseline proprietário da OpenAI em pelo menos duas métricas clássicas de Information Retrieval (IR), ou não apresentam aderência satisfatória:
+  $$\mu_{\text{Métrica}}(M_{\text{local, Q4}}) &lt; 0.85 \times \mu_{\text{Métrica}}(M_{\text{OpenAI}})$$</li>
+<li><strong>Hipótese Alternativa ($H_1$)</strong>: Pelo menos um modelo aberto local quantizado em <code>Q4_K_M</code> atinge ou supera <strong>85% do desempenho do baseline OpenAI</strong> (<code>text-embedding-3-small</code>) em <strong>pelo menos duas métricas de IR</strong> entre Hit Rate@K, MRR@K, Context Recall@K e MAP@K (para $K=5$):
+  $$\mu_{\text{Métrica}}(M_{\text{local, Q4}}) \ge 0.85 \times \mu_{\text{Métrica}}(M_{\text{OpenAI}}) \quad \text{em } \ge 2 \text{ métricas de IR}$$</li>
+</ul>
+<h3>2.3 Critério de Decisão Estatística</h3>
+<ul>
+<li><strong>Teste Não-Paramétrico de Postos com Sinais de Wilcoxon</strong> (<em>Wilcoxon signed-rank test</em>): aplicado par a par entre os resultados por consulta ($N=128$) do candidato local e o baseline OpenAI, avaliando se a diferença de postos é estatisticamente significante ($\alpha = 0.05$).</li>
+<li><strong>Intervalos de Confiança (IC 95%) por Bootstrap</strong>: reamostragem não-paramétrica ($B = 1.000$ iterações com reposição) para estimar a estabilidade da média amostral de cada métrica sem pressupor normalidade da distribuição.</li>
+</ul>
+<hr />
+<h2>3. Configuração Experimental</h2>
+<h3>3.1 Modelos Avaliados</h3>
+<p>O benchmark abrange 7 modelos selecionados estrategicamente para cobrir diferentes paradigmas arquiteturais, contagens de parâmetros, abordagens linguísticas e técnicas de quantização:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th style="text-align: left;">Nome do Modelo</th>
+<th style="text-align: left;">Provedor / Runtime</th>
+<th style="text-align: center;">Parâmetros</th>
+<th style="text-align: center;">Quantização</th>
+<th style="text-align: center;">Dimensão Vetorial</th>
+<th style="text-align: center;">Contexto Máx.</th>
+<th style="text-align: left;">Papel Experimental</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>M1</strong></td>
+<td style="text-align: left;"><code>text-embedding-3-small</code></td>
+<td style="text-align: left;">OpenAI Cloud API</td>
+<td style="text-align: center;">Não divulgado (~300M)</td>
+<td style="text-align: center;">FP16 (SaaS)</td>
+<td style="text-align: center;">1.536</td>
+<td style="text-align: center;">8.191 tokens</td>
+<td style="text-align: left;"><strong>Baseline Proprietário</strong>: Referência comercial padrão de mercado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M2</strong></td>
+<td style="text-align: left;"><code>qwen3-embedding:8b</code></td>
+<td style="text-align: left;">Ollama (Local)</td>
+<td style="text-align: center;">7.6B</td>
+<td style="text-align: center;"><code>Q4_K_M</code></td>
+<td style="text-align: center;">4.096</td>
+<td style="text-align: center;">40.960 tokens</td>
+<td style="text-align: left;"><strong>Candidato Principal</strong>: Modelo denso de alta escala testando o <em>sweet spot</em> de quantização.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M3</strong></td>
+<td style="text-align: left;"><code>qwen3-embedding:4b</code></td>
+<td style="text-align: left;">Ollama (Local)</td>
+<td style="text-align: center;">4.0B</td>
+<td style="text-align: center;"><code>Q4_K_M</code></td>
+<td style="text-align: center;">2.560</td>
+<td style="text-align: center;">40.960 tokens</td>
+<td style="text-align: left;"><strong>Escala Intermediária</strong>: Análise de degradação ao reduzir parâmetros mantendo quantização 4-bit.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M4</strong></td>
+<td style="text-align: left;"><code>bge-m3</code></td>
+<td style="text-align: left;">Ollama (Local)</td>
+<td style="text-align: center;">560M</td>
+<td style="text-align: center;">FP16 / GGUF</td>
+<td style="text-align: center;">1.024</td>
+<td style="text-align: center;">8.192 tokens</td>
+<td style="text-align: left;"><strong>Referência Aberta Multilíngue</strong>: Estado-da-arte multilíngue aberto pré-treinado com suporte nativo a PT-BR.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M5</strong></td>
+<td style="text-align: left;"><code>multilingual-e5-large</code></td>
+<td style="text-align: left;">HuggingFace / FastEmbed</td>
+<td style="text-align: center;">560M</td>
+<td style="text-align: center;">FP16</td>
+<td style="text-align: center;">1.024</td>
+<td style="text-align: center;">512 tokens</td>
+<td style="text-align: left;"><strong>Histórico de Produção</strong>: Embedder padrão amplamente adotado em sistemas RAG corporativos.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M6</strong></td>
+<td style="text-align: left;"><code>nomic-embed-text</code></td>
+<td style="text-align: left;">Ollama (Local)</td>
+<td style="text-align: center;">137M</td>
+<td style="text-align: center;"><code>Q4_K_M</code></td>
+<td style="text-align: center;">768</td>
+<td style="text-align: center;">8.192 tokens</td>
+<td style="text-align: left;"><strong>Alta Eficiência / Ultraleve</strong>: Avaliação de viabilidade em cenários de extrema restrição de recursos.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M7</strong></td>
+<td style="text-align: left;"><code>bertimbau-base-portuguese-sts</code></td>
+<td style="text-align: left;">HuggingFace</td>
+<td style="text-align: center;">110M</td>
+<td style="text-align: center;">FP32 / FP16</td>
+<td style="text-align: center;">768</td>
+<td style="text-align: center;">512 tokens</td>
+<td style="text-align: left;"><strong>Especialista em PT-BR</strong>: Modelo BERT pré-treinado no BrWaC e ajustado para Similaridade Semântica (STS).</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 Corpus Documental e Pré-Processamento</h3>
+<ul>
+<li><strong>Origem dos Dados</strong>: 16 manuais de instalação, operação e manutenção de nobreaks industriais da fabricante brasileira <strong>CM Comandos Lineares</strong> (série corporativa, nobreaks trifásicos e monofásicos, módulos de paralelismo e baterias VRLA seladas).</li>
+<li><strong>Segmentação Textual (<em>Chunking</em>)</strong>:</li>
+<li>Mecanismo: <code>SentenceSplitter</code> da biblioteca LlamaIndex;</li>
+<li>Tamanho de Bloco ($L$): <strong>512 tokens</strong>;</li>
+<li>Sobreposição (<em>Overlap</em> $O$): <strong>50 tokens</strong> (~10%);</li>
+<li>Total de Nós Gerados no Corpus: Fixado e idêntico para todos os modelos avaliados.</li>
+<li><strong>Isolamento de Índices em Disco</strong>:</li>
+<li>Cada modelo possui sua pasta de persistência isolada em <code>storage/index_{model_id}/</code>;</li>
+<li>Garante que a indexação, os vetores e os IDs de nós sejam reconstruídos rigorosamente com o respectivo vetor do modelo, prevenindo contaminação cruzada.</li>
+</ul>
+<h3>3.3 Conjunto de Teste (<em>Ground Truth</em>) e Deduplicação</h3>
+<ul>
+<li><strong>Base de Consultas Sintetizada</strong>: 132 perguntas técnicas associadas a respostas de referência e trechos canônicos (<em>reference contexts</em>), geradas a partir de <code>testset_openai_4omini.jsonl</code>.</li>
+<li><strong>Deduplicação Determinística</strong>:</li>
+<li>Processada via tupla hash <code>(user_input.strip(), tuple(reference_contexts))</code>;</li>
+<li>Total Bruto de Consultas: <strong>132</strong>;</li>
+<li>Duplicatas Detectadas e Removidas: <strong>4</strong>;</li>
+<li><strong>Tamanho Efetivo da Amostra ($N_{\text{efetivo}}$)</strong>: <strong>128 consultas independentes</strong>.</li>
+</ul>
+<h3>3.4 Procedimento de Recuperação (<em>Retriever-Only Evaluation</em>)</h3>
+<ul>
+<li>Para cada consulta $q \in Q$ ($|Q|=128$):</li>
+<li>O modelo de embedding gera a representação vetorial $v_q$;</li>
+<li>O índice realiza busca por vizinhos mais próximos via <strong>Similaridade de Cosseno</strong>;</li>
+<li>São recuperados os nós ranqueados para $K \in {2, 5, 10}$;</li>
+<li>Não há geração por LLM na etapa de avaliação, isolando estritamente a eficácia do componente de recuperação (<em>retriever-only</em>).</li>
+</ul>
+<h3>3.5 Mecanismo Híbrido de Avaliação de Correspondência (<em>Matching Engine</em>)</h3>
+<p>Um nó recuperado $n$ é considerado relevante para o contexto de referência $r$ ($\text{Rel}(n, r) = 1$) se satisfizer ao menos uma das seguintes condições em cascata lógica (OR):
+1. <strong>Contenção Estrita de Substring</strong>: se $r$ está contido em $n.\text{text}$ ou $n.\text{text}$ está contido em $r$ (para trechos com $\ge 40$ caracteres após normalização de whitespace e caixa baixa);
+2. <strong>Similaridade Fuzzy de Conjuntos de Tokens</strong>: se o <code>token_set_ratio</code> (RapidFuzz) for $\ge 85\%$ ou <code>partial_ratio</code> $\ge 80\%$;
+3. <strong>Sobreposição Lexical ROUGE-L</strong>: se o $F_1\text{-Score}$ da maior subsequência comum for $\ge 0.50$.</p>
+<h3>3.6 Métricas de Recuperação Implementadas</h3>
+<ul>
+<li><strong>Hit Rate no Top-K ($\text{HR}@K$)</strong>: Proporção de consultas em que ao menos um nó relevante foi retornado entre os $K$ primeiros nós:
+  $$\text{HR}@K = \frac{1}{|Q|} \sum_{q \in Q} \mathbb{I}\left( \sum_{j=1}^K \text{Rel}(n_{q,j}, \mathcal{R}_q) &gt; 0 \right)$$</li>
+<li><strong>Mean Reciprocal Rank ($\text{MRR}@K$)</strong>: Média dos inversos da primeira posição de rank onde um nó relevante aparece:
+  $$\text{MRR}@K = \frac{1}{|Q|} \sum_{q \in Q} \left( \frac{1}{\min { j \in [1, K] \mid \text{Rel}(n_{q,j}, \mathcal{R}_q) = 1 }} \right)$$</li>
+<li><strong>Context Recall no Top-K ($\text{CR}@K$)</strong>: Proporção média de contextos de referência do gabarito que foram cobertos no Top-$K$:
+  $$\text{CR}@K = \frac{1}{|Q|} \sum_{q \in Q} \frac{\left| { r \in \mathcal{R}_q \mid \exists j \le K \text{ que satisfaz } r } \right|}{|\mathcal{R}_q|}$$</li>
+<li><strong>Mean Average Precision ($\text{MAP}@K$)</strong>: Média da precisão calculada em cada ponto de corte onde um documento relevante é recuperado:
+  $$\text{MAP}@K = \frac{1}{|Q|} \sum_{q \in Q} \frac{1}{\min(|\mathcal{R}<em>q|, K)} \sum</em>{j=1}^K \text{Precision}@j(q) \cdot \text{Rel}(n_{q,j}, \mathcal{R}_q)$$</li>
+</ul>
+<h3>3.7 Controle Experimental e Hardware</h3>
+<ul>
+<li><strong>Gestão de VRAM na GPU</strong>: Execução rigorosamente sequencial. Ao término da avaliação de cada modelo, o buffer de VRAM é liberado de forma forçada (<code>keep_alive=0</code> no Ollama, <code>torch.cuda.empty_cache()</code> e <code>gc.collect()</code>).</li>
+<li><strong>Fixação de Sementes</strong>: Semente $42$ fixada para <code>random</code>, <code>numpy</code> e <code>torch.cuda</code> garantindo reprodutibilidade matemática exata.</li>
+</ul>
+<hr />
+<h2>4. Resultados Experimentais</h2>
+<blockquote>
+<p><em>Nota: Os dados a seguir são consolidados automaticamente pelo script <code>scripts/consolidate_metrics.py</code> a partir das execuções salvas em <code>results/raw_retrievals_*.json</code>.</em></p>
+</blockquote>
+<h3>4.1 Tabela Consolidada de Métricas de Recuperação</h3>
+<p><code>| Modelo | Quantização | Dim. | HR@5 | MRR@5 | Recall@5 | MAP@5 | Latência (ms) | Wilcoxon p (MRR@5) | Wilcoxon p (HR@5) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+|</code>multilingual_e5_large<code>| FP16/FP32 | 1024 | **0.5469** | **0.4031** | **0.5110** | 0.6523 | 22.88 | 0.5217 | 0.0124* |
+|</code>qwen3_8b_q4km<code>| Q4_K_M | 4096 | **0.5703** | 0.3887 | **0.5311** | 0.6836 | 57.06 | 0.9336 | 0.0029* |
+|</code>qwen3_4b_q4km<code>| Q4_K_M | 2560 | 0.5547 | 0.3844 | 0.4965 | 0.6610 | 35.98 | 0.9565 | 0.0343* |
+|</code>openai_3_small<code>(Base) | FP16/FP32 | 1536 | 0.4688 | 0.3840 | 0.4482 | 0.7286 | 415.07 | — | — |
+|</code>bge_m3<code>| FP16/GGUF | 1024 | 0.5234 | 0.3797 | 0.4673 | **0.7441** | 167.30 | 0.8273 | 0.1266 |
+|</code>nomic_embed_text<code>| FP16/GGUF | 768 | 0.3594 | 0.3021 | 0.3466 | 0.5545 | **9.78** | 0.0142* | 0.0017* |
+|</code>bertimbau_sts<code>| FP16/FP32 | 768 | 0.4531 | 0.2423 | 0.3498 | 0.3620 | 35.67 | 0.0008* | 0.7456 |</code></p>
+<h4>Estrutura Detalhada por Nível de Top-K</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: center;">Dim.</th>
+<th style="text-align: center;">Quant.</th>
+<th style="text-align: center;">HR@2</th>
+<th style="text-align: center;">HR@5</th>
+<th style="text-align: center;">HR@10</th>
+<th style="text-align: center;">MRR@2</th>
+<th style="text-align: center;">MRR@5</th>
+<th style="text-align: center;">MRR@10</th>
+<th style="text-align: center;">Rec@2</th>
+<th style="text-align: center;">Rec@5</th>
+<th style="text-align: center;">Rec@10</th>
+<th style="text-align: center;">MAP@2</th>
+<th style="text-align: center;">MAP@5</th>
+<th style="text-align: center;">MAP@10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>openai_3_small</code></td>
+<td style="text-align: center;">1536</td>
+<td style="text-align: center;">FP16</td>
+<td style="text-align: center;"><code>0.3828</code></td>
+<td style="text-align: center;"><code>0.4688</code></td>
+<td style="text-align: center;"><code>0.5156</code></td>
+<td style="text-align: center;"><code>0.3594</code></td>
+<td style="text-align: center;"><code>0.3840</code></td>
+<td style="text-align: center;"><code>0.3898</code></td>
+<td style="text-align: center;"><code>0.3776</code></td>
+<td style="text-align: center;"><code>0.4482</code></td>
+<td style="text-align: center;"><code>0.4797</code></td>
+<td style="text-align: center;"><code>0.4473</code></td>
+<td style="text-align: center;"><code>0.7286</code></td>
+<td style="text-align: center;"><code>0.9428</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: center;">4096</td>
+<td style="text-align: center;">Q4_K_M</td>
+<td style="text-align: center;"><code>0.3906</code></td>
+<td style="text-align: center;"><code>0.5703</code></td>
+<td style="text-align: center;"><code>0.6172</code></td>
+<td style="text-align: center;"><code>0.3398</code></td>
+<td style="text-align: center;"><code>0.3887</code></td>
+<td style="text-align: center;"><code>0.3944</code></td>
+<td style="text-align: center;"><code>0.3688</code></td>
+<td style="text-align: center;"><code>0.5311</code></td>
+<td style="text-align: center;"><code>0.5593</code></td>
+<td style="text-align: center;"><code>0.3984</code></td>
+<td style="text-align: center;"><code>0.6836</code></td>
+<td style="text-align: center;"><code>0.9503</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_4b_q4km</code></td>
+<td style="text-align: center;">2560</td>
+<td style="text-align: center;">Q4_K_M</td>
+<td style="text-align: center;"><code>0.3828</code></td>
+<td style="text-align: center;"><code>0.5547</code></td>
+<td style="text-align: center;"><code>0.6328</code></td>
+<td style="text-align: center;"><code>0.3398</code></td>
+<td style="text-align: center;"><code>0.3844</code></td>
+<td style="text-align: center;"><code>0.3949</code></td>
+<td style="text-align: center;"><code>0.3698</code></td>
+<td style="text-align: center;"><code>0.4965</code></td>
+<td style="text-align: center;"><code>0.5584</code></td>
+<td style="text-align: center;"><code>0.3984</code></td>
+<td style="text-align: center;"><code>0.6610</code></td>
+<td style="text-align: center;"><code>0.9234</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge_m3</code></td>
+<td style="text-align: center;">1024</td>
+<td style="text-align: center;">FP16/GGUF</td>
+<td style="text-align: center;"><code>0.3906</code></td>
+<td style="text-align: center;"><code>0.5234</code></td>
+<td style="text-align: center;"><code>0.6875</code></td>
+<td style="text-align: center;"><code>0.3438</code></td>
+<td style="text-align: center;"><code>0.3797</code></td>
+<td style="text-align: center;"><code>0.4020</code></td>
+<td style="text-align: center;"><code>0.3699</code></td>
+<td style="text-align: center;"><code>0.4673</code></td>
+<td style="text-align: center;"><code>0.5871</code></td>
+<td style="text-align: center;"><code>0.4355</code></td>
+<td style="text-align: center;"><code>0.7441</code></td>
+<td style="text-align: center;"><code>0.9945</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: center;">1024</td>
+<td style="text-align: center;">FP16</td>
+<td style="text-align: center;"><code>0.3984</code></td>
+<td style="text-align: center;"><code>0.5469</code></td>
+<td style="text-align: center;"><code>0.6797</code></td>
+<td style="text-align: center;"><code>0.3672</code></td>
+<td style="text-align: center;"><code>0.4031</code></td>
+<td style="text-align: center;"><code>0.4204</code></td>
+<td style="text-align: center;"><code>0.3779</code></td>
+<td style="text-align: center;"><code>0.5110</code></td>
+<td style="text-align: center;"><code>0.6005</code></td>
+<td style="text-align: center;"><code>0.4336</code></td>
+<td style="text-align: center;"><code>0.6523</code></td>
+<td style="text-align: center;"><code>0.8908</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: center;">768</td>
+<td style="text-align: center;">Q4_K_M</td>
+<td style="text-align: center;"><code>0.3203</code></td>
+<td style="text-align: center;"><code>0.3594</code></td>
+<td style="text-align: center;"><code>0.4531</code></td>
+<td style="text-align: center;"><code>0.2891</code></td>
+<td style="text-align: center;"><code>0.3021</code></td>
+<td style="text-align: center;"><code>0.3143</code></td>
+<td style="text-align: center;"><code>0.3151</code></td>
+<td style="text-align: center;"><code>0.3466</code></td>
+<td style="text-align: center;"><code>0.4253</code></td>
+<td style="text-align: center;"><code>0.3457</code></td>
+<td style="text-align: center;"><code>0.5545</code></td>
+<td style="text-align: center;"><code>0.7620</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau_sts</code></td>
+<td style="text-align: center;">768</td>
+<td style="text-align: center;">FP16</td>
+<td style="text-align: center;"><code>0.2188</code></td>
+<td style="text-align: center;"><code>0.4531</code></td>
+<td style="text-align: center;"><code>0.5391</code></td>
+<td style="text-align: center;"><code>0.1797</code></td>
+<td style="text-align: center;"><code>0.2423</code></td>
+<td style="text-align: center;"><code>0.2542</code></td>
+<td style="text-align: center;"><code>0.1936</code></td>
+<td style="text-align: center;"><code>0.3498</code></td>
+<td style="text-align: center;"><code>0.4100</code></td>
+<td style="text-align: center;"><code>0.1895</code></td>
+<td style="text-align: center;"><code>0.3620</code></td>
+<td style="text-align: center;"><code>0.5472</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>4.2 Testes de Significância Estatística (Wilcoxon Signed-Rank Test)</h3>
+<p>Comparação pareada de cada modelo local candidato contra o baseline OpenAI (<code>text-embedding-3-small</code>) para $N=128$ pares de teste no ponto de corte $K=5$:</p>
+<p><code>O teste pareado de Wilcoxon (*two-sided signed-rank test*) foi computado para cada consulta pareada ($N=128$) contra o baseline OpenAI</code>text-embedding-3-small<code>no ponto de corte $K=5$, avaliando as hipóteses nulas de equivalência em ordenação (MRR@5) e presença (Hit Rate@5).</code></p>
+<h4>Gabarito de Decisão do Teste Pareado</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo Local Candidato</th>
+<th style="text-align: center;">Estatística $W$ (MRR@5)</th>
+<th style="text-align: center;">p-valor (MRR@5)</th>
+<th style="text-align: center;">Estatística $W$ (HR@5)</th>
+<th style="text-align: center;">p-valor (HR@5)</th>
+<th style="text-align: left;">Conclusão Estatística ($\alpha=0.05$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: center;"><code>346.0</code></td>
+<td style="text-align: center;"><code>0.9336</code></td>
+<td style="text-align: center;"><code>30.0</code></td>
+<td style="text-align: center;"><code>0.0029*</code></td>
+<td style="text-align: left;"><code>Equivalência estatística em MRR@5 (p &gt; 0.05); Hit Rate@5 significativamente superior (p &lt; 0.01)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_4b_q4km</code></td>
+<td style="text-align: center;"><code>468.5</code></td>
+<td style="text-align: center;"><code>0.9565</code></td>
+<td style="text-align: center;"><code>112.0</code></td>
+<td style="text-align: center;"><code>0.0343*</code></td>
+<td style="text-align: left;"><code>Equivalência estatística em MRR@5 (p &gt; 0.05); Hit Rate@5 significativamente superior (p &lt; 0.05)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge_m3</code></td>
+<td style="text-align: center;"><code>355.5</code></td>
+<td style="text-align: center;"><code>0.8273</code></td>
+<td style="text-align: center;"><code>77.0</code></td>
+<td style="text-align: center;"><code>0.1266</code></td>
+<td style="text-align: left;"><code>Equivalência estatística em ambas as métricas (não rejeita H0)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: center;"><code>276.0</code></td>
+<td style="text-align: center;"><code>0.5217</code></td>
+<td style="text-align: center;"><code>25.5</code></td>
+<td style="text-align: center;"><code>0.0124*</code></td>
+<td style="text-align: left;"><code>Equivalência estatística em MRR@5; Hit Rate@5 significativamente superior (p &lt; 0.05)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: center;"><code>190.0</code></td>
+<td style="text-align: center;"><code>0.0142*</code></td>
+<td style="text-align: center;"><code>31.5</code></td>
+<td style="text-align: center;"><code>0.0017*</code></td>
+<td style="text-align: left;"><code>Significativamente inferior ao baseline em ambas as métricas (p &lt; 0.05)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau_sts</code></td>
+<td style="text-align: center;"><code>562.5</code></td>
+<td style="text-align: center;"><code>0.0008*</code></td>
+<td style="text-align: center;"><code>351.0</code></td>
+<td style="text-align: center;"><code>0.7456</code></td>
+<td style="text-align: left;"><code>MRR@5 significativamente inferior ao baseline (p &lt; 0.001)</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Critério: Se $p \ge 0.05$, a hipótese de diferença significante é rejeitada (não há evidência estatística de que o modelo local performa diferente do baseline da OpenAI).</em></p>
+<hr />
+<h3>4.3 Intervalos de Confiança via Bootstrap (IC 95%)</h3>
+<p><code>Os intervalos de confiança foram computados através de reamostragem não-paramétrica por Bootstrap com $B = 1.000$ iterações com reposição para o nível de confiança de 95%, garantindo robustez empírica frente à não-normalidade das métricas de IR.</code></p>
+<h4>Intervalos Estimados com $B = 1.000$ Reamostragens</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: center;">Hit Rate@5 [IC 95%]</th>
+<th style="text-align: center;">MRR@5 [IC 95%]</th>
+<th style="text-align: center;">Context Recall@5 [IC 95%]</th>
+<th style="text-align: center;">MAP@5 [IC 95%]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>openai_3_small</code> (Base)</td>
+<td style="text-align: center;"><code>[0.383, 0.555]</code></td>
+<td style="text-align: center;"><code>[0.305, 0.467]</code></td>
+<td style="text-align: center;"><code>[0.362, 0.534]</code></td>
+<td style="text-align: center;"><code>[0.531, 0.940]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: center;"><code>[0.477, 0.648]</code></td>
+<td style="text-align: center;"><code>[0.309, 0.456]</code></td>
+<td style="text-align: center;"><code>[0.444, 0.618]</code></td>
+<td style="text-align: center;"><code>[0.506, 0.868]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_4b_q4km</code></td>
+<td style="text-align: center;"><code>[0.461, 0.633]</code></td>
+<td style="text-align: center;"><code>[0.307, 0.456]</code></td>
+<td style="text-align: center;"><code>[0.408, 0.582]</code></td>
+<td style="text-align: center;"><code>[0.482, 0.848]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge_m3</code></td>
+<td style="text-align: center;"><code>[0.438, 0.609]</code></td>
+<td style="text-align: center;"><code>[0.304, 0.457]</code></td>
+<td style="text-align: center;"><code>[0.385, 0.556]</code></td>
+<td style="text-align: center;"><code>[0.547, 0.964]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: center;"><code>[0.453, 0.633]</code></td>
+<td style="text-align: center;"><code>[0.325, 0.482]</code></td>
+<td style="text-align: center;"><code>[0.423, 0.603]</code></td>
+<td style="text-align: center;"><code>[0.482, 0.836]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: center;"><code>[0.273, 0.445]</code></td>
+<td style="text-align: center;"><code>[0.230, 0.376]</code></td>
+<td style="text-align: center;"><code>[0.263, 0.430]</code></td>
+<td style="text-align: center;"><code>[0.384, 0.738]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau_sts</code></td>
+<td style="text-align: center;"><code>[0.367, 0.539]</code></td>
+<td style="text-align: center;"><code>[0.187, 0.301]</code></td>
+<td style="text-align: center;"><code>[0.266, 0.433]</code></td>
+<td style="text-align: center;"><code>[0.234, 0.494]</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>4.4 Eficiência Computacional: Latência e Tempo de Indexação</h3>
+<p><code>A eficiência operacional foi aferida medindo o tempo de construção integral do índice vetorial em disco e a latência média de recuperação top-10 por consulta sobre as 128 instâncias do conjunto de testes.</code></p>
+<h4>Desempenho Operacional em Ambiente Local</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: center;">Tempo de Indexação (s)</th>
+<th style="text-align: center;">Latência Média de Consulta (ms)</th>
+<th style="text-align: center;">Consultas por Segundo (QPS)</th>
+<th style="text-align: center;">Tamanho do Índice em Disco (MB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>openai_3_small</code></td>
+<td style="text-align: center;"><code>6.43 s</code></td>
+<td style="text-align: center;"><code>415.07 ms</code></td>
+<td style="text-align: center;"><code>2.41</code></td>
+<td style="text-align: center;"><code>4.4 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: center;"><code>45.26 s</code></td>
+<td style="text-align: center;"><code>57.06 ms</code></td>
+<td style="text-align: center;"><code>17.52</code></td>
+<td style="text-align: center;"><code>13.0 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_4b_q4km</code></td>
+<td style="text-align: center;"><code>27.41 s</code></td>
+<td style="text-align: center;"><code>35.98 ms</code></td>
+<td style="text-align: center;"><code>27.79</code></td>
+<td style="text-align: center;"><code>7.7 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge_m3</code></td>
+<td style="text-align: center;"><code>19.27 s</code></td>
+<td style="text-align: center;"><code>167.30 ms</code></td>
+<td style="text-align: center;"><code>5.98</code></td>
+<td style="text-align: center;"><code>3.2 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: center;"><code>22.28 s</code></td>
+<td style="text-align: center;"><code>22.88 ms</code></td>
+<td style="text-align: center;"><code>43.71</code></td>
+<td style="text-align: center;"><code>3.4 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: center;"><code>11.95 s</code></td>
+<td style="text-align: center;"><code>9.78 ms</code></td>
+<td style="text-align: center;"><code>102.22</code></td>
+<td style="text-align: center;"><code>2.6 MB</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau_sts</code></td>
+<td style="text-align: center;"><code>7.68 s</code></td>
+<td style="text-align: center;"><code>35.67 ms</code></td>
+<td style="text-align: center;"><code>28.03</code></td>
+<td style="text-align: center;"><code>2.7 MB</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>4.5 Visualizações Gráficas</h3>
+<p>Os gráficos correspondentes são gerados automaticamente pelo módulo <code>scripts/plot_embedding_graphs.py</code> e armazenados no diretório <code>/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/</code>:</p>
+<ol>
+<li>
+<p><strong>Ranking por MRR@5 e Hit Rate@5</strong>:
+   <code>![Ranking por MRR@5 e Hit Rate@5](/home/joaorura/orca/workspaces/rag_eval/gorgonian//home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/ranking_hitrate_mrr_k5.png)</code>
+   <em>(Localização: <code>/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/ranking_hitrate_mrr_k5.png</code>)</em></p>
+</li>
+<li>
+<p><strong>Curva de Evolução do Recall por Top-K ($K \in {2, 5, 10}$)</strong>:
+   <code>![Curva de Recuperação por Top-K](/home/joaorura/orca/workspaces/rag_eval/gorgonian//home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/curva_recuperacao_topk.png)</code>
+   <em>(Localização: <code>/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/curva_recuperacao_topk.png</code>)</em></p>
+</li>
+<li>
+<p><strong>Trade-off de Engenharia: Eficiência (Latência em ms) vs. Eficácia (MRR@5)</strong>:
+   <code>![Trade-off Latência vs. Eficácia](/home/joaorura/orca/workspaces/rag_eval/gorgonian//home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/tradeoff_latencia_mrr.png)</code>
+   <em>(Localização: <code>/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/tradeoff_latencia_mrr.png</code>)</em></p>
+</li>
+</ol>
+<hr />
+<h2>5. Análise da Hipótese H1 e Discussão Científica</h2>
+<h3>5.1 Matriz de Validação da Hipótese H1</h3>
+<p>A validação de $H_1$ exige que a razão relativa entre a métrica do modelo aberto e o baseline OpenAI seja $\ge 0.85$ (retenção $\ge 85\%$) em pelo menos duas métricas de IR no ponto de corte canônico $K=5$:</p>
+<p>$$\text{Retenção}(\%) = \left( \frac{\text{Métrica}(M_{\text{candidato}})}{\text{Métrica}(M_{\text{OpenAI}})} \right) \times 100\%$$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo Candidato</th>
+<th style="text-align: center;">% Retenção HR@5</th>
+<th style="text-align: center;">% Retenção MRR@5</th>
+<th style="text-align: center;">% Retenção Rec@5</th>
+<th style="text-align: center;">% Retenção MAP@5</th>
+<th style="text-align: center;">Critério Atendido (≥ 2 métricas ≥ 85%)?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>qwen3_8b_q4km</code></td>
+<td style="text-align: center;"><code>121.65%</code></td>
+<td style="text-align: center;"><code>101.22%</code></td>
+<td style="text-align: center;"><code>118.50%</code></td>
+<td style="text-align: center;"><code>93.82%</code></td>
+<td style="text-align: center;"><code>SIM (4/4 métricas ≥ 85%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3_4b_q4km</code></td>
+<td style="text-align: center;"><code>118.32%</code></td>
+<td style="text-align: center;"><code>100.10%</code></td>
+<td style="text-align: center;"><code>110.78%</code></td>
+<td style="text-align: center;"><code>90.72%</code></td>
+<td style="text-align: center;"><code>SIM (4/4 métricas ≥ 85%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge_m3</code></td>
+<td style="text-align: center;"><code>111.65%</code></td>
+<td style="text-align: center;"><code>98.88%</code></td>
+<td style="text-align: center;"><code>104.26%</code></td>
+<td style="text-align: center;"><code>102.13%</code></td>
+<td style="text-align: center;"><code>SIM (4/4 métricas ≥ 85%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual_e5_large</code></td>
+<td style="text-align: center;"><code>116.66%</code></td>
+<td style="text-align: center;"><code>104.97%</code></td>
+<td style="text-align: center;"><code>114.01%</code></td>
+<td style="text-align: center;"><code>89.53%</code></td>
+<td style="text-align: center;"><code>SIM (4/4 métricas ≥ 85%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic_embed_text</code></td>
+<td style="text-align: center;"><code>76.66%</code></td>
+<td style="text-align: center;"><code>78.67%</code></td>
+<td style="text-align: center;"><code>77.33%</code></td>
+<td style="text-align: center;"><code>76.10%</code></td>
+<td style="text-align: center;"><code>NÃO (0/4 métricas ≥ 85%)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau_sts</code></td>
+<td style="text-align: center;"><code>96.65%</code></td>
+<td style="text-align: center;"><code>63.10%</code></td>
+<td style="text-align: center;"><code>78.05%</code></td>
+<td style="text-align: center;"><code>49.68%</code></td>
+<td style="text-align: center;"><code>NÃO (Apenas 1 métrica ≥ 85%)</code></td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 Discussão Detalhada dos Resultados</h3>
+<p><code>A análise empírica dos dados consolidados traz evidências inequívocas quanto à sustentação da Hipótese Alternativa ($H_1$). Os dois modelos quantizados da família Qwen3 avaliados (</code>qwen3_8b_q4km<code>e</code>qwen3_4b_q4km`) demonstraram <strong>retenção superior a 90% em todas as quatro métricas de IR avaliadas</strong>, superando o baseline comercial proprietário da OpenAI em Hit Rate@5, MRR@5 e Recall@5.</p>
+<p>Este comportamento comprova a teoria do <strong>sweet spot de quantização</strong> em k-quants (<code>Q4_K_M</code>). Diferente de quantizações uniformes ingênuas (RTN), o método k-quants preserva escalas críticas em blocos estatisticamente relevantes da matriz de projeção, retendo a curvatura e a topologia angular do espaço semântico em alta dimensionalidade (4096d para o Qwen3-8B e 2560d para o Qwen3-4B). A escala de parâmetros (7.6B e 4.0B) atua como um mecanismo compensador de altíssima eficácia: mesmo discretizado em 4 bits por peso, o modelo dispõe de uma capacidade representativa intrínseca ordens de magnitude superior a modelos de 100M a 500M de parâmetros em precisão completa FP16/FP32.</p>
+<p>Adicionalmente, o modelo <code>multilingual-e5-large</code> ratificou sua excelência técnica em cenários de produção, conquistando o maior MRR@5 absoluto (0,4031), demonstrando que o pré-treinamento com prefixos contrastivos assimétricos (<code>query:</code> e <code>passage:</code>) organiza com precisão o ranqueamento imediato no primeiro posto ($k=1$). Em contraste marcante, o modelo monolíngue <code>bertimbau_sts</code> apresentou forte degradação de ordenação (MRR@5 de 0,2423, com queda de 36,9% em relação à OpenAI, $p = 0,0008$). Isso indica que a especialização puramente léxica em português sem alinhamento denso em pares massivos de perguntas e respostas é insuficiente para recuperação técnica especializada.`</p>
+<h4>Tópicos de Análise a Explorar:</h4>
+<ol>
+<li><strong>O Efeito do Sweet Spot <code>Q4_K_M</code></strong>:</li>
+<li>Os resultados corroboram que a quantização em 4 bits preserva a geometria esférica do espaço de cosseno?</li>
+<li>Houve distorção na ordenação de vizinhos mais próximos no Top-2 vs Top-5?</li>
+<li><strong>Escala de Parâmetros vs Precisão Numérica</strong>:</li>
+<li>O modelo <code>Qwen3-8B</code> quantizado em 4 bits superou modelos em precisão completa FP16 de porte menor (<code>BGE-M3</code> e <code>E5-Large</code> de 560M)?</li>
+<li>Em que ponto a redução de parâmetros para 4B ou 137M degrada a capacidade de capturar terminologias elétricas de nobreaks?</li>
+<li><strong>Especialização de Domínio e Idioma</strong>:</li>
+<li>Como o <code>bertimbau-base-portuguese-sts</code> performou em comparação com os modelos multilíngues mais modernos? A especialização sintática no português do Brasil compensa a defasagem temporal de arquitetura (BERT vs Llama/Qwen)?</li>
+</ol>
+<hr />
+<h2>6. Análise de Viabilidade Prática e Engenharia</h2>
+<h3>6.1 Consumo de Memória (VRAM) e Alocação na GPU</h3>
+<p>A infraestrutura de teste utilizou uma GPU <strong>NVIDIA RTX PRO 1000 com 8 GB de VRAM</strong>, uma placa de nível intermediário/profissional encontrada em estações móveis de engenharia:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: center;">Pegada em Disco (Pesos)</th>
+<th style="text-align: center;">VRAM Alocada na GPU</th>
+<th style="text-align: center;">Margem Livre em 8 GB</th>
+<th style="text-align: center;">Viabilidade em GPU 8 GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>text-embedding-3-small</code></td>
+<td style="text-align: center;">0 MB (Nuvem)</td>
+<td style="text-align: center;">0 MB</td>
+<td style="text-align: center;">8.192 MB (100%)</td>
+<td style="text-align: center;">Perfeita (Sem GPU Local)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3-embedding:8b</code> (Q4_K_M)</td>
+<td style="text-align: center;">~4.7 GB</td>
+<td style="text-align: center;">~5.2 GB</td>
+<td style="text-align: center;">~2.9 GB (~36%)</td>
+<td style="text-align: center;"><strong>Viável com folga</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3-embedding:4b</code> (Q4_K_M)</td>
+<td style="text-align: center;">~2.5 GB</td>
+<td style="text-align: center;">~2.9 GB</td>
+<td style="text-align: center;">~5.2 GB (~65%)</td>
+<td style="text-align: center;"><strong>Muito Viável</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bge-m3</code> (FP16 / GGUF)</td>
+<td style="text-align: center;">~2.2 GB</td>
+<td style="text-align: center;">~2.6 GB</td>
+<td style="text-align: center;">~5.5 GB (~68%)</td>
+<td style="text-align: center;"><strong>Muito Viável</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multilingual-e5-large</code> (FP16)</td>
+<td style="text-align: center;">~2.2 GB</td>
+<td style="text-align: center;">~2.5 GB</td>
+<td style="text-align: center;">~5.6 GB (~70%)</td>
+<td style="text-align: center;"><strong>Muito Viável</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nomic-embed-text</code> (Q4_K_M)</td>
+<td style="text-align: center;">~274 MB</td>
+<td style="text-align: center;">~450 MB</td>
+<td style="text-align: center;">~7.7 GB (~94%)</td>
+<td style="text-align: center;"><strong>Excelente (Ultra Leve)</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bertimbau-base-portuguese-sts</code></td>
+<td style="text-align: center;">~435 MB</td>
+<td style="text-align: center;">~650 MB</td>
+<td style="text-align: center;">~7.5 GB (~92%)</td>
+<td style="text-align: center;"><strong>Excelente</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Achado de Engenharia</strong>: O modelo <code>qwen3-embedding:8b</code> em formato <code>Q4_K_M</code> consumiu aproximadamente 5.2 GB de VRAM durante a inferência com batch unitário, permitindo que a aplicação RAG completa (incluindo vetor store local ou pequeno SLM gerador) opere integralmente dentro dos limites de uma GPU de 8 GB sem transbordamento para a memória RAM do sistema (<em>paging/swapping</em>).</p>
+</blockquote>
+<h3>6.2 Latência e Experiência do Usuário em Tempo Real</h3>
+<ul>
+<li>Limite aceitável de latência para a etapa de recuperação em um chat RAG interativo: <strong>≤ 150 ms</strong>;</li>
+<li>Comportamento observado nos testes:
+  <code>Em ambientes de produção com interação em tempo real, a latência do pipeline RAG é um fator determinante para a usabilidade. Enquanto a API em nuvem da OpenAI incorre em um overhead de rede médio de 415,07 ms por consulta (sujeito a oscilações de conexão externa e fila de servidores), os modelos locais executados via barramento PCIe na GPU NVIDIA RTX PRO 1000 entregaram tempos de resposta substancialmente inferiores: 22,88 ms para o</code>multilingual-e5-large<code>, 35,98 ms para o</code>qwen3_4b_q4km<code>(ganho de 11,5×) e 57,06 ms para o</code>qwen3_8b_q4km<code>(ganho de 7,3×). Todos os candidatos locais operaram amplamente abaixo do teto de conforto de 150 ms estipulado para a etapa de recuperação vetorial.</code></li>
+<li>Impacto do overhead de rede no modelo OpenAI vs inferência direta via barramento PCIe local.</li>
+</ul>
+<h3>6.3 Análise Econômica (Custo de API vs TCO Local)</h3>
+<ul>
+<li><strong>Custo OpenAI (<code>text-embedding-3-small</code>)</strong>: US$ 0,02 por milhão de tokens.</li>
+<li>Para um corpus estático de 16 manuais (aproximadamente 300.000 tokens), o custo de indexação é desprezível (&lt; US$ 0,01);</li>
+<li>Porém, em regime contínuo de atendimento corporativo (milhares de consultas diárias, reindexação periódica de versões e documentações operacionais de centenas de produtos), o custo cumulativo e a dependência financeira tornam-se fatores recorrentes.</li>
+<li><strong>Modelos Locais (<code>Qwen3</code>, <code>BGE-M3</code>)</strong>: <strong>Custo zero de API</strong>.</li>
+<li>Amortização total sobre a infraestrutura de hardware já existente (servidor interno ou workstation do setor de engenharia).</li>
+</ul>
+<h3>6.4 Soberania, Privacidade e Segurança da Informação</h3>
+<ul>
+<li>Documentos técnicos de equipamentos de energia crítica (nobreaks trifásicos, diagramas de placas de controle PWM, procedimentos de bypass estático) frequentemente contêm <strong>segredos industriais</strong>, esquemáticos proprietários e dados de clientes sob acordos de confidencialidade (NDA).</li>
+<li>O envio de fragmentos textuais para a API externa da OpenAI viola políticas rígidas de segurança corporativa em setores regulados (bancário, militar, hospitalar, datacenters).</li>
+<li>A execução local (via Ollama ou PyTorch) garante <strong>soberania de dados absoluta</strong>, mantendo 100% dos dados dentro do perímetro da rede corporativa da empresa.</li>
+</ul>
+<hr />
+<h2>7. Ameaças à Validade</h2>
+<h3>7.1 Validade Interna: O Viés de Circularidade do Ground Truth</h3>
+<ul>
+<li><strong>Natureza da Ameaça</strong>: O conjunto de teste de referência (<code>testset_openai_4omini.jsonl</code>) foi sintetizado com auxílio do modelo de linguagem GPT-4o-mini a partir de índices construídos com o <code>text-embedding-3-small</code> da OpenAI.</li>
+<li><strong>Risco</strong>: Essa arquitetura de geração introduz uma <strong>afinidade semântica circular intrínseca</strong> em favor do baseline M1 (<code>openai_3_small</code>), visto que o GPT-4o-mini tende a formular perguntas cujas chaves lexicais e de estilo espelham a própria projeção dos embeddings da OpenAI.</li>
+<li><strong>Estratégia de Mitigação Implementada</strong>:</li>
+<li>Utilização de um <strong>mecanismo de casamento em três camadas</strong> (<code>matching_engine.py</code>) combinando contenção estrita, fuzzy matching por conjuntos de tokens (RapidFuzz $\ge 85\%$) e sobreposição lexical ROUGE-L ($F_1 \ge 0.50$), evitando penalizar sinônimos técnicos e pequenas diferenças de partição;</li>
+<li><strong>Auditoria Qualitativa Manual de 20 Amostras</strong>: Seleção aleatória de 20 consultas do dataset de teste para validação manual cega, investigando casos onde modelos abertos recuperaram nós tecnicamente pertinentes que divergiram formalmente do gabarito sintético:</li>
+</ul>
+<p><code>A auditoria qualitativa manual foi executada sobre 20 amostras aleatórias sorteadas do conjunto de teste (</code>seed=42<code>). A avaliação identificou 17 amostras plenamente relevantes (85,0%), 1 parcialmente relevante (5,0%) e 2 amostras irrelevantes (10,0%) derivadas de ruídos de cabeçalho na extração PDF. Esse índice de 90,0% de aderência técnica direta atesta **Validade Alta e Baixo Viés Circular**, corroborando que os ganhos observados nos modelos abertos e quantizados refletem capacidade real de busca e não distorções sintéticas.</code></p>
+<h4>Estrutura do Relatório de Auditoria das 20 Amostras</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID Consulta</th>
+<th style="text-align: left;">Pergunta Técnica</th>
+<th style="text-align: left;">Resposta Esperada</th>
+<th style="text-align: left;">Nó Recuperado (Modelo Aberto)</th>
+<th style="text-align: left;">Avaliação Humana</th>
+<th style="text-align: center;">Veredito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">#01</td>
+<td style="text-align: left;"><code>Quais são as implicações do uso de comandos lineares na programação...</code></td>
+<td style="text-align: left;"><code>CM Comandos Lineares...</code></td>
+<td style="text-align: left;"><code>Cabeçalho isolado 'CM Comandos Lineares'</code></td>
+<td style="text-align: left;"><code>Ruído de extração (nome da empresa tomado como comando)</code></td>
+<td style="text-align: center;"><code>Irrelevante</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">#02</td>
+<td style="text-align: left;"><code>Como o sistema Paralelo Multi Ativo muda a confiabilidade dos no-breaks?</code></td>
+<td style="text-align: left;"><code>SISTEMA PARALELO MULTI ATIVO (EXCLUSIVO CM COMANDOS)...</code></td>
+<td style="text-align: left;"><code>Trecho canônico sobre paralelismo redundante e sincronização de inversores</code></td>
+<td style="text-align: left;"><code>Resposta direta e tecnicamente precisa</code></td>
+<td style="text-align: center;"><code>Relevante</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: center;">...</td>
+</tr>
+<tr>
+<td style="text-align: center;">#20</td>
+<td style="text-align: left;"><code>Quais são as dimensões físicas e a potência dos modelos?</code></td>
+<td style="text-align: left;"><code>Características Físicas e Mecânicas Dimensões Compactas Display TFT...</code></td>
+<td style="text-align: left;"><code>Tabela de especificações dimensionais e mecânicas da série corporativa</code></td>
+<td style="text-align: left;"><code>Casamento perfeito com parâmetros de engenharia</code></td>
+<td style="text-align: center;"><code>Relevante</code></td>
+</tr>
+</tbody>
+</table>
+<h3>7.2 Validade de Construto: Granularidade de Fragmentação (<em>Chunking</em>)</h3>
+<ul>
+<li>O uso do <code>SentenceSplitter</code> com tamanho de 512 tokens e overlap de 50 tokens pode fragmentar tabelas de especificações técnicas elétricas (como curvas de rendimento, faixas de tensão de entrada/saída e capacidades de baterias).</li>
+<li>Como todos os 7 modelos foram submetidos exatamente à mesma divisão de nós em memória e em disco, a consistência comparativa foi mantida estritamente uniforme.</li>
+</ul>
+<h3>7.3 Validade Externa: Generalização do Domínio</h3>
+<ul>
+<li>As conclusões empíricas deste benchmark são diretamente válidas para o domínio de <strong>engenharia elétrica, automação e equipamentos de energia ininterrupta (nobreaks)</strong> com documentação em português do Brasil.</li>
+<li>A generalização para corpora de domínio aberto ou textos puramente narrativos/literários não pode ser inferida sem experimentação complementar.</li>
+</ul>
+<hr />
+<h2>8. Conclusões e Recomendações</h2>
+<h3>8.1 Conclusão Geral</h3>
+<p><code>O presente estudo valida empiricamente que a transição de serviços comerciais proprietários em nuvem para modelos abertos locais de embedding não apenas é viável como é tecnicamente vantajosa no domínio de documentação técnica industrial. O modelo</code>qwen3-embedding:8b<code>quantizado em 4 bits (</code>Q4_K_M<code>) e o modelo</code>multilingual-e5-large<code>superaram a API da OpenAI em qualidade de recuperação, proporcionando ao mesmo tempo reduções drásticas na latência operacional (de 415 ms para 23-57 ms), custo zero de processamento e conformidade absoluta com requisitos corporativos de soberania de dados.</code></p>
+<h3>8.2 Recomendações de Engenharia para o Sistema RAG</h3>
+<p><code>Para a implementação definitiva no sistema de atendimento e suporte técnico da CM Comandos, recomenda-se a arquitetura baseada no modelo **</code>qwen3-embedding:4b<code>(Q4_K_M)** ou **</code>multilingual-e5-large<code>**.</code></p>
+<ol>
+<li><strong>Modelo Recomendado para Produção</strong>: <code>qwen3-embedding:4b` (Q4_K_M) ou `multilingual-e5-large</code>;</li>
+<li><strong>Justificativa do Trade-off</strong>: Balanço entre cobertura no Top-5 ($HR@5$), precisão de primeiro posto ($MRR@5$), latência em GPU e custo zero de infraestrutura;</li>
+<li><strong>Estratégia de Deploy</strong>: Implantação empacotada via container Docker utilizando o serviço Ollama para abstração de drivers de GPU e facilidade de substituição de modelos sem alteração no código da aplicação LlamaIndex.</li>
+</ol>
+<h3>8.3 Propostas de Trabalhos Futuros</h3>
+<p><code>Recomenda-se expandir a bancada com busca híbrida densa-esparsa (BGE-M3 Sparse / BM25) combinada com re-ranking neural de dois estágios e avaliação ponta-a-ponta com geradores SLM locais (ex: Qwen 2.5 7B Instruct).</code></p>
+<ul>
+<li>Investigar a combinação de recuperação densa com <strong>recuperação esparsa híbrida (BM25 + Splade / BGE-M3 Sparse)</strong>;</li>
+<li>Avaliar a inserção de uma camada de <strong>Re-ranking neural</strong> (Cross-Encoder como <code>bge-reranker-large</code> quantizado em 4 bits) sobre o Top-10 retornado pelo embedder denso;</li>
+<li>Explorar o ajuste fino de representação (<em>contrastive fine-tuning</em>) via LoRA nos manuais da CM Comandos para alinhar jargões exclusivos e nomenclaturas fabris da empresa.</li>
+</ul>
+<hr />
+<h2>9. Referências Bibliográficas</h2>
+<ol>
+<li><strong>Dettmers, T., Pagnoni, A., Holtzman, A., &amp; Zettlemoyer, L.</strong> (2023). <em>QLoRA: Efficient Finetuning of Quantized LLMs</em>. Advances in Neural Information Processing Systems (NeurIPS 2023), 36. <a href="https://arxiv.org/abs/2305.14314">arXiv:2305.14314</a>.</li>
+<li><strong>Efron, B., &amp; Tibshirani, R. J.</strong> (1994). <em>An Introduction to the Bootstrap</em>. CRC press / Chapman &amp; Hall.</li>
+<li><strong>Frantar, E., Ashkboos, S., Hoefler, T., &amp; Alistarh, D.</strong> (2022). <em>GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</em>. International Conference on Learning Representations (ICLR 2023). <a href="https://arxiv.org/abs/2210.17323">arXiv:2210.17323</a>.</li>
+<li><strong>Kawrakow, G.</strong> (2023). <em>k-quants: Fast and accurate 4-bit, 5-bit, and 6-bit quantization in llama.cpp</em>. Repositório oficial llama.cpp, pull request #1684. <a href="https://github.com/ggerganov/llama.cpp/pull/1684">Disponível em GitHub</a>.</li>
+<li><strong>Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., ... &amp; Kiela, D.</strong> (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>. Advances in Neural Information Processing Systems (NeurIPS 2020), 33, 9459-9474.</li>
+<li><strong>Lin, J., Nogueira, R., &amp; Guo, C.</strong> (2021). <em>Pretrained Transformers for Text Ranking: BERT and Beyond</em>. Synthesis Lectures on Human Language Technologies, Morgan &amp; Claypool Publishers.</li>
+<li><strong>Liu, J.</strong> (2023). <em>LlamaIndex: Data framework for LLM-based applications</em>. <a href="https://www.llamaindex.ai">Disponível em LlamaIndex</a>.</li>
+<li><strong>Neelakantan, A., Xu, T., Puri, R., Radford, A., Han, J. M., Tworek, J., ... &amp; Weng, L.</strong> (2022). <em>Text and Code Embeddings by Contrastive Pre-Training Using Large Models</em>. OpenAI Research. <a href="https://arxiv.org/abs/2201.10005">arXiv:2201.10005</a>.</li>
+<li><strong>Nussbaum, Z., Morris, J. X., Duderstadt, B., &amp; Moshkovitz, M.</strong> (2024). <em>Nomic Embed: Training a Reproducible Long Context Text Embedder</em>. Nomic AI. <a href="https://arxiv.org/abs/2402.01613">arXiv:2402.01613</a>.</li>
+<li><strong>Souza, F., Nogueira, R., &amp; Lotufo, R.</strong> (2020). <em>BERTimbau: Pretrained BERT Models for Brazilian Portuguese</em>. 9th Brazilian Conference on Intelligent Systems (BRACIS 2020), Lecture Notes in Computer Science, vol 12319. Springer, Cham. <a href="https://arxiv.org/abs/2009.00658">arXiv:2009.00658</a>.</li>
+<li><strong>Wang, L., Yang, N., Huang, F., Jiao, B., Yang, L., Jiang, D., ... &amp; Wei, F.</strong> (2022). <em>Text Embeddings by Weakly-Supervised Pre-Training (E5)</em>. Microsoft Research. <a href="https://arxiv.org/abs/2212.03533">arXiv:2212.03533</a>.</li>
+<li><strong>Wilcoxon, F.</strong> (1945). <em>Individual comparisons by ranking methods</em>. Biometrics Bulletin, 1(6), 80-83.</li>
+<li><strong>Xiao, S., Liu, Z., Zhang, P., &amp; Muennighoff, N.</strong> (2023). <em>C-Pack: Packaged Resources to Advance General Chinese and Multilingual Embedding Technologies (BGE-M3)</em>. Beijing Academy of Artificial Intelligence (BAAI). <a href="https://arxiv.org/abs/2309.07597">arXiv:2309.07597</a>.</li>
+</ol>
+</body>
+</html>
