@@ -1,0 +1,5 @@
+model_id,provider,dimension,quantization,sample_size,gpu_latency_ms,cpu_mean_latency_ms,cpu_std_latency_ms,cpu_median_latency_ms,cpu_min_latency_ms,cpu_max_latency_ms,slowdown_ratio,gpu_speedup
+multilingual_e5_large,huggingface,1024,FP32,20,22.88,2850.85,606.7,2688.54,2108.22,4221.1,124.61,124.61
+bertimbau_sts,huggingface,768,FP32,20,35.67,1439.92,520.58,1266.18,878.0,2713.81,40.37,40.37
+qwen3_4b_q4km,ollama,2560,Q4_K_M,20,35.98,870.72,380.34,860.73,351.6,1750.48,24.2,24.2
+nomic_embed_text,ollama,768,FP16/FP32,20,9.78,50.5,15.18,45.79,34.69,92.15,5.16,5.16
