@@ -101,7 +101,7 @@ style: |
 ## Recuperação de Informação Técnica em Documentos de Nobreaks
 ### Modelos Proprietários vs. Abertos Quantizados em 4-bit (Q4_K_M)
 
-**Autor:** João Vitor Rura  
+**Autor:** João Messias Lima Pereira  
 **Contexto:** Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia / Ciência da Computação  
 **Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6 VRAM)  
 **Corpus:** 16 Manuais Técnicos CM Comandos Lineares | **Data:** Setembro / 2026
@@ -378,7 +378,7 @@ p2.font.color.rgb = RGBColor(43, 108, 176)
 p2.space_before = Pt(14)
 
 p3 = tf.add_paragraph()
-p3.text = "Autor: João Vitor Rura  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
+p3.text = "Autor: João Messias Lima Pereira  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
 p3.font.size = Pt(13)
 p3.font.color.rgb = RGBColor(113, 128, 150)
 p3.space_before = Pt(28)

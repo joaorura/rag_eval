@@ -58,7 +58,7 @@ p2.font.color.rgb = RGBColor(43, 108, 176)
 p2.space_before = Pt(14)
 
 p3 = tf.add_paragraph()
-p3.text = "Autor: João Vitor Rura  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
+p3.text = "Autor: João Messias Lima Pereira  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
 p3.font.size = Pt(13)
 p3.font.color.rgb = RGBColor(113, 128, 150)
 p3.space_before = Pt(28)

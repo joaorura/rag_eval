@@ -152,7 +152,7 @@ style: |
 # Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)
 ## Soberania de Dados e Alta Precisão em Manuais Técnicos com Modelos Locais Quantizados
 
-**Autor:** João Vitor Rura | Projeto de Pesquisa Científica e Tecnológica (ICT)  
+**Autor:** João Messias Lima Pereira | Projeto de Pesquisa Científica e Tecnológica (ICT)  
 **Hardware de Execução:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) | Intel Core Ultra 7 | 32 GB RAM  
 **Estudo de Caso & Parceria:** CM Comandos Lineares | Setembro / 2026
 
@@ -299,7 +299,7 @@ style: |
 
 ---
 
-## 9. Recomendações Práticas de Implantação para a CM Comandos
+## 9. Recomendações de Implantação: Ambientes com Workstation GPU
 
 <div class="grid-2">
 <div class="col-text">
@@ -333,17 +333,64 @@ style: |
 </div>
 
 <div class="card-box" style="margin-top: 10px;">
-<b>Conclusão Executiva:</b> Ambos os cenários operam 100% desconectados da internet (<i>air-gapped</i>), com $0 de custo de API e soberania absoluta sobre os manuais da CM Comandos.
+<b>Conclusão Executiva:</b> Ambos os cenários operam 100% desconectados da internet (<i>air-gapped</i>), com $0 de custo de API e soberania total. Para servidores corporativos sem GPU, ver arquitetura no Slide 10.
 </div>
 
 ---
 
-## 10. Impacto do Projeto de ICT e Próximos Passos
+## 10. Arquitetura de Produção: Servidor em CPU (Sem GPU Dedicada)
+
+<div class="grid-2">
+<div class="col-text">
+
+<div class="card-box">
+<h3>Evidências Empíricas em CPU (Intel Ultra 7 / Xeon)</h3>
+
+- **`multilingual_e5_large` (ONNX INT8)**:
+  - Apenas **107 ms na CPU** (< 1.5 GB RAM)
+  - Retém MRR@5 de **0.4031** (superior aos 0.3840 da OpenAI Cloud que leva 415 ms!)
+- **`multilingual_e5_base` (ONNX INT8)**:
+  - Roda em apenas **53 ms na CPU** (< 800 MB RAM)
+- **`nomic_embed_text` (GGUF)**:
+  - Tempo de apenas **50 ms na CPU**
+- **Diretriz Crítica de Re-ranking em CPU**:
+  - SLMs generativos de 4B e 8B (`Qwen3-Reranker`) são <b>inviáveis em tempo real na CPU</b> (> 20s/consulta).
+</div>
+
+</div>
+<div class="col-text">
+
+<div class="card-box" style="border-left-color: #38a169;">
+<h3>Opção Principal: 1º Estágio Puro / Híbrido 🥇</h3>
+
+- **Arquitetura**: <code>Multilingual-E5-Large (ONNX INT8)</code> puro ou Busca Híbrida densa + BM25 via Reciprocal Rank Fusion (RRF).
+- **Tempo Total**: <b>~110 ms</b> | <b>Zero GPU</b> | <b>&lt; 2 GB RAM</b>.
+- Resposta instantânea, alta acurácia e custo zero de API.
+</div>
+
+<div class="card-box" style="border-left-color: #805ad5; margin-top: 8px;">
+<h3>Opção Alternativa: Re-ranking Leve em CPU ⚡</h3>
+
+- **Arquitetura**: <code>Multilingual-E5-Large</code> (1º estágio) + Cross-Encoder <code>BGE-Reranker-v2-m3 (ONNX INT8)</code>.
+- Pool reduzido para <b>K_cand = 5 ou 8 candidatos</b> (em vez de 20).
+- **Tempo Total**: <b>~1.5s a 2.0s na CPU</b> | <b>Zero GPU</b>.
+</div>
+
+</div>
+</div>
+
+<div class="card-box" style="margin-top: 10px;">
+<b>Recomendação Final CM Comandos:</b> Para a infraestrutura de servidor sem GPU, a Opção Principal (E5-Large ONNX INT8) atinge latência ultra-baixa (~110 ms) com qualidade superior à API da OpenAI a custo zero.
+</div>
+
+---
+
+## 11. Impacto do Projeto de ICT e Próximos Passos
 
 - **Principais Conquistas e Validações Científicas**:
   - **Quebra de Paradigma**: Modelos abertos locais quantizados superam soluções comerciais proprietárias em tarefas técnicas de recuperação de informação eletrotécnica.
-  - **Soberania & Custo Zero**: Viabilidade técnica comprovada de RAG Two-Stage de alta fidelidade em hardware pessoal/workstation de 8 GB GDDR6.
-  - **Blindagem de Ativos**: Proteção absoluta de segredos industriais e propriedade intelectual da CM Comandos.
+  - **Viabilidade em GPU (8 GB) e CPU Pura**: Comprovação de RAG Two-Stage em workstation e inferência sub-110 ms em CPU corporativa comum.
+  - **Soberania & Custo Zero**: Blindagem de segredos industriais da CM Comandos sem dependência de nuvem.
 
 - **Próximos Passos Tecnológicos**:
   - **Pipeline de Geração (3º Estágio)**: Avaliação de SLMs locais instruídos (ex.: Qwen-2.5-7B, Llama-3.1-8B) com restrição estrita de aterramento (*grounding*) e citação de páginas dos manuais.
@@ -356,10 +403,10 @@ style: |
 
 ### Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)
 
-**Autor:** João Vitor Rura  
+**Autor:** João Messias Lima Pereira  
 **Linha de Pesquisa:** Projeto de Pesquisa Científica e Tecnológica (ICT)  
 **Instituições:** Universidade & CM Comandos Lineares  
-**Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)
+**Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)
 
 *Repositório, códigos-fonte, pipelines e relatórios consolidados disponíveis para auditoria técnica.*
 """
@@ -441,7 +488,7 @@ def build_pptx_presentation(output_path: str, base_dir: str) -> None:
     p1_sub.space_before = Pt(16)
 
     p1_meta = tf1.add_paragraph()
-    p1_meta.text = "Autor: João Vitor Rura  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Estudo de Caso: CM Comandos Lineares  |  Setembro / 2026"
+    p1_meta.text = "Autor: João Messias Lima Pereira  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)  |  Estudo de Caso: CM Comandos Lineares  |  Setembro / 2026"
     p1_meta.font.size = Pt(12)
     p1_meta.font.color.rgb = color_muted
     p1_meta.space_before = Pt(28)
@@ -670,10 +717,10 @@ def build_pptx_presentation(output_path: str, base_dir: str) -> None:
                size=11, space_before=8)
 
     # =========================================================================
-    # SLIDE 9: Recomendações Práticas de Implantação para a CM Comandos
+    # SLIDE 9: Recomendações de Implantação: Ambientes com Workstation GPU
     # =========================================================================
     s9 = prs.slides.add_slide(blank_layout)
-    add_header(s9, "Recomendações Práticas de Implantação para a CM Comandos")
+    add_header(s9, "Recomendações de Implantação: Ambientes com Workstation GPU")
 
     # Card 1: Tempo Real
     add_card_box(s9, Inches(0.8), Inches(1.55), Inches(5.7), Inches(4.5))
@@ -681,7 +728,7 @@ def build_pptx_presentation(output_path: str, base_dir: str) -> None:
     tf_c1 = tb_c1.text_frame
     tf_c1.word_wrap = True
     p_c1_t = tf_c1.paragraphs[0]
-    p_c1_t.text = "Cenário 1: Tempo Real / Suporte de Campo"
+    p_c1_t.text = "Cenário 1: Tempo Real / Suporte de Campo (Workstation GPU)"
     p_c1_t.font.bold = True
     p_c1_t.font.size = Pt(13)
     p_c1_t.font.color.rgb = color_primary
@@ -699,7 +746,7 @@ def build_pptx_presentation(output_path: str, base_dir: str) -> None:
     tf_c2 = tb_c2.text_frame
     tf_c2.word_wrap = True
     p_c2_t = tf_c2.paragraphs[0]
-    p_c2_t.text = "Cenário 2: Diagnóstico Corretivo Aprofundado"
+    p_c2_t.text = "Cenário 2: Diagnóstico Corretivo Aprofundado (Workstation GPU)"
     p_c2_t.font.bold = True
     p_c2_t.font.size = Pt(13)
     p_c2_t.font.color.rgb = color_primary
@@ -721,62 +768,113 @@ def build_pptx_presentation(output_path: str, base_dir: str) -> None:
     p_f9.font.size = Pt(11)
     p_f9.font.color.rgb = color_primary
     r_f9 = p_f9.add_run()
-    r_f9.text = "Ambos os cenários operam 100% desconectados da internet (air-gapped), com $0 de custo de API e soberania absoluta sobre a propriedade intelectual da CM Comandos Lineares."
+    r_f9.text = "Ambos os cenários operam 100% desconectados da internet (air-gapped), com $0 de custo de API. Para servidores corporativos sem GPU, ver arquitetura no Slide 10."
     r_f9.font.bold = False
     r_f9.font.color.rgb = color_dark_text
 
     # =========================================================================
-    # SLIDE 10: Impacto do Projeto de ICT e Próximos Passos
+    # SLIDE 10: Arquitetura de Produção: Servidor em CPU (Sem GPU Dedicada)
     # =========================================================================
     s10 = prs.slides.add_slide(blank_layout)
-    add_header(s10, "Impacto do Projeto de ICT e Próximos Passos")
+    add_header(s10, "Arquitetura de Produção: Servidor em CPU (Sem GPU Dedicada)")
 
-    tb10 = s10.shapes.add_textbox(Inches(0.8), Inches(1.55), Inches(11.733), Inches(5.5))
-    tf10 = tb10.text_frame
-    tf10.word_wrap = True
+    # Card 1: Evidências na CPU
+    add_card_box(s10, Inches(0.8), Inches(1.55), Inches(5.7), Inches(4.5))
+    tb_cpu1 = s10.shapes.add_textbox(Inches(0.95), Inches(1.65), Inches(5.4), Inches(4.3))
+    tf_cpu1 = tb_cpu1.text_frame
+    tf_cpu1.word_wrap = True
+    p_cpu1_t = tf_cpu1.paragraphs[0]
+    p_cpu1_t.text = "Evidências Empíricas em CPU (Intel Ultra / Xeon)"
+    p_cpu1_t.font.bold = True
+    p_cpu1_t.font.size = Pt(13)
+    p_cpu1_t.font.color.rgb = color_primary
 
-    add_bullet(tf10, "Quebra de Paradigma Tecnológico",
+    add_bullet(tf_cpu1, "Multilingual-E5-Large (ONNX INT8)", "Apenas 107 ms na CPU (< 1.5 GB RAM). Retém MRR@5 de 0.4031 — superando a API OpenAI Cloud (0.3840 a 415 ms) com 1/4 da latência!", size=11, space_before=6)
+    add_bullet(tf_cpu1, "Multilingual-E5-Base (ONNX INT8)", "Apenas 53 ms na CPU com alocação < 800 MB de memória RAM.", size=11, space_before=6)
+    add_bullet(tf_cpu1, "Nomic-Embed-Text (GGUF)", "Tempo de resposta de apenas 50 ms na CPU.", size=11, space_before=6)
+    add_bullet(tf_cpu1, "Inviabilidade de SLMs Rerankers", "SLMs generativos de 4B e 8B (Qwen3-Reranker) exigem > 20s em CPU pura, sendo inviáveis para atendimento em tempo real.", size=11, space_before=6)
+
+    # Card 2: Diretrizes Recomendadas
+    add_card_box(s10, Inches(6.833), Inches(1.55), Inches(5.7), Inches(4.5))
+    tb_cpu2 = s10.shapes.add_textbox(Inches(6.983), Inches(1.65), Inches(5.4), Inches(4.3))
+    tf_cpu2 = tb_cpu2.text_frame
+    tf_cpu2.word_wrap = True
+    p_cpu2_t = tf_cpu2.paragraphs[0]
+    p_cpu2_t.text = "Diretrizes Recomendadas para Servidor CPU"
+    p_cpu2_t.font.bold = True
+    p_cpu2_t.font.size = Pt(13)
+    p_cpu2_t.font.color.rgb = color_primary
+
+    add_bullet(tf_cpu2, "Opção Principal (Mais Rápida e Confiável) 🥇", "1º Estágio puro com Multilingual-E5-Large (ONNX INT8) ou busca híbrida densa + BM25 via Reciprocal Rank Fusion (RRF). Tempo total: ~110 ms, Zero GPU, < 2 GB RAM.", size=11, space_before=6)
+    add_bullet(tf_cpu2, "Opção com Re-ranking Leve em CPU ⚡", "Multilingual-E5-Large (1º estágio) + Cross-Encoder BGE-Reranker-v2-m3 (ONNX INT8) com pool reduzido para K_cand = 5 ou 8 candidatos. Tempo total: ~1.5s a 2.0s na CPU.", size=11, space_before=6)
+    add_bullet(tf_cpu2, "Zero Custo & Soberania Total", "Ambas as opções operam de forma determinística no servidor corporativo existente da CM Comandos, sem necessidade de aquisição de placas aceleradoras.", size=11, space_before=6)
+
+    # Rodapé do Slide 10
+    add_card_box(s10, Inches(0.8), Inches(6.2), Inches(11.733), Inches(0.75))
+    tb_foot10 = s10.shapes.add_textbox(Inches(0.95), Inches(6.25), Inches(11.4), Inches(0.65))
+    tf_f10 = tb_foot10.text_frame
+    p_f10 = tf_f10.paragraphs[0]
+    p_f10.text = "Recomendação Operacional: "
+    p_f10.font.bold = True
+    p_f10.font.size = Pt(11)
+    p_f10.font.color.rgb = color_primary
+    r_f10 = p_f10.add_run()
+    r_f10.text = "Para a infraestrutura atual sem GPU, o 1º estágio com Multilingual-E5-Large em ONNX INT8 entrega velocidade instantânea (~110 ms) e precisão superior à API comercial da OpenAI a custo zero."
+    r_f10.font.bold = False
+    r_f10.font.color.rgb = color_dark_text
+
+    # =========================================================================
+    # SLIDE 11: Impacto do Projeto de ICT e Próximos Passos
+    # =========================================================================
+    s11 = prs.slides.add_slide(blank_layout)
+    add_header(s11, "Impacto do Projeto de ICT e Próximos Passos")
+
+    tb11 = s11.shapes.add_textbox(Inches(0.8), Inches(1.55), Inches(11.733), Inches(5.5))
+    tf11 = tb11.text_frame
+    tf11.word_wrap = True
+
+    add_bullet(tf11, "Quebra de Paradigma Tecnológico",
                "Comprovação empírica e com rigor estatístico (Wilcoxon p < 0.05) de que modelos abertos locais superam soluções comerciais proprietárias em tarefas técnicas de recuperação de informação eletrotécnica.",
                size=12, space_before=6)
-    add_bullet(tf10, "Viabilidade em Hardware Pessoal de 8 GB GDDR6",
-               "Demonstração prática de que pipelines Two-Stage de alta fidelidade operam com folga de VRAM e estabilidade térmica em workstations pessoais e notebooks corporativos.",
+    add_bullet(tf11, "Viabilidade em Hardware Pessoal de 8 GB GDDR6 & Servidores CPU",
+               "Demonstração prática de que pipelines Two-Stage de alta fidelidade operam com folga em GPU de 8 GB e que modelos otimizados em ONNX INT8 rodam em apenas 107 ms na CPU.",
                size=12, space_before=12)
-    add_bullet(tf10, "Soberania de Dados e Custo Zero Recorrente",
+    add_bullet(tf11, "Soberania de Dados e Custo Zero Recorrente",
                "Eliminação total de custos recorrentes de APIs comerciais e blindagem estrita de segredos industriais e manuais confidenciais de no-breaks.",
                size=12, space_before=12)
-    add_bullet(tf10, "Próxima Etapa: Pipeline de Geração com SLMs Locais",
+    add_bullet(tf11, "Próxima Etapa: Pipeline de Geração com SLMs Locais",
                "Avaliação de modelos geradores locais (ex.: Qwen-2.5-7B-Instruct, Llama-3.1-8B) integrados aos Top-5 fragmentos para geração de respostas com citação exata de páginas e zero alucinação.",
                size=12, space_before=12)
-    add_bullet(tf10, "Implantação de Piloto Operacional",
+    add_bullet(tf11, "Implantação de Piloto Operacional",
                "Desenvolvimento de protótipo funcional para testes práticos pela equipe de assistência técnica e engenharia de suporte da CM Comandos Lineares.",
                size=12, space_before=12)
 
     # =========================================================================
-    # SLIDE 11: Perguntas & Discussão
+    # SLIDE 12: Perguntas & Discussão Técnica
     # =========================================================================
-    s11 = prs.slides.add_slide(blank_layout)
-    box11 = s11.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(11.333), Inches(4.5))
-    tf11 = box11.text_frame
-    tf11.word_wrap = True
+    s12 = prs.slides.add_slide(blank_layout)
+    box12 = s12.shapes.add_textbox(Inches(1.0), Inches(1.8), Inches(11.333), Inches(4.5))
+    tf12 = box12.text_frame
+    tf12.word_wrap = True
 
-    p11 = tf11.paragraphs[0]
-    p11.text = "Perguntas & Discussão Técnica"
-    p11.font.size = Pt(32)
-    p11.font.bold = True
-    p11.font.color.rgb = color_primary
+    p12 = tf12.paragraphs[0]
+    p12.text = "Perguntas & Discussão Técnica"
+    p12.font.size = Pt(32)
+    p12.font.bold = True
+    p12.font.color.rgb = color_primary
 
-    p11_sub = tf11.add_paragraph()
-    p11_sub.text = "Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)"
-    p11_sub.font.size = Pt(18)
-    p11_sub.font.bold = True
-    p11_sub.font.color.rgb = color_tech_blue
-    p11_sub.space_before = Pt(14)
+    p12_sub = tf12.add_paragraph()
+    p12_sub.text = "Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)"
+    p12_sub.font.size = Pt(18)
+    p12_sub.font.bold = True
+    p12_sub.font.color.rgb = color_tech_blue
+    p12_sub.space_before = Pt(14)
 
-    p11_det = tf11.add_paragraph()
-    p11_det.text = "Autor: João Vitor Rura  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  CM Comandos Lineares\n\nRepositório de dados, pipelines e relatórios técnicos disponíveis para replicação aberta."
-    p11_det.font.size = Pt(12)
-    p11_det.font.color.rgb = color_muted
-    p11_det.space_before = Pt(24)
+    p12_det = tf12.add_paragraph()
+    p12_det.text = "Autor: João Messias Lima Pereira  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)  |  CM Comandos Lineares\n\nRepositório de dados, pipelines e relatórios técnicos disponíveis para replicação aberta."
+    p12_det.font.size = Pt(12)
+    p12_det.font.color.rgb = color_muted
+    p12_det.space_before = Pt(24)
 
     prs.save(output_path)
 

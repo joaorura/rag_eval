@@ -7,7 +7,7 @@
 - **Título**: Análise Comparativa de Modelos de Embedding para Recuperação de Informação em Documentos Técnicos de Nobreaks
 - **Subtítulo**: Avaliação Empírica de Modelos Proprietários, Multilíngues e Abertos Quantizados em 4 bits (Q4_K_M) em Arquitetura RAG Especializada
 - **Contexto**: Projeto de Pesquisa Científica e Tecnológica (ICT) em Engenharia / Ciência da Computação
-- **Autor / Pesquisador**: João Vitor Rura
+- **Autor / Pesquisador**: João Messias Lima Pereira
 - **Corpus de Teste**: 16 Manuais e Especificações Técnicas de Nobreaks e Sistemas de Energia Crítica (CM Comandos Lineares)
 - **Data da Avaliação**: `29 de Setembro de 2026` (Exemplo: Setembro de 2026)
 - **Status do Relatório**: Template Estruturado para Preenchimento Pós-Benchmark

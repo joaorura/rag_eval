@@ -97,7 +97,7 @@ style: |
 # Avaliação de Re-ranking Neural em Dois Estágios (Two-Stage RAG)
 ### Otimização da Precisão em Manuais Técnicos Industriais com Modelos Quantizados Locais
 
-**Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação**
+**Autor:** João Messias Lima Pereira | Projeto de Pesquisa Científica e Tecnológica (ICT)  
 *Hardware de Execução:* NVIDIA RTX PRO 1000 Blackwell (8 GB GDDR6) | Intel Core Ultra 7 265H | 32 GB RAM
 *Estudo de Caso:* 16 Manuais de No-breaks Industriais — CM Comandos Lineares
 

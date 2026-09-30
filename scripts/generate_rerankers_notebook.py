@@ -37,6 +37,7 @@ def build_and_run_notebook(
     # Célula 1: Título e Metadata
     cells.append(new_markdown_cell("""# Avaliação Científica de Re-ranking Neural em Dois Estágios (Two-Stage RAG)
 ## Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação
+**Autor:** João Messias Lima Pereira  
 **Estudo de Caso:** Recuperação de Informação em Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares)  
 **Hardware de Execução:** NVIDIA RTX PRO 1000 Blackwell Laptop GPU (8 GB GDDR6), Intel Core Ultra 7 265H CPU, 32 GB RAM  
 **Ambiente de Inferência:** Ollama (LLaMA C++ / GGML), HuggingFace Sentence-Transformers, OpenAI API (RankGPT Baseline)

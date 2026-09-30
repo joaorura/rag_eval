@@ -112,7 +112,7 @@ style: |
 # Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)
 ## Soberania de Dados e Alta Precisão em Manuais Técnicos com Modelos Locais Quantizados
 
-**Autor:** João Vitor Rura | Projeto de Pesquisa Científica e Tecnológica (ICT)  
+**Autor:** João Messias Lima Pereira | Projeto de Pesquisa Científica e Tecnológica (ICT)  
 **Hardware de Execução:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) | Intel Core Ultra 7 | 32 GB RAM  
 **Estudo de Caso & Parceria:** CM Comandos Lineares | Setembro / 2026
 
@@ -259,7 +259,7 @@ style: |
 
 ---
 
-## 9. Recomendações Práticas de Implantação para a CM Comandos
+## 9. Recomendações de Implantação: Ambientes com Workstation GPU
 
 <div class="grid-2">
 <div class="col-text">
@@ -293,17 +293,64 @@ style: |
 </div>
 
 <div class="card-box" style="margin-top: 10px;">
-<b>Conclusão Executiva:</b> Ambos os cenários operam 100% desconectados da internet (<i>air-gapped</i>), com $0 de custo de API e soberania absoluta sobre os manuais da CM Comandos.
+<b>Conclusão Executiva:</b> Ambos os cenários operam 100% desconectados da internet (<i>air-gapped</i>), com $0 de custo de API e soberania total. Para servidores corporativos sem GPU, ver arquitetura no Slide 10.
 </div>
 
 ---
 
-## 10. Impacto do Projeto de ICT e Próximos Passos
+## 10. Arquitetura de Produção: Servidor em CPU (Sem GPU Dedicada)
+
+<div class="grid-2">
+<div class="col-text">
+
+<div class="card-box">
+<h3>Evidências Empíricas em CPU (Intel Ultra 7 / Xeon)</h3>
+
+- **`multilingual_e5_large` (ONNX INT8)**:
+  - Apenas **107 ms na CPU** (< 1.5 GB RAM)
+  - Retém MRR@5 de **0.4031** (superior aos 0.3840 da OpenAI Cloud que leva 415 ms!)
+- **`multilingual_e5_base` (ONNX INT8)**:
+  - Roda em apenas **53 ms na CPU** (< 800 MB RAM)
+- **`nomic_embed_text` (GGUF)**:
+  - Tempo de apenas **50 ms na CPU**
+- **Diretriz Crítica de Re-ranking em CPU**:
+  - SLMs generativos de 4B e 8B (`Qwen3-Reranker`) são <b>inviáveis em tempo real na CPU</b> (> 20s/consulta).
+</div>
+
+</div>
+<div class="col-text">
+
+<div class="card-box" style="border-left-color: #38a169;">
+<h3>Opção Principal: 1º Estágio Puro / Híbrido 🥇</h3>
+
+- **Arquitetura**: <code>Multilingual-E5-Large (ONNX INT8)</code> puro ou Busca Híbrida densa + BM25 via Reciprocal Rank Fusion (RRF).
+- **Tempo Total**: <b>~110 ms</b> | <b>Zero GPU</b> | <b>&lt; 2 GB RAM</b>.
+- Resposta instantânea, alta acurácia e custo zero de API.
+</div>
+
+<div class="card-box" style="border-left-color: #805ad5; margin-top: 8px;">
+<h3>Opção Alternativa: Re-ranking Leve em CPU ⚡</h3>
+
+- **Arquitetura**: <code>Multilingual-E5-Large</code> (1º estágio) + Cross-Encoder <code>BGE-Reranker-v2-m3 (ONNX INT8)</code>.
+- Pool reduzido para <b>K_cand = 5 ou 8 candidatos</b> (em vez de 20).
+- **Tempo Total**: <b>~1.5s a 2.0s na CPU</b> | <b>Zero GPU</b>.
+</div>
+
+</div>
+</div>
+
+<div class="card-box" style="margin-top: 10px;">
+<b>Recomendação Final CM Comandos:</b> Para a infraestrutura de servidor sem GPU, a Opção Principal (E5-Large ONNX INT8) atinge latência ultra-baixa (~110 ms) com qualidade superior à API da OpenAI a custo zero.
+</div>
+
+---
+
+## 11. Impacto do Projeto de ICT e Próximos Passos
 
 - **Principais Conquistas e Validações Científicas**:
   - **Quebra de Paradigma**: Modelos abertos locais quantizados superam soluções comerciais proprietárias em tarefas técnicas de recuperação de informação eletrotécnica.
-  - **Soberania & Custo Zero**: Viabilidade técnica comprovada de RAG Two-Stage de alta fidelidade em hardware pessoal/workstation de 8 GB GDDR6.
-  - **Blindagem de Ativos**: Proteção absoluta de segredos industriais e propriedade intelectual da CM Comandos.
+  - **Viabilidade em GPU (8 GB) e CPU Pura**: Comprovação de RAG Two-Stage em workstation e inferência sub-110 ms em CPU corporativa comum.
+  - **Soberania & Custo Zero**: Blindagem de segredos industriais da CM Comandos sem dependência de nuvem.
 
 - **Próximos Passos Tecnológicos**:
   - **Pipeline de Geração (3º Estágio)**: Avaliação de SLMs locais instruídos (ex.: Qwen-2.5-7B, Llama-3.1-8B) com restrição estrita de aterramento (*grounding*) e citação de páginas dos manuais.
@@ -316,9 +363,9 @@ style: |
 
 ### Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking)
 
-**Autor:** João Vitor Rura  
+**Autor:** João Messias Lima Pereira  
 **Linha de Pesquisa:** Projeto de Pesquisa Científica e Tecnológica (ICT)  
 **Instituições:** Universidade & CM Comandos Lineares  
-**Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)
+**Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)
 
 *Repositório, códigos-fonte, pipelines e relatórios consolidados disponíveis para auditoria técnica.*

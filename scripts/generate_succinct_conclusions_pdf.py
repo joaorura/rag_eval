@@ -17,8 +17,8 @@ import subprocess
 
 def generate_succinct_pdf() -> None:
     base_dir = os.path.abspath(".")
-    html_out = os.path.join(base_dir, "docs", "conclusoes_finais_tcc.html")
-    pdf_out = os.path.join(base_dir, "docs", "conclusoes_finais_tcc.pdf")
+    html_out = os.path.join(base_dir, "docs", "conclusoes_finais_ict.html")
+    pdf_out = os.path.join(base_dir, "docs", "conclusoes_finais_ict.pdf")
 
     html_content = """<!DOCTYPE html>
 <html lang="pt-BR">
@@ -191,8 +191,9 @@ def generate_succinct_pdf() -> None:
     <div class="header-kicker">Projeto de Pesquisa Científica e Tecnológica (ICT) — Síntese Executiva de Decisão</div>
     <h1>Avaliação Comparativa de Embeddings e Re-ranking (Two-Stage RAG)</h1>
     <div class="subtitle">
+        <strong>Autor:</strong> João Messias Lima Pereira |
         <strong>Estudo de Caso:</strong> 16 Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares) |
-        <strong>Hardware:</strong> NVIDIA RTX PRO 1000 Blackwell (8 GB GDDR6)
+        <strong>Hardware:</strong> NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)
     </div>
 </div>
 
@@ -313,23 +314,35 @@ def generate_succinct_pdf() -> None:
     <strong>Resultado Científico Central:</strong> Todos os modelos locais de re-ranking (BGE-v2-m3, Qwen3-4B e Qwen3-8B) <strong>superaram o modelo comercial da OpenAI (RankGPT gpt-4o-mini)</strong> em MRR@5. Na base E5-Large, o ganho da OpenAI <em>não atingiu significância estatística</em> (p = 0.0510), enquanto os modelos locais comprovaram ganho com p &lt; 0.05.
 </div>
 
+<div class="page-break"></div>
+
 <h2>3. Principais Conclusões para o Projeto de Pesquisa (ICT)</h2>
 
 <ul>
     <li><strong>A Eficácia do Two-Stage RAG:</strong> O re-ranking sobre 20 candidatos elevou o MRR@5 de <strong>0.3887 para 0.5029 (+29.4%)</strong> na base Qwen3-8B e de <strong>0.4031 para 0.4982 (+23.6%)</strong> na base E5-Large.</li>
     <li><strong>Resgate Expressivo de Passagens Relevantes:</strong> O Hit Rate@5 subiu de 54.7% para <strong>65.6% (+10.9 pontos percentuais)</strong> com o Qwen3-8B, demonstrando que o re-ranking resgata com precisão fragmentos que estavam dispersos nas posições 6 a 20 do pool.</li>
     <li><strong>Por que Modelos Locais Vencem a OpenAI?</strong> Cross-encoders e SLMs treinados especificamente com função de perda para ranqueamento de passagens (atenção cruzada bidirecional entre tokens) superam LLMs genéricas que reordenam por indução de texto listwise via prompt.</li>
-    <li><strong>Viabilidade Operacional em GPU de 8 GB:</strong> A quantização em 4 e 5 bits (Q4_K_M / Q5_K_M) viabilizou modelos de até 8 bilhões de parâmetros sem estouro de memória, com estabilidade absoluta.</li>
+    <li><strong>Viabilidade Operacional em Workstation e CPU Corporativa:</strong> A quantização em 4 e 5 bits viabilizou modelos de até 8B parâmetros em GPU de 8 GB, enquanto a execução em ONNX INT8 permitiu latência sub-110 ms em CPU comum sem acelerador gráfico.</li>
 </ul>
 
 <h2>4. Recomendação de Implantação para a CM Comandos Lineares</h2>
 
-<ol>
-    <li><strong>Para Atendimento em Tempo Real / Assistente Técnico:</strong>  
-        Adotar o pipeline <strong><code>Multilingual-E5-Large</code> + <code>BGE-Reranker-v2-m3</code></strong>. Tempo de resposta ponta a ponta de ~1.18 segundo, consumo de ~3.4 GB de VRAM (ambos residentes na memória gráfica), custo zero de API e garantia de que nenhum manual confidencial ou esquemático de no-break trafegará por servidores de terceiros.
+<div class="box-quote" style="background-color: #f7fafc; border-left: 3px solid #4a5568; color: #2d3748; margin: 6px 0; padding: 5px 8px;">
+    <strong>Diretriz Arquitetural para Servidor em Produção (CPU sem GPU dedicada):</strong><br>
+    O servidor corporativo de produção não possui GPU dedicada. Medições empíricas no corpus da CM Comandos comprovam que o <strong>Multilingual-E5-Large em ONNX INT8</strong> atinge <strong>apenas 107 ms na CPU</strong> (&lt; 1.5 GB RAM) com MRR@5 de <strong>0.4031</strong> — superando a API em nuvem da OpenAI (0.3840 a 415 ms) com 1/4 da latência e custo zero. O <strong>Multilingual-E5-Base (ONNX INT8)</strong> roda em 53 ms e o <strong>Nomic-Embed-Text</strong> em 50 ms. Em contrapartida, SLMs generativos de 4B e 8B (Qwen3-Reranker) são <em>inviáveis em tempo real na CPU</em> (&gt; 20s por consulta).
+</div>
+
+<ol style="margin-top: 4px; padding-left: 18px;">
+    <li><strong>Servidor CPU — Opção Principal (Mais Rápida e Confiável) 🥇:</strong>  
+        Adotar o 1º Estágio puro com <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> ou busca híbrida densa + BM25 via Reciprocal Rank Fusion (RRF).  
+        <em>Latência Total:</em> <strong>~110 ms</strong> | <em>Zero GPU</em> | <em>RAM:</em> &lt; 2 GB | <em>Custo:</em> $0.00. Resposta instantânea e superior à nuvem proprietária.
     </li>
-    <li><strong>Para Diagnóstico de Manutenção Corretiva Profunda:</strong>  
-        Empregar o pipeline <strong><code>Multilingual-E5-Large</code> + <code>Qwen3-Reranker-8B (Q5_K_M)</code></strong> para consultas analíticas de falhas e alarmes críticos, alcançando a cobertura máxima de 65.6% de acertos no Top-5.
+    <li><strong>Servidor CPU — Opção com Re-ranking Leve ⚡:</strong>  
+        Empregar <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> (1º estágio) + Cross-Encoder <strong><code>BGE-Reranker-v2-m3 (ONNX INT8)</code></strong> com pool restrito para <strong>$K_{\text{cand}} = 5$ ou $8$ candidatos</strong> (em vez de 20).  
+        <em>Latência Total:</em> <strong>~1.5s a 2.0s na CPU</strong> | <em>Zero GPU</em>. Alta precisão com tempo aceitável para suporte técnico.
+    </li>
+    <li><strong>Ambiente Workstation com GPU (Engenharia de Produto e Perícia Avançada):</strong>  
+        Em estações com GPU de 8 GB GDDR6, utilizar <strong><code>Multilingual-E5-Large</code> + <code>BGE-Reranker-v2-m3</code></strong> (Top-20, ~1.18s, ~3.4 GB VRAM) ou <strong><code>Qwen3-Reranker-8B (Q5_K_M)</code></strong> para perícia complexa de inversores (Hit Rate@5 máximo de 65.6%, ~6.5s).
     </li>
 </ol>
 
@@ -341,21 +354,15 @@ def generate_succinct_pdf() -> None:
         f.write(html_content)
     print(f"HTML sucinto gerado em '{html_out}'.")
 
-    # Também salva como docs/conclusoes_finais_ict.html
-    html_ict = os.path.join(base_dir, "docs", "conclusoes_finais_ict.html")
-    with open(html_ict, "w", encoding="utf-8") as f:
-        f.write(html_content)
-
     cmd_wp = ["/home/joaorura/.local/bin/weasyprint", html_out, pdf_out]
     res_wp = subprocess.run(cmd_wp, capture_output=True, text=True)
     if os.path.exists(pdf_out):
         size_kb = os.path.getsize(pdf_out) / 1024
         print(f"PDF sucinto gerado com sucesso: '{pdf_out}' ({size_kb:.1f} KB).")
-        # Replica para root e docs com nomes descritivos de ICT / Pesquisa
-        shutil.copyfile(pdf_out, os.path.join(base_dir, "conclusoes_finais_tcc.pdf"))
-        shutil.copyfile(pdf_out, os.path.join(base_dir, "conclusoes_finais_ict.pdf"))
-        shutil.copyfile(pdf_out, os.path.join(base_dir, "docs", "conclusoes_finais_ict.pdf"))
-        print("Cópias do PDF distribuídas para 'conclusoes_finais_ict.pdf' e 'conclusoes_finais_tcc.pdf'.")
+        # Replica para root com nome descritivo de ICT / Pesquisa
+        root_pdf = os.path.join(base_dir, "conclusoes_finais_ict.pdf")
+        shutil.copyfile(pdf_out, root_pdf)
+        print(f"Cópia do PDF distribuída para '{root_pdf}'.")
     else:
         print(f"Erro na geração do PDF: {res_wp.stderr[:400]}")
 

@@ -91,7 +91,7 @@ style: |
 ## Recuperação de Informação Técnica em Documentos de Nobreaks
 ### Modelos Proprietários vs. Abertos Quantizados em 4-bit (Q4_K_M)
 
-**Autor:** João Vitor Rura  
+**Autor:** João Messias Lima Pereira  
 **Contexto:** Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia / Ciência da Computação  
 **Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6 VRAM)  
 **Corpus:** 16 Manuais Técnicos CM Comandos Lineares | **Data:** Setembro / 2026
