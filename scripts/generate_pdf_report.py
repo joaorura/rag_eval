@@ -29,7 +29,7 @@ html_full = f"""<!DOCTYPE html>
             color: #666;
         }}
         @bottom-left {{
-            content: "TCC Engenharia / Computação - CM Comandos RAG Eval";
+            content: "Pesquisa Científica e Tecnológica Aplicada (ICT) - CM Comandos RAG Eval";
             font-size: 8pt;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #666;

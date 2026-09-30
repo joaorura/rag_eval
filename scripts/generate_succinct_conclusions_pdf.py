@@ -1,4 +1,4 @@
-"""Gera um PDF sucinto (executivo, 2 páginas) com as conclusões finais do TCC.
+"""Gera um PDF sucinto (executivo, 2 páginas) com as conclusões finais do projeto de pesquisa (ICT).
 
 Destaca claramente:
 - O melhor modelo de embedding: Multilingual-E5-Large
@@ -11,6 +11,7 @@ Destaca claramente:
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 
 
@@ -23,7 +24,7 @@ def generate_succinct_pdf() -> None:
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Síntese Executiva: Melhores Modelos de Embedding e Re-ranking (TCC)</title>
+<title>Síntese Executiva: Melhores Modelos de Embedding e Re-ranking (Pesquisa ICT)</title>
 <style>
     @page {
         size: A4;
@@ -35,7 +36,7 @@ def generate_succinct_pdf() -> None:
             color: #718096;
         }
         @bottom-left {
-            content: "TCC Engenharia / Computação — CM Comandos Lineares & NVIDIA RTX PRO 1000";
+            content: "Pesquisa Científica e Tecnológica Aplicada (ICT) — CM Comandos Lineares & NVIDIA RTX PRO 1000";
             font-size: 8pt;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #718096;
@@ -187,7 +188,7 @@ def generate_succinct_pdf() -> None:
 <body>
 
 <div class="header-box">
-    <div class="header-kicker">Trabalho de Conclusão de Curso — Síntese Executiva de Decisão</div>
+    <div class="header-kicker">Projeto de Pesquisa Científica e Tecnológica (ICT) — Síntese Executiva de Decisão</div>
     <h1>Avaliação Comparativa de Embeddings e Re-ranking (Two-Stage RAG)</h1>
     <div class="subtitle">
         <strong>Estudo de Caso:</strong> 16 Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares) |
@@ -312,7 +313,7 @@ def generate_succinct_pdf() -> None:
     <strong>Resultado Científico Central:</strong> Todos os modelos locais de re-ranking (BGE-v2-m3, Qwen3-4B e Qwen3-8B) <strong>superaram o modelo comercial da OpenAI (RankGPT gpt-4o-mini)</strong> em MRR@5. Na base E5-Large, o ganho da OpenAI <em>não atingiu significância estatística</em> (p = 0.0510), enquanto os modelos locais comprovaram ganho com p &lt; 0.05.
 </div>
 
-<h2>3. Principais Conclusões para o TCC</h2>
+<h2>3. Principais Conclusões para o Projeto de Pesquisa (ICT)</h2>
 
 <ul>
     <li><strong>A Eficácia do Two-Stage RAG:</strong> O re-ranking sobre 20 candidatos elevou o MRR@5 de <strong>0.3887 para 0.5029 (+29.4%)</strong> na base Qwen3-8B e de <strong>0.4031 para 0.4982 (+23.6%)</strong> na base E5-Large.</li>
@@ -340,14 +341,25 @@ def generate_succinct_pdf() -> None:
         f.write(html_content)
     print(f"HTML sucinto gerado em '{html_out}'.")
 
+    # Também salva como docs/conclusoes_finais_ict.html
+    html_ict = os.path.join(base_dir, "docs", "conclusoes_finais_ict.html")
+    with open(html_ict, "w", encoding="utf-8") as f:
+        f.write(html_content)
+
     cmd_wp = ["/home/joaorura/.local/bin/weasyprint", html_out, pdf_out]
     res_wp = subprocess.run(cmd_wp, capture_output=True, text=True)
     if os.path.exists(pdf_out):
         size_kb = os.path.getsize(pdf_out) / 1024
         print(f"PDF sucinto gerado com sucesso: '{pdf_out}' ({size_kb:.1f} KB).")
+        # Replica para root e docs com nomes descritivos de ICT / Pesquisa
+        shutil.copyfile(pdf_out, os.path.join(base_dir, "conclusoes_finais_tcc.pdf"))
+        shutil.copyfile(pdf_out, os.path.join(base_dir, "conclusoes_finais_ict.pdf"))
+        shutil.copyfile(pdf_out, os.path.join(base_dir, "docs", "conclusoes_finais_ict.pdf"))
+        print("Cópias do PDF distribuídas para 'conclusoes_finais_ict.pdf' e 'conclusoes_finais_tcc.pdf'.")
     else:
         print(f"Erro na geração do PDF: {res_wp.stderr[:400]}")
 
 
 if __name__ == "__main__":
     generate_succinct_pdf()
+

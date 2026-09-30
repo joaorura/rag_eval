@@ -6,7 +6,7 @@
 
 - **Título**: Análise Comparativa de Modelos de Embedding para Recuperação de Informação em Documentos Técnicos de Nobreaks
 - **Subtítulo**: Avaliação Empírica de Modelos Proprietários, Multilíngues e Abertos Quantizados em 4 bits (Q4_K_M) em Arquitetura RAG Especializada
-- **Contexto**: Trabalho de Conclusão de Curso (TCC) em Engenharia / Ciência da Computação
+- **Contexto**: Projeto de Pesquisa Científica e Tecnológica (ICT) em Engenharia / Ciência da Computação
 - **Autor / Pesquisador**: João Vitor Rura
 - **Corpus de Teste**: 16 Manuais e Especificações Técnicas de Nobreaks e Sistemas de Energia Crítica (CM Comandos Lineares)
 - **Data da Avaliação**: `29 de Setembro de 2026` (Exemplo: Setembro de 2026)
@@ -24,7 +24,7 @@
 
 > *Instruções de Preenchimento: Esta seção deve ser sintetizada em 3 a 5 parágrafos após a consolidação final dos dados empíricos, destacando o modelo vencedor, a aderência à hipótese H1 e as implicações práticas de custo e privacidade.*
 
-`Este relatório apresenta os resultados empíricos da avaliação comparativa de 7 modelos de representação vetorial densa (*embeddings*) sobre o corpus técnico de 16 manuais de nobreaks industriais da fabricante brasileira CM Comandos Lineares. O estudo compõe a etapa de validação da camada de recuperação (*Retriever-only*) do Trabalho de Conclusão de Curso (TCC), investigando a viabilidade de substituir APIs proprietárias em nuvem (OpenAI `text-embedding-3-small`) por modelos abertos e locais quantizados em 4 bits (`Q4_K_M`), garantindo custo zero de inferência, baixa latência e soberania absoluta sobre dados industriais sensíveis.
+`Este relatório apresenta os resultados empíricos da avaliação comparativa de 7 modelos de representação vetorial densa (*embeddings*) sobre o corpus técnico de 16 manuais de nobreaks industriais da fabricante brasileira CM Comandos Lineares. O estudo compõe a etapa de validação da camada de recuperação (*Retriever-only*) do Projeto de Pesquisa Científica e Tecnológica (ICT), investigando a viabilidade de substituir APIs proprietárias em nuvem (OpenAI `text-embedding-3-small`) por modelos abertos e locais quantizados em 4 bits (`Q4_K_M`), garantindo custo zero de inferência, baixa latência e soberania absoluta sobre dados industriais sensíveis.
 
 A avaliação foi conduzida sob 128 consultas técnicas deduplicadas em um arranjo experimental rigorosamente padronizado (*SentenceSplitter* de 512 tokens com sobreposição de 50 tokens; execução sequencial em GPU NVIDIA RTX PRO 1000 com 8 GB VRAM). As métricas de *Information Retrieval* avaliadas abrangeram Hit Rate@K, Mean Reciprocal Rank (MRR@K), Context Recall@K e Mean Average Precision (MAP@K) para $K \in \{2, 5, 10\}$, complementadas por testes pareados de Wilcoxon e intervalos de confiança via Bootstrap com $B=1.000$ iterações.
 
@@ -57,7 +57,7 @@ Em termos de eficiência de engenharia, a inferência local com k-quants demonst
 
 ### 2.2 Hipóteses Formais
 
-Para fundamentar o estudo com o devido rigor científico exigido em um TCC, as hipóteses foram formalizadas em termos de paridade operacional e significância estatística:
+Para fundamentar o estudo com o devido rigor científico exigido no projeto de pesquisa aplicada (ICT), as hipóteses foram formalizadas em termos de paridade operacional e significância estatística:
 
 - **Hipótese Nula ($H_0$)**: Não há viabilidade de substituição sem perdas severas — os modelos abertos locais quantizados em 4 bits (`Q4_K_M`) falham em atingir o patamar mínimo de 85% do desempenho do baseline proprietário da OpenAI em pelo menos duas métricas clássicas de Information Retrieval (IR), ou não apresentam aderência satisfatória:
   $$\mu_{\text{Métrica}}(M_{\text{local, Q4}}) < 0.85 \times \mu_{\text{Métrica}}(M_{\text{OpenAI}})$$

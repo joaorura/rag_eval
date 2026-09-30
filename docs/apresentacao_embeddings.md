@@ -2,7 +2,7 @@
 marp: true
 theme: default
 paginate: true
-header: "Avaliação de Embeddings Quantizados (Q4_K_M) em RAG Industrial — TCC"
+header: "Avaliação de Embeddings Quantizados (Q4_K_M) em RAG Industrial — Pesquisa ICT"
 footer: "CM Comandos Lineares | NVIDIA RTX PRO 1000"
 style: |
   section {
@@ -20,13 +20,13 @@ style: |
   h2 {
     color: #2b6cb0;
     font-size: 1.2em;
-    margin-top: 12px;
+    margin-top: 15px;
     margin-bottom: 0.3em;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 4px;
   }
   p, li {
-    font-size: 0.70em;
+    font-size: 0.72em;
     line-height: 1.45;
   }
   ul {
@@ -34,7 +34,7 @@ style: |
     margin-bottom: 8px;
   }
   table {
-    font-size: 0.58em;
+    font-size: 0.60em;
     width: 100%;
     border-collapse: collapse;
     margin-top: 8px;
@@ -59,13 +59,13 @@ style: |
     display: flex;
     gap: 20px;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 10px;
   }
   .col-text {
     flex: 1;
   }
   .col-img {
-    flex: 1.3;
+    flex: 1.2;
     text-align: center;
   }
   .chart-img {
@@ -92,7 +92,7 @@ style: |
 ### Modelos Proprietários vs. Abertos Quantizados em 4-bit (Q4_K_M)
 
 **Autor:** João Vitor Rura  
-**Contexto:** Trabalho de Conclusão de Curso (TCC) — Engenharia / Ciência da Computação  
+**Contexto:** Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia / Ciência da Computação  
 **Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6 VRAM)  
 **Corpus:** 16 Manuais Técnicos CM Comandos Lineares | **Data:** Setembro / 2026
 
@@ -119,10 +119,10 @@ Verificar se modelos abertos quantizados locais viabilizam a substituição do b
 ### Hipótese Alternativa ($H_1$)
 > Pelo menos um modelo aberto local quantizado em `Q4_K_M` retém **≥ 85% do desempenho do baseline OpenAI** em pelo menos duas métricas clássicas de IR ($K=5$):
 
-$$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{em } \ge 2 \text{ métricas de IR}$$
+$$\mu(M_{local, Q4}) \ge 0.85 	imes \mu(M_{OpenAI}) \quad 	ext{em } \ge 2 	ext{ métricas de IR}$$
 
 - **Critérios de Rigor Estatístico**:
-  - Teste não-paramétrico pareado de postos com sinais de Wilcoxon ($\alpha = 0.05$);
+  - Teste não-paramétrico pareado de postos com sinais de Wilcoxon ($lpha = 0.05$);
   - Intervalos de confiança via Bootstrap não-paramétrico com 95% de confiança ($B = 1.000$).
 
 ---
@@ -145,7 +145,7 @@ $$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{e
 
 - **Corpus**: 16 manuais de nobreaks industriais da CM Comandos Lineares.
 - **Segmentação Padronizada**: `SentenceSplitter(chunk_size=512, chunk_overlap=50)`.
-- **Deduplicação Determinística**: 132 amostras brutas $\rightarrow$ **128 consultas independentes** ($N_{\text{efetivo}}$).
+- **Deduplicação Determinística**: 132 amostras brutas $ightarrow$ **128 consultas independentes** ($N_{efetivo}$).
 - **Matching em 3 Camadas (*Matching Engine*)**:
   1. *Contenção Estrita de Substring* (trechos $\ge 40$ chars com normalização de whitespace);
   2. *RapidFuzz Token Set Ratio* (similaridade $\ge 85\%$ ou *partial ratio* $\ge 80\%$);
@@ -184,7 +184,7 @@ $$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{e
 
 </div>
 <div class="col-img">
-<img src="../graficos_tcc/ranking_hitrate_mrr_k5.png" class="chart-img" alt="Ranking MRR5 e HR5">
+<img src="/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/ranking_hitrate_mrr_k5.png" class="chart-img" alt="Ranking MRR5 e HR5">
 </div>
 </div>
 
@@ -196,7 +196,7 @@ $$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{e
 <div class="col-text">
 
 - **Evolução de Cobertura**:
-  - Avaliação incremental $K=2 \rightarrow K=5 \rightarrow K=10$.
+  - Avaliação incremental $K=2 ightarrow K=5 ightarrow K=10$.
 - **Separação em 3 Clusters**:
   1. *Cluster Superior (Alta Eficácia)*: E5-Large, Qwen3-8B, Qwen3-4B e BGE-M3 (Recall@10 entre 56% e 60%).
   2. *Cluster Intermediário*: OpenAI baseline (Recall@10 em 48%).
@@ -204,7 +204,7 @@ $$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{e
 
 </div>
 <div class="col-img">
-<img src="../graficos_tcc/curva_recuperacao_topk.png" class="chart-img" alt="Curva de Recuperacao Top-K">
+<img src="/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/curva_recuperacao_topk.png" class="chart-img" alt="Curva de Recuperacao Top-K">
 </div>
 </div>
 
@@ -226,7 +226,7 @@ $$\mu(M_{\text{local, Q4}}) \ge 0.85 \times \mu(M_{\text{OpenAI}}) \quad \text{e
 
 </div>
 <div class="col-img">
-<img src="../graficos_tcc/tradeoff_latencia_mrr.png" class="chart-img" alt="Trade-off Latencia vs Eficacia">
+<img src="/home/joaorura/orca/workspaces/rag_eval/gorgonian/graficos_tcc/tradeoff_latencia_mrr.png" class="chart-img" alt="Trade-off Latencia vs Eficacia">
 </div>
 </div>
 

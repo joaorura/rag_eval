@@ -14,7 +14,7 @@
             color: #666;
         }
         @bottom-left {
-            content: "TCC Engenharia / Computação - CM Comandos RAG Eval";
+            content: "Pesquisa Científica e Tecnológica Aplicada (ICT) - CM Comandos RAG Eval";
             font-size: 8pt;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #666;
@@ -129,7 +129,7 @@
 <ul>
 <li><strong>Título</strong>: Análise Comparativa de Modelos de Embedding para Recuperação de Informação em Documentos Técnicos de Nobreaks</li>
 <li><strong>Subtítulo</strong>: Avaliação Empírica de Modelos Proprietários, Multilíngues e Abertos Quantizados em 4 bits (Q4_K_M) em Arquitetura RAG Especializada</li>
-<li><strong>Contexto</strong>: Trabalho de Conclusão de Curso (TCC) em Engenharia / Ciência da Computação</li>
+<li><strong>Contexto</strong>: Projeto de Pesquisa Científica e Tecnológica (ICT) em Engenharia / Ciência da Computação</li>
 <li><strong>Autor / Pesquisador</strong>: João Vitor Rura</li>
 <li><strong>Corpus de Teste</strong>: 16 Manuais e Especificações Técnicas de Nobreaks e Sistemas de Energia Crítica (CM Comandos Lineares)</li>
 <li><strong>Data da Avaliação</strong>: <code>29 de Setembro de 2026</code> (Exemplo: Setembro de 2026)</li>
@@ -146,7 +146,7 @@
 <blockquote>
 <p><em>Instruções de Preenchimento: Esta seção deve ser sintetizada em 3 a 5 parágrafos após a consolidação final dos dados empíricos, destacando o modelo vencedor, a aderência à hipótese H1 e as implicações práticas de custo e privacidade.</em></p>
 </blockquote>
-<p><code>Este relatório apresenta os resultados empíricos da avaliação comparativa de 7 modelos de representação vetorial densa (*embeddings*) sobre o corpus técnico de 16 manuais de nobreaks industriais da fabricante brasileira CM Comandos Lineares. O estudo compõe a etapa de validação da camada de recuperação (*Retriever-only*) do Trabalho de Conclusão de Curso (TCC), investigando a viabilidade de substituir APIs proprietárias em nuvem (OpenAI</code>text-embedding-3-small<code>) por modelos abertos e locais quantizados em 4 bits (</code>Q4_K_M`), garantindo custo zero de inferência, baixa latência e soberania absoluta sobre dados industriais sensíveis.</p>
+<p><code>Este relatório apresenta os resultados empíricos da avaliação comparativa de 7 modelos de representação vetorial densa (*embeddings*) sobre o corpus técnico de 16 manuais de nobreaks industriais da fabricante brasileira CM Comandos Lineares. O estudo compõe a etapa de validação da camada de recuperação (*Retriever-only*) do Projeto de Pesquisa Científica e Tecnológica (ICT), investigando a viabilidade de substituir APIs proprietárias em nuvem (OpenAI</code>text-embedding-3-small<code>) por modelos abertos e locais quantizados em 4 bits (</code>Q4_K_M`), garantindo custo zero de inferência, baixa latência e soberania absoluta sobre dados industriais sensíveis.</p>
 <p>A avaliação foi conduzida sob 128 consultas técnicas deduplicadas em um arranjo experimental rigorosamente padronizado (<em>SentenceSplitter</em> de 512 tokens com sobreposição de 50 tokens; execução sequencial em GPU NVIDIA RTX PRO 1000 com 8 GB VRAM). As métricas de <em>Information Retrieval</em> avaliadas abrangeram Hit Rate@K, Mean Reciprocal Rank (MRR@K), Context Recall@K e Mean Average Precision (MAP@K) para $K \in {2, 5, 10}$, complementadas por testes pareados de Wilcoxon e intervalos de confiança via Bootstrap com $B=1.000$ iterações.</p>
 <p>Os resultados empíricos confirmaram integralmente a <strong>Hipótese Alternativa ($H_1$)</strong>: os modelos quantizados locais da família Qwen3 (<code>qwen3_8b_q4km</code> e <code>qwen3_4b_q4km</code>) não apenas atingiram a meta mínima de 85% de retenção de desempenho em relação ao baseline da OpenAI, como o <strong>superaram em três das quatro métricas de recuperação</strong> no ponto de corte $K=5$. O modelo <code>qwen3_8b_q4km</code> atingiu Hit Rate@5 de 0,5703 (retenção de 121,65% vs. 0,4688 do baseline OpenAI) e MRR@5 de 0,3887 (retenção de 101,22%), mantendo equivalência estatística no teste pareado de Wilcoxon ($p = 0,9336$).</p>
 <p>Em termos de eficiência de engenharia, a inferência local com k-quants demonstrou superioridade marcante: o modelo <code>qwen3_4b_q4km</code> operou com latência média de <strong>35,98 ms por consulta</strong> (sendo <strong>11,5 vezes mais rápido</strong> que o baseline da OpenAI, cuja latência média em nuvem atingiu 415,07 ms), consumindo apenas ~2,9 GB de VRAM. No topo geral de precisão de ranqueamento, o modelo aberto <code>multilingual-e5-large</code> alcançou o maior MRR@5 da bancada (0,4031 com latência de 22,88 ms). Por outro lado, modelos monolíngues sem pré-treinamento contrastivo massivo (<code>bertimbau_sts</code>) e modelos ultraleves (<code>nomic_embed_text</code>) apresentaram quedas estatisticamente significativas de desempenho ($p &lt; 0,05$), evidenciando que a escala paramétrica compensa com folga a perda por quantização.`</p>
@@ -199,7 +199,7 @@
 <li>Determinar a viabilidade de implantação com soberania de dados e custo zero de inferência via API em ambientes corporativos industriais.</li>
 </ol>
 <h3>2.2 Hipóteses Formais</h3>
-<p>Para fundamentar o estudo com o devido rigor científico exigido em um TCC, as hipóteses foram formalizadas em termos de paridade operacional e significância estatística:</p>
+<p>Para fundamentar o estudo com o devido rigor científico exigido no projeto de pesquisa aplicada (ICT), as hipóteses foram formalizadas em termos de paridade operacional e significância estatística:</p>
 <ul>
 <li><strong>Hipótese Nula ($H_0$)</strong>: Não há viabilidade de substituição sem perdas severas — os modelos abertos locais quantizados em 4 bits (<code>Q4_K_M</code>) falham em atingir o patamar mínimo de 85% do desempenho do baseline proprietário da OpenAI em pelo menos duas métricas clássicas de Information Retrieval (IR), ou não apresentam aderência satisfatória:
   $$\mu_{\text{Métrica}}(M_{\text{local, Q4}}) &lt; 0.85 \times \mu_{\text{Métrica}}(M_{\text{OpenAI}})$$</li>

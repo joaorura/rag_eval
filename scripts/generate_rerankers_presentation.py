@@ -1,4 +1,4 @@
-"""Gera a apresentação completa de Re-ranking Neural (Two-Stage RAG) para o TCC.
+"""Gera a apresentação completa de Re-ranking Neural (Two-Stage RAG) para a Pesquisa Científica e Tecnológica (ICT).
 
 Produz:
 1. 'docs/apresentacao_rerankers.md' (Marp Markdown com layout moderno e 16:9)
@@ -46,7 +46,7 @@ def generate_rerankers_presentation() -> None:
 marp: true
 theme: default
 paginate: true
-header: "Re-ranking Neural em RAG Industrial (Two-Stage RAG) — TCC"
+header: "Re-ranking Neural em RAG Industrial (Two-Stage RAG) — Pesquisa ICT"
 footer: "CM Comandos Lineares | NVIDIA RTX PRO 1000 (8 GB GDDR6)"
 style: |
   section {{
@@ -141,7 +141,7 @@ style: |
 # Avaliação de Re-ranking Neural em Dois Estágios (Two-Stage RAG)
 ### Otimização da Precisão em Manuais Técnicos Industriais com Modelos Quantizados Locais
 
-**Trabalho de Conclusão de Curso (TCC) — Engenharia de Software / Ciência da Computação**
+**Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação**
 *Hardware de Execução:* NVIDIA RTX PRO 1000 Blackwell (8 GB GDDR6) | Intel Core Ultra 7 265H | 32 GB RAM
 *Estudo de Caso:* 16 Manuais de No-breaks Industriais — CM Comandos Lineares
 
@@ -299,7 +299,7 @@ style: |
 <!-- _class: lead -->
 # Perguntas & Discussão Técnica
 
-### Contribuições do TCC:
+### Contribuições da Pesquisa (ICT):
 - Demonstração empírica da viabilidade de RAG Two-Stage 100% local em GPU de 8 GB.
 - Confirmação de que SLMs quantizados locais superam modelos comerciais genéricos em domínio eletrotécnico.
 - Código, dados e pipelines totalmente reprodutíveis.
@@ -336,7 +336,7 @@ def build_rerankers_pptx(output_path: str, base_dir: str) -> None:
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
 
-    def add_header(slide, title_text, category="AVALIAÇÃO DE RE-RANKING NEURAL (TWO-STAGE RAG) — TCC"):
+    def add_header(slide, title_text, category="AVALIAÇÃO DE RE-RANKING NEURAL (TWO-STAGE RAG) — PESQUISA ICT"):
         c_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.5), Inches(0.4))
         tf_c = c_box.text_frame
         p_c = tf_c.paragraphs[0]

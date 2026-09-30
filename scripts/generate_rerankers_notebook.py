@@ -36,7 +36,7 @@ def build_and_run_notebook(
 
     # Célula 1: Título e Metadata
     cells.append(new_markdown_cell("""# Avaliação Científica de Re-ranking Neural em Dois Estágios (Two-Stage RAG)
-## Trabalho de Conclusão de Curso (TCC) — Engenharia de Software / Ciência da Computação
+## Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação
 **Estudo de Caso:** Recuperação de Informação em Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares)  
 **Hardware de Execução:** NVIDIA RTX PRO 1000 Blackwell Laptop GPU (8 GB GDDR6), Intel Core Ultra 7 265H CPU, 32 GB RAM  
 **Ambiente de Inferência:** Ollama (LLaMA C++ / GGML), HuggingFace Sentence-Transformers, OpenAI API (RankGPT Baseline)
@@ -276,7 +276,7 @@ Na arquitetura serializada implementada, o descarregamento de VRAM entre o model
 """))
 
     # Célula 8: Conclusões Científicas
-    cells.append(new_markdown_cell("""## 6. Conclusões Científicas e Recomendações para o TCC
+    cells.append(new_markdown_cell("""## 6. Conclusões Científicas e Recomendações para a Pesquisa / Projeto ICT
 
 1. **Ganhos Substanciais com Re-ranking:**
    - A adição da etapa de re-ranking sobre o pool de 20 candidatos elevou o MRR@5 de **0.3887 $\\rightarrow$ 0.5029 (+29.4%)** na base `qwen3_8b_q4km`, e de **0.4031 $\\rightarrow$ 0.4866 (+20.7%)** na base `multilingual_e5_large`.

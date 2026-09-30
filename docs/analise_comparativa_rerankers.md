@@ -6,7 +6,7 @@
 
 - **Título**: Avaliação de Re-ranking Neural em Dois Estágios (Two-Stage RAG) em Manuais Técnicos de No-breaks Industriais
 - **Subtítulo**: Impacto Empírico de SLMs Quantizados (Q4_K_M / Q5_K_M) e Cross-Encoders Locais frente ao Baseline Comercial Proprietário (RankGPT)
-- **Contexto**: Trabalho de Conclusão de Curso (TCC) em Engenharia de Software / Ciência da Computação
+- **Contexto**: Projeto de Pesquisa Científica e Tecnológica (ICT) / Pesquisa Aplicada em Engenharia de Software
 - **Autor / Pesquisador**: João Vitor Rura
 - **Corpus de Teste**: 16 Manuais e Especificações Técnicas de Sistemas de Energia Crítica (CM Comandos Lineares)
 - **Data da Avaliação**: Setembro de 2026

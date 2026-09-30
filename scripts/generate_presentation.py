@@ -12,7 +12,7 @@ marp_content = f"""---
 marp: true
 theme: default
 paginate: true
-header: "Avaliação de Embeddings Quantizados (Q4_K_M) em RAG Industrial — TCC"
+header: "Avaliação de Embeddings Quantizados (Q4_K_M) em RAG Industrial — Pesquisa ICT"
 footer: "CM Comandos Lineares | NVIDIA RTX PRO 1000"
 style: |
   section {{
@@ -102,7 +102,7 @@ style: |
 ### Modelos Proprietários vs. Abertos Quantizados em 4-bit (Q4_K_M)
 
 **Autor:** João Vitor Rura  
-**Contexto:** Trabalho de Conclusão de Curso (TCC) — Engenharia / Ciência da Computação  
+**Contexto:** Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia / Ciência da Computação  
 **Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6 VRAM)  
 **Corpus:** 16 Manuais Técnicos CM Comandos Lineares | **Data:** Setembro / 2026
 
@@ -129,7 +129,7 @@ Verificar se modelos abertos quantizados locais viabilizam a substituição do b
 ### Hipótese Alternativa ($H_1$)
 > Pelo menos um modelo aberto local quantizado em `Q4_K_M` retém **≥ 85% do desempenho do baseline OpenAI** em pelo menos duas métricas clássicas de IR ($K=5$):
 
-$$\mu(M_{{local, Q4}}) \ge 0.85 \times \mu(M_{{OpenAI}}) \quad \text{em } \ge 2 \text{ métricas de IR}$$
+$$\mu(M_{{local, Q4}}) \ge 0.85 \times \mu(M_{{OpenAI}}) \quad \text{{em }} \ge 2 \text{{ métricas de IR}}$$
 
 - **Critérios de Rigor Estatístico**:
   - Teste não-paramétrico pareado de postos com sinais de Wilcoxon ($\alpha = 0.05$);
@@ -378,7 +378,7 @@ p2.font.color.rgb = RGBColor(43, 108, 176)
 p2.space_before = Pt(14)
 
 p3 = tf.add_paragraph()
-p3.text = "Autor: João Vitor Rura  |  Trabalho de Conclusão de Curso (TCC)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
+p3.text = "Autor: João Vitor Rura  |  Projeto de Pesquisa Científica e Tecnológica (ICT)\nHardware: NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6)  |  Setembro / 2026"
 p3.font.size = Pt(13)
 p3.font.color.rgb = RGBColor(113, 128, 150)
 p3.space_before = Pt(28)

@@ -97,7 +97,7 @@ def generate_academic_pdf_report(base_dir: str) -> None:
             color: #666;
         }}
         @bottom-left {{
-            content: "TCC Engenharia / Computação — CM Comandos Two-Stage RAG";
+            content: "Pesquisa Científica e Tecnológica Aplicada (ICT) — CM Comandos Two-Stage RAG";
             font-size: 8pt;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #666;
@@ -197,7 +197,7 @@ def generate_academic_pdf_report(base_dir: str) -> None:
 <h1>Avaliação Científica de Re-ranking Neural em Dois Estágios (Two-Stage RAG)</h1>
 
 <div class="metadata-box">
-    <strong>Trabalho de Conclusão de Curso (TCC) — Engenharia de Software / Ciência da Computação</strong><br>
+    <strong>Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação</strong><br>
     <strong>Estudo de Caso:</strong> Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares)<br>
     <strong>Hardware de Execução:</strong> NVIDIA RTX PRO 1000 Blackwell Laptop GPU (8 GB GDDR6), Intel Core Ultra 7 265H CPU, 32 GB RAM<br>
     <strong>Metodologia:</strong> Super-sampling de $K_{{\\text{{cand}}}}=20$ candidatos, 128 perguntas deduplicadas, Matching em 3 Camadas, Teste Pareado de Wilcoxon ($\\alpha=0.05$), Bootstrap 95% ($B=1.000$).

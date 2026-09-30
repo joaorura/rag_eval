@@ -138,7 +138,7 @@ def consolidate_results(results_dir: str = "results", output_csv: str = "results
     df.to_csv(output_csv, index=False)
     print(f"Métricas consolidadas salvas em: {output_csv}")
 
-    # Gera tabela Markdown simplificada para o TCC
+    # Gera tabela Markdown simplificada para o relatório de pesquisa (ICT)
     display_cols = [
         "model_id", "quantization", "hit_rate@5_mean", "mrr@5_mean", "recall@5_mean",
         "map@5_mean", "mean_latency_ms", "wilcoxon_p_mrr5_vs_baseline"

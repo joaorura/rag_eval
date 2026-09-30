@@ -2,7 +2,7 @@
 marp: true
 theme: default
 paginate: true
-header: "Re-ranking Neural em RAG Industrial (Two-Stage RAG) — TCC"
+header: "Re-ranking Neural em RAG Industrial (Two-Stage RAG) — Pesquisa ICT"
 footer: "CM Comandos Lineares | NVIDIA RTX PRO 1000 (8 GB GDDR6)"
 style: |
   section {
@@ -97,7 +97,7 @@ style: |
 # Avaliação de Re-ranking Neural em Dois Estágios (Two-Stage RAG)
 ### Otimização da Precisão em Manuais Técnicos Industriais com Modelos Quantizados Locais
 
-**Trabalho de Conclusão de Curso (TCC) — Engenharia de Software / Ciência da Computação**
+**Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação**
 *Hardware de Execução:* NVIDIA RTX PRO 1000 Blackwell (8 GB GDDR6) | Intel Core Ultra 7 265H | 32 GB RAM
 *Estudo de Caso:* 16 Manuais de No-breaks Industriais — CM Comandos Lineares
 
@@ -266,7 +266,7 @@ style: |
 <!-- _class: lead -->
 # Perguntas & Discussão Técnica
 
-### Contribuições do TCC:
+### Contribuições da Pesquisa (ICT):
 - Demonstração empírica da viabilidade de RAG Two-Stage 100% local em GPU de 8 GB.
 - Confirmação de que SLMs quantizados locais superam modelos comerciais genéricos em domínio eletrotécnico.
 - Código, dados e pipelines totalmente reprodutíveis.

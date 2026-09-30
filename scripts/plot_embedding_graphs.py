@@ -1,4 +1,4 @@
-"""Geração de gráficos científicos e figuras de publicação para o TCC/Artigo.
+"""Geração de gráficos científicos e figuras de publicação para o Projeto de Pesquisa (ICT).
 
 Gera 3 gráficos salvos em 'graficos_tcc/':
 1. ranking_hitrate_mrr_k5.png

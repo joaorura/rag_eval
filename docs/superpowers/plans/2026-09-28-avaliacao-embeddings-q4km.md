@@ -2,7 +2,7 @@
 
 > **Para executores no OpenCode / agentes:** SUB-SKILL REQUERIDA: Execute este plano de forma incremental tarefa por tarefa. As etapas utilizam a sintaxe de checkbox (`- [ ]`) para rastreamento de progresso.
 
-**Objetivo:** Implementar e executar o pipeline completo de benchmark de recuperação (*Retriever-only*), comparando modelos locais quantizados em 4-bit (`Q4_K_M`) e multilíngues abertos contra a referência proprietária OpenAI `text-embedding-3-small` sobre o acervo técnico da CM Comandos, gerando métricas formais de IR, testes de significância estatística e gráficos para o TCC/artigo.
+**Objetivo:** Implementar e executar o pipeline completo de benchmark de recuperação (*Retriever-only*), comparando modelos locais quantizados em 4-bit (`Q4_K_M`) e multilíngues abertos contra a referência proprietária OpenAI `text-embedding-3-small` sobre o acervo técnico da CM Comandos, gerando métricas formais de IR, testes de significância estatística e gráficos para o projeto de pesquisa (ICT)/artigo.
 
 **Arquitetura:** Pipeline modular em Python executado headless via CLI. Utiliza LlamaIndex com isolamento de índices em disco por modelo (`storage/index_<id>/`), matching multicamada determinístico contra ground truth (substring, RapidFuzz e ROUGE-L), gestão sequencial de VRAM na GPU NVIDIA RTX PRO 1000 com descarga explícita entre modelos, cálculo de significância estatística (teste pareado de Wilcoxon e Bootstrap CI 95%) e renderização de figuras científicas em `graficos_tcc/`.
 
@@ -198,7 +198,7 @@
 
 ---
 
-### Tarefa 6: Visualização Gráfica Científica para TCC/Artigo
+### Tarefa 6: Visualização Gráfica Científica para Pesquisa ICT/Artigo
 
 **Arquivos:**
 - Criar: `scripts/plot_embedding_graphs.py`
@@ -214,7 +214,7 @@
   Verificar se as imagens PNG são salvas com resolução de 300 DPI em `graficos_tcc/`.
 
 - [ ] **Passo 6.3: Commit**
-  `git add scripts/plot_embedding_graphs.py && git commit -m "feat: gerador de graficos de publicacao para o TCC"`
+  `git add scripts/plot_embedding_graphs.py && git commit -m "feat: gerador de graficos de publicacao para pesquisa ICT"`
 
 ---
 

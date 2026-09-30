@@ -212,7 +212,7 @@ Para cada modelo $m$ e valor de $K \in \{2, 5, 10\}$:
    - Executa buscas e salva resultados brutos em `results/raw_retrievals_<model>.json`.
 2. **`scripts/consolidate_metrics.py`**:
    - Lê os arquivos brutos, aplica as regras de matching e gera `results/consolidated_embeddings_metrics.csv`.
-   - Gera tabela Markdown comparativa para inclusão direta no TCC/artigo.
+   - Gera tabela Markdown comparativa para inclusão direta no relatório de pesquisa (ICT)/artigo.
 3. **`scripts/plot_embedding_graphs.py`**:
    - Gera gráficos científicos com Seaborn/Matplotlib salvos em `graficos_tcc/`:
      - Ranking de Hit Rate@5 e MRR@5 por modelo.

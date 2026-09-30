@@ -1,4 +1,4 @@
-"""Script mestre para finalização de todos os entregáveis do Benchmark de Rerankers (TCC).
+"""Script mestre para finalização de todos os entregáveis do Benchmark de Rerankers (Pesquisa ICT).
 
 Executa em sequência:
 1. Consolidação estatística dos 10 experimentos (scripts/consolidate_rerankers.py)

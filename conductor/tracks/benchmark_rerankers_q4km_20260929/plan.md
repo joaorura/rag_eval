@@ -26,7 +26,7 @@ Track: [Specification](./spec.md) | [Metadata](./metadata.json)
 
 ### Phase 4: Visualização e Documentação de Pesquisa
 - [x] Task 4.1: Gerar gráficos comparativos em 300 DPI em `graficos_tcc/` (MRR@5 delta, Trade-off Acurácia vs Latência, Consumo de VRAM).
-- [x] Task 4.2: Atualizar `results/summary_table_rerankers.md` e gerar síntese qualitativa dos ganhos de reranking para o relatório do TCC.
+- [x] Task 4.2: Atualizar `results/summary_table_rerankers.md` e gerar síntese qualitativa dos ganhos de reranking para o relatório de pesquisa (ICT).
 - [x] Task 4.3: Construir e executar Jupyter Notebook reprodutível (`notebooks/avaliacao_rerankers_dois_estagios.ipynb`).
 - [x] Task 4.4: Gerar apresentação de slides de alta qualidade (`docs/apresentacao_rerankers.md`, `.html`, `.pdf`, `.pptx`).
 - [x] Task 4.5: Compilar relatórios técnicos em PDF via WeasyPrint (`docs/relatorio_rerankers_dois_estagios.pdf` e `docs/avaliacao_rerankers_dois_estagios.pdf`).

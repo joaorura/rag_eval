@@ -276,7 +276,7 @@ def generate_markdown_summary(df: pd.DataFrame, output_md_path: str) -> None:
         "   - O modelo `qwen3_4b_q4km` (4B parâmetros, 4 bits GGUF via llama.cpp no Ollama) demonstra a eficiência de rotinas otimizadas com instruções AVX-512/AMX de inferência quantizada em CPU, mantendo latência viável mesmo com escala de parâmetros expressivamente superior aos modelos BERT.",
         "   - O modelo `nomic_embed_text` (137M parâmetros via Ollama) opera com latência extremamente reduzida em CPU (< 50 ms), sendo o mais adaptável para arquiteturas embarcadas ou sem placa aceleradora dedicada.",
         "",
-        "2. **Relevância para a Tese de Conclusão de Curso (TCC):**",
+        "2. **Relevância para a Pesquisa Científica e Tecnológica (ICT):**",
         "   - Para cenários de borda (*edge computing*) ou servidores locais desprovidos de GPU dedicada, `nomic_embed_text` e `qwen3_4b_q4km` oferecem compromissos favoráveis entre consumo de recursos e tempo de resposta.",
         "   - Para ambientes de produção com requisitos estritos de SLA (< 100 ms por consulta) e prioridade máxima na qualidade de recuperação (*Hit Rate* e *MRR*), `multilingual_e5_large` exige infraestrutura acelerada por GPU.",
         "",

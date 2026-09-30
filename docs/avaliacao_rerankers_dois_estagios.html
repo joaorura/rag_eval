@@ -13088,10 +13088,10 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=937e298b"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f9b7bc32"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Avalia%C3%A7%C3%A3o-Cient%C3%ADfica-de-Re-ranking-Neural-em-Dois-Est%C3%A1gios-(Two-Stage-RAG)">Avaliação Científica de Re-ranking Neural em Dois Estágios (Two-Stage RAG)<a class="anchor-link" href="#Avalia%C3%A7%C3%A3o-Cient%C3%ADfica-de-Re-ranking-Neural-em-Dois-Est%C3%A1gios-(Two-Stage-RAG)">¶</a></h1><h2 id="Trabalho-de-Conclus%C3%A3o-de-Curso-(TCC)-%E2%80%94-Engenharia-de-Software-/-Ci%C3%AAncia-da-Computa%C3%A7%C3%A3o">Trabalho de Conclusão de Curso (TCC) — Engenharia de Software / Ciência da Computação<a class="anchor-link" href="#Trabalho-de-Conclus%C3%A3o-de-Curso-(TCC)-%E2%80%94-Engenharia-de-Software-/-Ci%C3%AAncia-da-Computa%C3%A7%C3%A3o">¶</a></h2><p><strong>Estudo de Caso:</strong> Recuperação de Informação em Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares)<br/>
+<h1 id="Avalia%C3%A7%C3%A3o-Cient%C3%ADfica-de-Re-ranking-Neural-em-Dois-Est%C3%A1gios-(Two-Stage-RAG)">Avaliação Científica de Re-ranking Neural em Dois Estágios (Two-Stage RAG)<a class="anchor-link" href="#Avalia%C3%A7%C3%A3o-Cient%C3%ADfica-de-Re-ranking-Neural-em-Dois-Est%C3%A1gios-(Two-Stage-RAG)">¶</a></h1><h2 id="Projeto-de-Pesquisa-Cient%C3%ADfica-e-Tecnol%C3%B3gica-(ICT)-%E2%80%94-Engenharia-de-Software-/-Ci%C3%AAncia-da-Computa%C3%A7%C3%A3o">Projeto de Pesquisa Científica e Tecnológica (ICT) — Engenharia de Software / Ciência da Computação<a class="anchor-link" href="#Projeto-de-Pesquisa-Cient%C3%ADfica-e-Tecnol%C3%B3gica-(ICT)-%E2%80%94-Engenharia-de-Software-/-Ci%C3%AAncia-da-Computa%C3%A7%C3%A3o">¶</a></h2><p><strong>Estudo de Caso:</strong> Recuperação de Informação em Manuais Técnicos de No-breaks Industriais (CM Comandos Lineares)<br/>
 <strong>Hardware de Execução:</strong> NVIDIA RTX PRO 1000 Blackwell Laptop GPU (8 GB GDDR6), Intel Core Ultra 7 265H CPU, 32 GB RAM<br/>
 <strong>Ambiente de Inferência:</strong> Ollama (LLaMA C++ / GGML), HuggingFace Sentence-Transformers, OpenAI API (RankGPT Baseline)</p>
 <hr/>
@@ -13116,7 +13116,7 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=59b9ef54">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=879f21c1">
 <div class="input">
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
@@ -13159,14 +13159,14 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f460fc6a"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=044e9b04"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-Carregamento-dos-Dados-Experimentais-Consolidados">1. Carregamento dos Dados Experimentais Consolidados<a class="anchor-link" href="#1.-Carregamento-dos-Dados-Experimentais-Consolidados">¶</a></h2><p>Os dados a seguir foram extraídos a partir de 128 consultas reais deduplicadas, confrontadas com o Ground Truth técnico via casamento multicamada determinístico (<em>Matching Engine</em> em 3 camadas: Contenção de Substring, RapidFuzz Token Set e ROUGE-L).</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ef91d88a">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6bcb9ccd">
 <div class="input">
 <div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
@@ -13229,206 +13229,206 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 <div class="output_area">
 <div class="prompt output_prompt">Out[2]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result"><style type="text/css">
-#T_d3425_row0_col2 {
+#T_26a68_row0_col2 {
   background-color: #fbfdce;
   color: #000000;
 }
-#T_d3425_row0_col3 {
+#T_26a68_row0_col3 {
   background-color: #f7fcb9;
   color: #000000;
 }
-#T_d3425_row1_col2, #T_d3425_row5_col2 {
+#T_26a68_row1_col2, #T_26a68_row5_col2 {
   background-color: #d3eda0;
   color: #000000;
 }
-#T_d3425_row1_col3 {
+#T_26a68_row1_col3 {
   background-color: #00502d;
   color: #f1f1f1;
 }
-#T_d3425_row2_col2 {
+#T_26a68_row2_col2 {
   background-color: #278946;
   color: #f1f1f1;
 }
-#T_d3425_row2_col3 {
+#T_26a68_row2_col3 {
   background-color: #1e8041;
   color: #f1f1f1;
 }
-#T_d3425_row3_col2, #T_d3425_row8_col3 {
+#T_26a68_row3_col2, #T_26a68_row8_col3 {
   background-color: #004529;
   color: #f1f1f1;
 }
-#T_d3425_row3_col3 {
+#T_26a68_row3_col3 {
   background-color: #00522e;
   color: #f1f1f1;
 }
-#T_d3425_row4_col2 {
+#T_26a68_row4_col2 {
   background-color: #379e54;
   color: #f1f1f1;
 }
-#T_d3425_row4_col3, #T_d3425_row7_col2 {
+#T_26a68_row4_col3, #T_26a68_row7_col2 {
   background-color: #4cb063;
   color: #f1f1f1;
 }
-#T_d3425_row5_col3, #T_d3425_row6_col2 {
+#T_26a68_row5_col3, #T_26a68_row6_col2 {
   background-color: #ffffe5;
   color: #000000;
 }
-#T_d3425_row6_col3 {
+#T_26a68_row6_col3 {
   background-color: #056c39;
   color: #f1f1f1;
 }
-#T_d3425_row7_col3 {
+#T_26a68_row7_col3 {
   background-color: #248644;
   color: #f1f1f1;
 }
-#T_d3425_row8_col2 {
+#T_26a68_row8_col2 {
   background-color: #69bf72;
   color: #000000;
 }
-#T_d3425_row9_col2 {
+#T_26a68_row9_col2 {
   background-color: #bce395;
   color: #000000;
 }
-#T_d3425_row9_col3 {
+#T_26a68_row9_col3 {
   background-color: #349a52;
   color: #f1f1f1;
 }
 </style>
-<table id="T_d3425">
+<table id="T_26a68">
 <thead>
 <tr>
 <th class="blank level0"> </th>
-<th class="col_heading level0 col0" id="T_d3425_level0_col0">Modelo Base (1º Estágio)</th>
-<th class="col_heading level0 col1" id="T_d3425_level0_col1">Reranker (2º Estágio)</th>
-<th class="col_heading level0 col2" id="T_d3425_level0_col2">HR@5</th>
-<th class="col_heading level0 col3" id="T_d3425_level0_col3">MRR@5</th>
-<th class="col_heading level0 col4" id="T_d3425_level0_col4">Recall@5</th>
-<th class="col_heading level0 col5" id="T_d3425_level0_col5">MAP@5</th>
-<th class="col_heading level0 col6" id="T_d3425_level0_col6">Δ MRR@5</th>
-<th class="col_heading level0 col7" id="T_d3425_level0_col7">Wilcoxon (p)</th>
-<th class="col_heading level0 col8" id="T_d3425_level0_col8">Latência (ms)</th>
+<th class="col_heading level0 col0" id="T_26a68_level0_col0">Modelo Base (1º Estágio)</th>
+<th class="col_heading level0 col1" id="T_26a68_level0_col1">Reranker (2º Estágio)</th>
+<th class="col_heading level0 col2" id="T_26a68_level0_col2">HR@5</th>
+<th class="col_heading level0 col3" id="T_26a68_level0_col3">MRR@5</th>
+<th class="col_heading level0 col4" id="T_26a68_level0_col4">Recall@5</th>
+<th class="col_heading level0 col5" id="T_26a68_level0_col5">MAP@5</th>
+<th class="col_heading level0 col6" id="T_26a68_level0_col6">Δ MRR@5</th>
+<th class="col_heading level0 col7" id="T_26a68_level0_col7">Wilcoxon (p)</th>
+<th class="col_heading level0 col8" id="T_26a68_level0_col8">Latência (ms)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="row_heading level0 row0" id="T_d3425_level0_row0">0</th>
-<td class="data row0 col0" id="T_d3425_row0_col0">Multilingual-E5-Large (FP16)</td>
-<td class="data row0 col1" id="T_d3425_row0_col1">Baseline Puro (Sem Re-ranking)</td>
-<td class="data row0 col2" id="T_d3425_row0_col2">54.69%</td>
-<td class="data row0 col3" id="T_d3425_row0_col3">0.4031</td>
-<td class="data row0 col4" id="T_d3425_row0_col4">51.10%</td>
-<td class="data row0 col5" id="T_d3425_row0_col5">0.6523</td>
-<td class="data row0 col6" id="T_d3425_row0_col6">+0.0000</td>
-<td class="data row0 col7" id="T_d3425_row0_col7">1.0000</td>
-<td class="data row0 col8" id="T_d3425_row0_col8">0.0</td>
+<th class="row_heading level0 row0" id="T_26a68_level0_row0">0</th>
+<td class="data row0 col0" id="T_26a68_row0_col0">Multilingual-E5-Large (FP16)</td>
+<td class="data row0 col1" id="T_26a68_row0_col1">Baseline Puro (Sem Re-ranking)</td>
+<td class="data row0 col2" id="T_26a68_row0_col2">54.69%</td>
+<td class="data row0 col3" id="T_26a68_row0_col3">0.4031</td>
+<td class="data row0 col4" id="T_26a68_row0_col4">51.10%</td>
+<td class="data row0 col5" id="T_26a68_row0_col5">0.6523</td>
+<td class="data row0 col6" id="T_26a68_row0_col6">+0.0000</td>
+<td class="data row0 col7" id="T_26a68_row0_col7">1.0000</td>
+<td class="data row0 col8" id="T_26a68_row0_col8">0.0</td>
 </tr>
 <tr>
-<th class="row_heading level0 row1" id="T_d3425_level0_row1">1</th>
-<td class="data row1 col0" id="T_d3425_row1_col0">Multilingual-E5-Large (FP16)</td>
-<td class="data row1 col1" id="T_d3425_row1_col1">BGE-Reranker-v2-m3 (HF)</td>
-<td class="data row1 col2" id="T_d3425_row1_col2">57.03%</td>
-<td class="data row1 col3" id="T_d3425_row1_col3">0.4982</td>
-<td class="data row1 col4" id="T_d3425_row1_col4">55.35%</td>
-<td class="data row1 col5" id="T_d3425_row1_col5">0.9831</td>
-<td class="data row1 col6" id="T_d3425_row1_col6">+0.0951</td>
-<td class="data row1 col7" id="T_d3425_row1_col7">0.0261</td>
-<td class="data row1 col8" id="T_d3425_row1_col8">1164.3</td>
+<th class="row_heading level0 row1" id="T_26a68_level0_row1">1</th>
+<td class="data row1 col0" id="T_26a68_row1_col0">Multilingual-E5-Large (FP16)</td>
+<td class="data row1 col1" id="T_26a68_row1_col1">BGE-Reranker-v2-m3 (HF)</td>
+<td class="data row1 col2" id="T_26a68_row1_col2">57.03%</td>
+<td class="data row1 col3" id="T_26a68_row1_col3">0.4982</td>
+<td class="data row1 col4" id="T_26a68_row1_col4">55.35%</td>
+<td class="data row1 col5" id="T_26a68_row1_col5">0.9831</td>
+<td class="data row1 col6" id="T_26a68_row1_col6">+0.0951</td>
+<td class="data row1 col7" id="T_26a68_row1_col7">0.0261</td>
+<td class="data row1 col8" id="T_26a68_row1_col8">1164.3</td>
 </tr>
 <tr>
-<th class="row_heading level0 row2" id="T_d3425_level0_row2">2</th>
-<td class="data row2 col0" id="T_d3425_row2_col0">Multilingual-E5-Large (FP16)</td>
-<td class="data row2 col1" id="T_d3425_row2_col1">Qwen3-Reranker-4B (Q4_K_M)</td>
-<td class="data row2 col2" id="T_d3425_row2_col2">62.50%</td>
-<td class="data row2 col3" id="T_d3425_row2_col3">0.4764</td>
-<td class="data row2 col4" id="T_d3425_row2_col4">59.58%</td>
-<td class="data row2 col5" id="T_d3425_row2_col5">0.8791</td>
-<td class="data row2 col6" id="T_d3425_row2_col6">+0.0733</td>
-<td class="data row2 col7" id="T_d3425_row2_col7">0.0406</td>
-<td class="data row2 col8" id="T_d3425_row2_col8">6211.0</td>
+<th class="row_heading level0 row2" id="T_26a68_level0_row2">2</th>
+<td class="data row2 col0" id="T_26a68_row2_col0">Multilingual-E5-Large (FP16)</td>
+<td class="data row2 col1" id="T_26a68_row2_col1">Qwen3-Reranker-4B (Q4_K_M)</td>
+<td class="data row2 col2" id="T_26a68_row2_col2">62.50%</td>
+<td class="data row2 col3" id="T_26a68_row2_col3">0.4764</td>
+<td class="data row2 col4" id="T_26a68_row2_col4">59.58%</td>
+<td class="data row2 col5" id="T_26a68_row2_col5">0.8791</td>
+<td class="data row2 col6" id="T_26a68_row2_col6">+0.0733</td>
+<td class="data row2 col7" id="T_26a68_row2_col7">0.0406</td>
+<td class="data row2 col8" id="T_26a68_row2_col8">6211.0</td>
 </tr>
 <tr>
-<th class="row_heading level0 row3" id="T_d3425_level0_row3">3</th>
-<td class="data row3 col0" id="T_d3425_row3_col0">Multilingual-E5-Large (FP16)</td>
-<td class="data row3 col1" id="T_d3425_row3_col1">Qwen3-Reranker-8B (Q5_K_M)</td>
-<td class="data row3 col2" id="T_d3425_row3_col2">65.62%</td>
-<td class="data row3 col3" id="T_d3425_row3_col3">0.4975</td>
-<td class="data row3 col4" id="T_d3425_row3_col4">57.84%</td>
-<td class="data row3 col5" id="T_d3425_row3_col5">0.8984</td>
-<td class="data row3 col6" id="T_d3425_row3_col6">+0.0944</td>
-<td class="data row3 col7" id="T_d3425_row3_col7">0.0023</td>
-<td class="data row3 col8" id="T_d3425_row3_col8">6894.9</td>
+<th class="row_heading level0 row3" id="T_26a68_level0_row3">3</th>
+<td class="data row3 col0" id="T_26a68_row3_col0">Multilingual-E5-Large (FP16)</td>
+<td class="data row3 col1" id="T_26a68_row3_col1">Qwen3-Reranker-8B (Q5_K_M)</td>
+<td class="data row3 col2" id="T_26a68_row3_col2">65.62%</td>
+<td class="data row3 col3" id="T_26a68_row3_col3">0.4975</td>
+<td class="data row3 col4" id="T_26a68_row3_col4">57.84%</td>
+<td class="data row3 col5" id="T_26a68_row3_col5">0.8984</td>
+<td class="data row3 col6" id="T_26a68_row3_col6">+0.0944</td>
+<td class="data row3 col7" id="T_26a68_row3_col7">0.0023</td>
+<td class="data row3 col8" id="T_26a68_row3_col8">6894.9</td>
 </tr>
 <tr>
-<th class="row_heading level0 row4" id="T_d3425_level0_row4">4</th>
-<td class="data row4 col0" id="T_d3425_row4_col0">Multilingual-E5-Large (FP16)</td>
-<td class="data row4 col1" id="T_d3425_row4_col1">RankGPT (gpt-4o-mini)</td>
-<td class="data row4 col2" id="T_d3425_row4_col2">61.72%</td>
-<td class="data row4 col3" id="T_d3425_row4_col3">0.4573</td>
-<td class="data row4 col4" id="T_d3425_row4_col4">57.74%</td>
-<td class="data row4 col5" id="T_d3425_row4_col5">0.7845</td>
-<td class="data row4 col6" id="T_d3425_row4_col6">+0.0542</td>
-<td class="data row4 col7" id="T_d3425_row4_col7">0.0510</td>
-<td class="data row4 col8" id="T_d3425_row4_col8">1723.0</td>
+<th class="row_heading level0 row4" id="T_26a68_level0_row4">4</th>
+<td class="data row4 col0" id="T_26a68_row4_col0">Multilingual-E5-Large (FP16)</td>
+<td class="data row4 col1" id="T_26a68_row4_col1">RankGPT (gpt-4o-mini)</td>
+<td class="data row4 col2" id="T_26a68_row4_col2">61.72%</td>
+<td class="data row4 col3" id="T_26a68_row4_col3">0.4573</td>
+<td class="data row4 col4" id="T_26a68_row4_col4">57.74%</td>
+<td class="data row4 col5" id="T_26a68_row4_col5">0.7845</td>
+<td class="data row4 col6" id="T_26a68_row4_col6">+0.0542</td>
+<td class="data row4 col7" id="T_26a68_row4_col7">0.0510</td>
+<td class="data row4 col8" id="T_26a68_row4_col8">1723.0</td>
 </tr>
 <tr>
-<th class="row_heading level0 row5" id="T_d3425_level0_row5">5</th>
-<td class="data row5 col0" id="T_d3425_row5_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
-<td class="data row5 col1" id="T_d3425_row5_col1">Baseline Puro (Sem Re-ranking)</td>
-<td class="data row5 col2" id="T_d3425_row5_col2">57.03%</td>
-<td class="data row5 col3" id="T_d3425_row5_col3">0.3887</td>
-<td class="data row5 col4" id="T_d3425_row5_col4">53.11%</td>
-<td class="data row5 col5" id="T_d3425_row5_col5">0.6836</td>
-<td class="data row5 col6" id="T_d3425_row5_col6">+0.0000</td>
-<td class="data row5 col7" id="T_d3425_row5_col7">1.0000</td>
-<td class="data row5 col8" id="T_d3425_row5_col8">0.0</td>
+<th class="row_heading level0 row5" id="T_26a68_level0_row5">5</th>
+<td class="data row5 col0" id="T_26a68_row5_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
+<td class="data row5 col1" id="T_26a68_row5_col1">Baseline Puro (Sem Re-ranking)</td>
+<td class="data row5 col2" id="T_26a68_row5_col2">57.03%</td>
+<td class="data row5 col3" id="T_26a68_row5_col3">0.3887</td>
+<td class="data row5 col4" id="T_26a68_row5_col4">53.11%</td>
+<td class="data row5 col5" id="T_26a68_row5_col5">0.6836</td>
+<td class="data row5 col6" id="T_26a68_row5_col6">+0.0000</td>
+<td class="data row5 col7" id="T_26a68_row5_col7">1.0000</td>
+<td class="data row5 col8" id="T_26a68_row5_col8">0.0</td>
 </tr>
 <tr>
-<th class="row_heading level0 row6" id="T_d3425_level0_row6">6</th>
-<td class="data row6 col0" id="T_d3425_row6_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
-<td class="data row6 col1" id="T_d3425_row6_col1">BGE-Reranker-v2-m3 (HF)</td>
-<td class="data row6 col2" id="T_d3425_row6_col2">53.91%</td>
-<td class="data row6 col3" id="T_d3425_row6_col3">0.4866</td>
-<td class="data row6 col4" id="T_d3425_row6_col4">53.39%</td>
-<td class="data row6 col5" id="T_d3425_row6_col5">1.0734</td>
-<td class="data row6 col6" id="T_d3425_row6_col6">+0.0979</td>
-<td class="data row6 col7" id="T_d3425_row6_col7">0.0038</td>
-<td class="data row6 col8" id="T_d3425_row6_col8">1145.1</td>
+<th class="row_heading level0 row6" id="T_26a68_level0_row6">6</th>
+<td class="data row6 col0" id="T_26a68_row6_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
+<td class="data row6 col1" id="T_26a68_row6_col1">BGE-Reranker-v2-m3 (HF)</td>
+<td class="data row6 col2" id="T_26a68_row6_col2">53.91%</td>
+<td class="data row6 col3" id="T_26a68_row6_col3">0.4866</td>
+<td class="data row6 col4" id="T_26a68_row6_col4">53.39%</td>
+<td class="data row6 col5" id="T_26a68_row6_col5">1.0734</td>
+<td class="data row6 col6" id="T_26a68_row6_col6">+0.0979</td>
+<td class="data row6 col7" id="T_26a68_row6_col7">0.0038</td>
+<td class="data row6 col8" id="T_26a68_row6_col8">1145.1</td>
 </tr>
 <tr>
-<th class="row_heading level0 row7" id="T_d3425_level0_row7">7</th>
-<td class="data row7 col0" id="T_d3425_row7_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
-<td class="data row7 col1" id="T_d3425_row7_col1">Qwen3-Reranker-4B (Q4_K_M)</td>
-<td class="data row7 col2" id="T_d3425_row7_col2">60.94%</td>
-<td class="data row7 col3" id="T_d3425_row7_col3">0.4738</td>
-<td class="data row7 col4" id="T_d3425_row7_col4">58.42%</td>
-<td class="data row7 col5" id="T_d3425_row7_col5">0.9469</td>
-<td class="data row7 col6" id="T_d3425_row7_col6">+0.0852</td>
-<td class="data row7 col7" id="T_d3425_row7_col7">0.0049</td>
-<td class="data row7 col8" id="T_d3425_row7_col8">5181.6</td>
+<th class="row_heading level0 row7" id="T_26a68_level0_row7">7</th>
+<td class="data row7 col0" id="T_26a68_row7_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
+<td class="data row7 col1" id="T_26a68_row7_col1">Qwen3-Reranker-4B (Q4_K_M)</td>
+<td class="data row7 col2" id="T_26a68_row7_col2">60.94%</td>
+<td class="data row7 col3" id="T_26a68_row7_col3">0.4738</td>
+<td class="data row7 col4" id="T_26a68_row7_col4">58.42%</td>
+<td class="data row7 col5" id="T_26a68_row7_col5">0.9469</td>
+<td class="data row7 col6" id="T_26a68_row7_col6">+0.0852</td>
+<td class="data row7 col7" id="T_26a68_row7_col7">0.0049</td>
+<td class="data row7 col8" id="T_26a68_row7_col8">5181.6</td>
 </tr>
 <tr>
-<th class="row_heading level0 row8" id="T_d3425_level0_row8">8</th>
-<td class="data row8 col0" id="T_d3425_row8_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
-<td class="data row8 col1" id="T_d3425_row8_col1">Qwen3-Reranker-8B (Q5_K_M)</td>
-<td class="data row8 col2" id="T_d3425_row8_col2">60.16%</td>
-<td class="data row8 col3" id="T_d3425_row8_col3">0.5029</td>
-<td class="data row8 col4" id="T_d3425_row8_col4">58.12%</td>
-<td class="data row8 col5" id="T_d3425_row8_col5">0.9769</td>
-<td class="data row8 col6" id="T_d3425_row8_col6">+0.1142</td>
-<td class="data row8 col7" id="T_d3425_row8_col7">0.0001</td>
-<td class="data row8 col8" id="T_d3425_row8_col8">6424.2</td>
+<th class="row_heading level0 row8" id="T_26a68_level0_row8">8</th>
+<td class="data row8 col0" id="T_26a68_row8_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
+<td class="data row8 col1" id="T_26a68_row8_col1">Qwen3-Reranker-8B (Q5_K_M)</td>
+<td class="data row8 col2" id="T_26a68_row8_col2">60.16%</td>
+<td class="data row8 col3" id="T_26a68_row8_col3">0.5029</td>
+<td class="data row8 col4" id="T_26a68_row8_col4">58.12%</td>
+<td class="data row8 col5" id="T_26a68_row8_col5">0.9769</td>
+<td class="data row8 col6" id="T_26a68_row8_col6">+0.1142</td>
+<td class="data row8 col7" id="T_26a68_row8_col7">0.0001</td>
+<td class="data row8 col8" id="T_26a68_row8_col8">6424.2</td>
 </tr>
 <tr>
-<th class="row_heading level0 row9" id="T_d3425_level0_row9">9</th>
-<td class="data row9 col0" id="T_d3425_row9_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
-<td class="data row9 col1" id="T_d3425_row9_col1">RankGPT (gpt-4o-mini)</td>
-<td class="data row9 col2" id="T_d3425_row9_col2">57.81%</td>
-<td class="data row9 col3" id="T_d3425_row9_col3">0.4663</td>
-<td class="data row9 col4" id="T_d3425_row9_col4">55.03%</td>
-<td class="data row9 col5" id="T_d3425_row9_col5">0.8618</td>
-<td class="data row9 col6" id="T_d3425_row9_col6">+0.0776</td>
-<td class="data row9 col7" id="T_d3425_row9_col7">0.0160</td>
-<td class="data row9 col8" id="T_d3425_row9_col8">1647.8</td>
+<th class="row_heading level0 row9" id="T_26a68_level0_row9">9</th>
+<td class="data row9 col0" id="T_26a68_row9_col0">Qwen3-Embedding-8B (Q4_K_M)</td>
+<td class="data row9 col1" id="T_26a68_row9_col1">RankGPT (gpt-4o-mini)</td>
+<td class="data row9 col2" id="T_26a68_row9_col2">57.81%</td>
+<td class="data row9 col3" id="T_26a68_row9_col3">0.4663</td>
+<td class="data row9 col4" id="T_26a68_row9_col4">55.03%</td>
+<td class="data row9 col5" id="T_26a68_row9_col5">0.8618</td>
+<td class="data row9 col6" id="T_26a68_row9_col6">+0.0776</td>
+<td class="data row9 col7" id="T_26a68_row9_col7">0.0160</td>
+<td class="data row9 col8" id="T_26a68_row9_col8">1647.8</td>
 </tr>
 </tbody>
 </table>
@@ -13437,7 +13437,7 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=decf0410"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=047128d0"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-An%C3%A1lise-Detalhada-por-Modelo-Base-de-Primeiro-Est%C3%A1gio">2. Análise Detalhada por Modelo Base de Primeiro Estágio<a class="anchor-link" href="#2.-An%C3%A1lise-Detalhada-por-Modelo-Base-de-Primeiro-Est%C3%A1gio">¶</a></h2><p>Avaliamos como os reordenadores atuam sobre os dois melhores modelos de primeiro estágio identificados na etapa de embeddings:</p>
@@ -13448,7 +13448,7 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=2787e211">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=0aead2cc">
 <div class="input">
 <div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
@@ -13497,14 +13497,14 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=189c3c42"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=d45b404d"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Ganhos-Incrementais-($%5CDelta$-MRR@5)-e-Efic%C3%A1cia-Relativa">3. Ganhos Incrementais ($\Delta$ MRR@5) e Eficácia Relativa<a class="anchor-link" href="#3.-Ganhos-Incrementais-($%5CDelta$-MRR@5)-e-Efic%C3%A1cia-Relativa">¶</a></h2><p>O gráfico abaixo evidencia o salto qualitativo gerado pela reordenação em relação ao baseline puro de primeiro estágio ($K_{\text{cand}}=20 \rightarrow K=5$).</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=de077154">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a98a9683">
 <div class="input">
 <div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
@@ -13550,14 +13550,14 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0935efe5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c4581cd3"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-An%C3%A1lise-de-Trade-off-de-Engenharia:-Efic%C3%A1cia-(MRR@5)-vs.-Custo-Computacional-(Lat%C3%AAncia)">4. Análise de Trade-off de Engenharia: Eficácia (MRR@5) vs. Custo Computacional (Latência)<a class="anchor-link" href="#4.-An%C3%A1lise-de-Trade-off-de-Engenharia:-Efic%C3%A1cia-(MRR@5)-vs.-Custo-Computacional-(Lat%C3%AAncia)">¶</a></h2><p>Em sistemas industriais com requisitos de SLA e hardware restrito (como uma GPU de 8 GB), a latência adicional introduzida pelo re-ranking é um fator decisivo.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=b2a19bb5">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d80e218d">
 <div class="input">
 <div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
@@ -13618,7 +13618,7 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5c89ebfd"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=29e53718"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Perfil-de-Consumo-de-Recursos-(VRAM,-Hardware-e-Custo)">5. Perfil de Consumo de Recursos (VRAM, Hardware e Custo)<a class="anchor-link" href="#5.-Perfil-de-Consumo-de-Recursos-(VRAM,-Hardware-e-Custo)">¶</a></h2><p>Na arquitetura serializada implementada, o descarregamento de VRAM entre o modelo de primeiro estágio e o reordenador garante operação contínua sem estouro de memória (<em>Out-Of-Memory</em>):</p>
@@ -13680,10 +13680,10 @@ O primeiro estágio recupera uma lista expandida de $K_{\text{cand}} = 20$ candi
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=489aa743"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a583e0fb"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="6.-Conclus%C3%B5es-Cient%C3%ADficas-e-Recomenda%C3%A7%C3%B5es-para-o-TCC">6. Conclusões Científicas e Recomendações para o TCC<a class="anchor-link" href="#6.-Conclus%C3%B5es-Cient%C3%ADficas-e-Recomenda%C3%A7%C3%B5es-para-o-TCC">¶</a></h2><ol>
+<h2 id="6.-Conclus%C3%B5es-Cient%C3%ADficas-e-Recomenda%C3%A7%C3%B5es-para-a-Pesquisa-/-Projeto-ICT">6. Conclusões Científicas e Recomendações para a Pesquisa / Projeto ICT<a class="anchor-link" href="#6.-Conclus%C3%B5es-Cient%C3%ADficas-e-Recomenda%C3%A7%C3%B5es-para-a-Pesquisa-/-Projeto-ICT">¶</a></h2><ol>
 <li><p><strong>Ganhos Substanciais com Re-ranking:</strong></p>
 <ul>
 <li>A adição da etapa de re-ranking sobre o pool de 20 candidatos elevou o MRR@5 de <strong>0.3887 $\rightarrow$ 0.5029 (+29.4%)</strong> na base <code>qwen3_8b_q4km</code>, e de <strong>0.4031 $\rightarrow$ 0.4866 (+20.7%)</strong> na base <code>multilingual_e5_large</code>.</li>

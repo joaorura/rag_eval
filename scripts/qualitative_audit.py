@@ -5,7 +5,7 @@ Este script realiza a amostragem aleatória reproduzível (seed=42) de 20 instâ
 do conjunto de teste sintético (testset_openai_4omini.jsonl) e gera um relatório
 estruturado em Markdown em results/auditoria_qualitativa_20amostras.md.
 
-Finalidade Metodológica (TCC):
+Finalidade Metodológica (Pesquisa ICT):
 Mitigar e analisar o viés circular (circular bias) decorrente da geração do ground
 truth utilizando GPT-4o-mini + OpenAI embeddings, que pode favorecer a família OpenAI.
 O relatório apresenta uma tabela formatada com as colunas prontas para avaliação manual:
@@ -252,7 +252,7 @@ def build_report_content(
 - **Data de Execução**: {generation_date}
 - **Arquivo Fonte**: `testset_openai_4omini.jsonl` (Total: {total_testset_size} amostras)
 - **Tamanho da Amostra**: {len(table_rows)} amostras aleatórias (`seed={seed}`)
-- **Finalidade Científica**: Mitigação e quantificação do **viés circular (*circular bias*)** no benchmark de recuperação vetorial para o TCC.
+- **Finalidade Científica**: Mitigação e quantificação do **viés circular (*circular bias*)** no benchmark de recuperação vetorial para o projeto de pesquisa (ICT).
 
 ### Por que a auditoria qualitativa manual é necessária?
 O conjunto de avaliação sintético foi sintetizado com o pipeline Ragas utilizando o gerador **GPT-4o-mini** e indexador com **OpenAI embeddings** (`text-embedding-3-small`). Esse arranjo metodológico pode introduzir um favorecimento sistemático (viés circular) para modelos da mesma família em detrimento de modelos open-source (como LLaMA, DeepSeek e Mixtral).
@@ -283,23 +283,23 @@ A auditoria humana manual substitui o uso de juiz LLM adicional (que introduziri
 
 ## 3. Conclusão sobre o Nível de Viés Circular
 
-### Critérios de Diagnóstico de Viés para o TCC:
+### Critérios de Diagnóstico de Viés para o Projeto de Pesquisa (ICT):
 - **Validade Alta / Baixo Viés (>80% Relevante)**:
   O conjunto sintético possui representatividade substantiva do corpus técnico. A superioridade de modelos de ponta decorre primordialmente da qualidade do espaço latente e não de artefatos metodológicos.
 - **Validade Média / Viés Moderado (60% a 80% Relevante)**:
   Verifica-se incidência relevante de perguntas com contextos parciais ou ruídos de extração. Métricas absolutas (MRR, Hit Rate) podem estar infladas para o modelo baseline da OpenAI, tornando indispensável o uso de testes não-paramétricos (Wilcoxon pareado) para validação estatística.
 - **Validade Baixa / Alto Viés (<60% Relevante)**:
-  Contaminação substancial do conjunto de testes. A aderência dos modelos deve ser interpretada com forte ressalva metodológica na discussão de resultados da monografia.
+  Contaminação substancial do conjunto de testes. A aderência dos modelos deve ser interpretada com forte ressalva metodológica na discussão de resultados do relatório científico.
 
-### Síntese da Avaliação Manual (Template para a Monografia):
+### Síntese da Avaliação Manual (Template para o Relatório Científico):
 - **Diagnóstico Final de Validade**: `[ ] Alta (>80% Relevante) | [ ] Média (60-80% Relevante) | [ ] Baixa (<60% Relevante)`
 - **Padrões de Falha e Artefatos Observados**:
   - *Ruídos de Chunking*: [e.g., cabeçalho institucional 'CM Comandos Lineares' sintetizado incorretamente como comando de programação/automação]
   - *Contextos Genéricos*: [e.g., trechos puramente comerciais ou notas de rodapé de catálogo sem informação técnica]
 - **Impacto no Ranking Comparativo dos 7 Modelos de Embedding**:
   - [Avaliar em que medida os modelos open-source foram penalizados por artefatos que coincidem com os padrões gerados pela API da OpenAI]
-- **Recomendação para a Redação do TCC**:
-  - [Registrar explicitamente esta auditoria no capítulo de Metodologia e Limitações do Trabalho]
+- **Recomendação para a Redação do Relatório de Pesquisa**:
+  - [Registrar explicitamente esta auditoria na seção de Metodologia e Limitações do Trabalho]
 
 ---
 
@@ -319,7 +319,7 @@ def run_audit(
 ) -> None:
     """Executa a rotina de amostragem e geração/atualização do relatório de auditoria."""
     print("=" * 70)
-    print("AUDITORIA QUALITATIVA DE AMOSTRAS DO GROUND TRUTH (TCC)")
+    print("AUDITORIA QUALITATIVA DE AMOSTRAS DO GROUND TRUTH (PESQUISA ICT)")
     print("=" * 70)
 
     # 1. Carrega o conjunto de testes
