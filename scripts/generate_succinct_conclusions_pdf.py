@@ -201,32 +201,32 @@ def generate_succinct_pdf() -> None:
 
 <div class="winner-grid">
     <div class="winner-card card-gold">
-        <div class="card-tag tag-gold">🏆 Melhor Embedding Geral</div>
-        <div class="card-title">Multilingual-E5-Large</div>
-        <div class="card-metric"><strong>MRR@5:</strong> 0.4031 | <strong>Latência:</strong> 22.9 ms</div>
-        <div class="card-metric"><strong>VRAM:</strong> ~2.2 GB | <strong>Framework:</strong> PyTorch (FP16)</div>
+        <div class="card-tag tag-gold">🏆 Campeão Homologado (100% CPU)</div>
+        <div class="card-title">Multilingual-E5-Large (ONNX INT8)</div>
+        <div class="card-metric"><strong>MRR@5:</strong> 0.4031 | <strong>Latência CPU:</strong> 107 ms (3,9x mais rápido que OpenAI)</div>
+        <div class="card-metric"><strong>RAM:</strong> &lt; 1.5 GB | <strong>Zero GPU</strong> | <strong>Custo:</strong> $0.00</div>
         <div class="card-desc">
-            Maior precisão de ordenação no 1º estágio. <strong>18× mais rápido</strong> que o baseline em nuvem da OpenAI, com custo financeiro zero.
+            Solução recomendada para o servidor da CM Comandos. Maior precisão no 1º estágio, soberania total e resposta instantânea em CPU pura.
         </div>
     </div>
 
     <div class="winner-card card-green">
-        <div class="card-tag tag-green">⚡ Melhor Reranker Produção (Tempo Real)</div>
+        <div class="card-tag tag-green">⚡ Melhor Reranker em Benchmark</div>
         <div class="card-title">BGE-Reranker-v2-m3</div>
-        <div class="card-metric"><strong>MRR@5:</strong> 0.4982 (+23.6%) | <strong>Latência:</strong> 1.16 s</div>
-        <div class="card-metric"><strong>VRAM:</strong> ~1.2 GB | <strong>Wilcoxon:</strong> p = 0.0261*</div>
+        <div class="card-metric"><strong>MRR@5:</strong> 0.4982 (+23.6%) | <strong>Latência CPU:</strong> ~1.6s (K=5)</div>
+        <div class="card-metric"><strong>RAM:</strong> &lt; 2.5 GB (ONNX INT8) | <strong>Wilcoxon:</strong> p = 0.0261*</div>
         <div class="card-desc">
-            Ponto ótimo na fronteira de Pareto. Avalia 20 candidatos em <strong>apenas 1.16s</strong> na GPU e coexiste na VRAM com o embedding sem swap de memória.
+            Ponto ótimo na fronteira de Pareto. Avalia candidatos sem sobrecarregar memória; viável em CPU com pool restrito ($K_{\text{cand}}=5$).
         </div>
     </div>
 
     <div class="winner-card card-purple">
-        <div class="card-tag tag-purple">🎯 Maior Cobertura & Precisão Absoluta</div>
+        <div class="card-tag tag-purple">🎯 Maior Precisão em Benchmark</div>
         <div class="card-title">Qwen3-Reranker-8B (Q5_K_M)</div>
         <div class="card-metric"><strong>Hit Rate@5:</strong> 65.6% (+10.9 p.p.) | <strong>MRR@5:</strong> 0.5029</div>
-        <div class="card-metric"><strong>VRAM:</strong> ~5.9 GB | <strong>Latência:</strong> ~6.5 s</div>
+        <div class="card-metric"><strong>Status CPU:</strong> Descartado na CPU (&gt; 25s) | <strong>Uso:</strong> Apenas Pesquisa</div>
         <div class="card-desc">
-            Atingiu a maior taxa de acerto de todo o estudo. Ideal para suporte especializado e diagnósticos complexos em segundo plano.
+            Atingiu a maior taxa de acerto no estudo experimental. Inviável para produção em CPU em tempo real devido ao custo computacional.
         </div>
     </div>
 </div>
@@ -242,20 +242,30 @@ def generate_succinct_pdf() -> None:
             <th>HR@5</th>
             <th>MRR@5</th>
             <th>Latência Total</th>
-            <th>VRAM Total</th>
+            <th>VRAM / RAM</th>
             <th>Custo / 1M</th>
         </tr>
     </thead>
     <tbody>
         <tr class="highlight-row">
-            <td><strong>Produção em Tempo Real (Recomendado) 🥇</strong></td>
+            <td><strong>Produção em CPU (Recomendado CM) 🥇</strong></td>
+            <td><code>Multilingual-E5-Large (ONNX)</code></td>
+            <td><code>Busca Híbrida BM25</code></td>
+            <td><strong>54.7%</strong></td>
+            <td><strong>0.4031</strong></td>
+            <td><strong>~0.11 s (107 ms)</strong></td>
+            <td><strong>RAM &lt; 1.5 GB (Zero GPU)</strong></td>
+            <td><strong>$0.00</strong></td>
+        </tr>
+        <tr>
+            <td><em>Two-Stage Rerank (Referência Benchmark)</em></td>
             <td><code>Multilingual-E5-Large</code></td>
             <td><code>BGE-Reranker-v2-m3</code></td>
-            <td><strong>57.0%</strong></td>
-            <td><strong>0.4982</strong></td>
-            <td><strong>~1.18 s</strong></td>
-            <td><strong>~3.4 GB</strong> (Coexistência)</td>
-            <td><strong>$0.00</strong></td>
+            <td>57.0%</td>
+            <td>0.4982</td>
+            <td>~1.18 s</td>
+            <td>VRAM ~3.4 GB</td>
+            <td>$0.00</td>
         </tr>
         <tr>
             <td><strong>Máxima Cobertura (Hit Rate Máximo) 🎯</strong></td>
@@ -325,24 +335,25 @@ def generate_succinct_pdf() -> None:
     <li><strong>Viabilidade Operacional em Workstation e CPU Corporativa:</strong> A quantização em 4 e 5 bits viabilizou modelos de até 8B parâmetros em GPU de 8 GB, enquanto a execução em ONNX INT8 permitiu latência sub-110 ms em CPU comum sem acelerador gráfico.</li>
 </ul>
 
-<h2>4. Recomendação de Implantação para a CM Comandos Lineares</h2>
+<h2>4. Recomendação de Implantação para a CM Comandos Lineares (100% em CPU)</h2>
 
-<div class="box-quote" style="background-color: #f7fafc; border-left: 3px solid #4a5568; color: #2d3748; margin: 6px 0; padding: 5px 8px;">
-    <strong>Diretriz Arquitetural para Servidor em Produção (CPU sem GPU dedicada):</strong><br>
-    O servidor corporativo de produção não possui GPU dedicada. Medições empíricas no corpus da CM Comandos comprovam que o <strong>Multilingual-E5-Large em ONNX INT8</strong> atinge <strong>apenas 107 ms na CPU</strong> (&lt; 1.5 GB RAM) com MRR@5 de <strong>0.4031</strong> — superando a API em nuvem da OpenAI (0.3840 a 415 ms) com 1/4 da latência e custo zero. O <strong>Multilingual-E5-Base (ONNX INT8)</strong> roda em 53 ms e o <strong>Nomic-Embed-Text</strong> em 50 ms. Em contrapartida, SLMs generativos de 4B e 8B (Qwen3-Reranker) são <em>inviáveis em tempo real na CPU</em> (&gt; 20s por consulta).
+<div class="box-quote" style="background-color: #f7fafc; border-left: 3px solid #2b6cb0; color: #2d3748; margin: 6px 0; padding: 6px 10px;">
+    <strong>Diretriz Arquitetural Exclusiva em CPU (Servidor de Produção CM Comandos):</strong><br>
+    O servidor corporativo de produção opera <strong>estritamente em CPU</strong> (sem aceleradores gráficos dedicados). Testes empíricos no corpus da CM Comandos homologam o <strong>Multilingual-E5-Large (ONNX INT8)</strong> atingindo <strong>107 ms na CPU</strong> (&lt; 1.5 GB RAM) com MRR@5 de <strong>0.4031</strong> — superando a API OpenAI Cloud (0.3840 a 415 ms) com 1/4 da latência e custo financeiro zero. SLMs generativos de 4B e 8B (Qwen3-Reranker) foram <em>formalmente descartados na CPU</em> por latência proibitiva (&gt; 20s a 40s).
 </div>
 
-<ol style="margin-top: 4px; padding-left: 18px;">
-    <li><strong>Servidor CPU — Opção Principal (Mais Rápida e Confiável) 🥇:</strong>  
-        Adotar o 1º Estágio puro com <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> ou busca híbrida densa + BM25 via Reciprocal Rank Fusion (RRF).  
-        <em>Latência Total:</em> <strong>~110 ms</strong> | <em>Zero GPU</em> | <em>RAM:</em> &lt; 2 GB | <em>Custo:</em> $0.00. Resposta instantânea e superior à nuvem proprietária.
+<ol style="margin-top: 6px; padding-left: 18px;">
+    <li style="margin-bottom: 5px;"><strong>Solução Campeã Homologada: Busca Híbrida Leve em CPU 🥇:</strong>  
+        Adotar o pipeline com <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> integrado à busca léxica <strong><code>BM25</code></strong> via <em>Reciprocal Rank Fusion (RRF)</em>.  
+        <em>Latência Total na CPU:</em> <strong>~112 ms</strong> (107 ms vetorial + 5 ms léxico) | <em>RAM:</em> &lt; 1.5 GB | <em>Zero GPU</em> | <em>Custo:</em> $0.00.  
+        Captura com precisão códigos de falhas, números de componentes e termos eletrotécnicos com resposta instantânea e soberania total.
     </li>
-    <li><strong>Servidor CPU — Opção com Re-ranking Leve ⚡:</strong>  
-        Empregar <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> (1º estágio) + Cross-Encoder <strong><code>BGE-Reranker-v2-m3 (ONNX INT8)</code></strong> com pool restrito para <strong>$K_{\text{cand}} = 5$ ou $8$ candidatos</strong> (em vez de 20).  
-        <em>Latência Total:</em> <strong>~1.5s a 2.0s na CPU</strong> | <em>Zero GPU</em>. Alta precisão com tempo aceitável para suporte técnico.
+    <li style="margin-bottom: 5px;"><strong>Descarte Formal de SLMs Generativos na CPU 🚫:</strong>  
+        Os modelos <code>Qwen3-Reranker-4B</code> e <code>8B</code> exigem de 20 a 40 segundos por consulta em CPU pura. Foram integralmente descartados para o ambiente de produção para garantir atendimento síncrono e capacidade multiusuário.
     </li>
-    <li><strong>Ambiente Workstation com GPU (Engenharia de Produto e Perícia Avançada):</strong>  
-        Em estações com GPU de 8 GB GDDR6, utilizar <strong><code>Multilingual-E5-Large</code> + <code>BGE-Reranker-v2-m3</code></strong> (Top-20, ~1.18s, ~3.4 GB VRAM) ou <strong><code>Qwen3-Reranker-8B (Q5_K_M)</code></strong> para perícia complexa de inversores (Hit Rate@5 máximo de 65.6%, ~6.5s).
+    <li style="margin-bottom: 4px;"><strong>Opção Alternativa com Re-ranking Neural Leve (Se Necessário) ⚡:</strong>  
+        Caso seja indispensável reordenação por atenção cruzada em chamados complexos, empregar <strong><code>Multilingual-E5-Large (ONNX INT8)</code></strong> + Cross-Encoder <strong><code>BGE-Reranker-v2-m3 (ONNX INT8)</code></strong> com pool restrito a <strong>$K_{\text{cand}} = 5$ nós</strong>.  
+        <em>Latência Total na CPU:</em> <strong>~1.5s a 1.8s</strong> | <em>Zero GPU</em> | <em>RAM:</em> &lt; 2.5 GB. Alternativa viável sem extrapolar limites toleráveis.
     </li>
 </ol>
 

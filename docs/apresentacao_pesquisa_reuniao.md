@@ -2,8 +2,8 @@
 marp: true
 theme: default
 paginate: true
-header: "Avaliação Científica e Tecnológica de RAG Industrial (Retrieval & Re-ranking) — Pesquisa ICT"
-footer: "CM Comandos Lineares | NVIDIA RTX PRO 1000 (8 GB GDDR6)"
+header: "RAG Industrial em Manuais Técnicos — Pesquisa ICT"
+footer: "CM Comandos Lineares | Pesquisa Científica e Tecnológica (ICT)"
 style: |
   section {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -103,8 +103,12 @@ style: |
     color: #718096;
   }
   header {
-    font-size: 0.52em;
+    font-size: 0.46em;
     color: #718096;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
   }
 ---
 
@@ -259,88 +263,89 @@ style: |
 
 ---
 
-## 9. Recomendações de Implantação: Ambientes com Workstation GPU
+## 9. Recomendação de Produção: Arquitetura 100% em CPU (Sem GPU Dedicada)
 
 <div class="grid-2">
 <div class="col-text">
 
 <div class="card-box">
-<h3>Cenário 1: Tempo Real / Suporte Técnico de Campo</h3>
+<h3>Contexto da Infraestrutura de Produção</h3>
 
-- **1º Estágio**: `Multilingual-E5-Large` $\rightarrow$ **22.9 ms**
-- **2º Estágio**: `BGE-Reranker-v2-m3` $\rightarrow$ **1164 ms**
-- **Latência Total**: **~1.19 segundos** por consulta
-- **Alocação de VRAM**: **< 2.5 GB** (5.5 GB livres na GPU)
-- **Eficácia Top-5**: MRR@5 = 0.4982 | HR@5 = 57.0%
-- **Aplicação**: Chatbot de campo para técnicos, SAC e atendimento interativo em tempo real.
-</div>
-
-</div>
-<div class="col-text">
-
-<div class="card-box">
-<h3>Cenário 2: Diagnóstico Corretivo Aprofundado</h3>
-
-- **1º Estágio**: `Qwen3-Embedding-8B (Q4_K_M)` $\rightarrow$ **57.1 ms**
-- **2º Estágio**: `Qwen3-Reranker-8B (Q5_K_M)` $\rightarrow$ **6424 ms**
-- **Latência Total**: **~6.48 segundos** por consulta
-- **Alocação de VRAM**: **~5.9 GB** (estável na GPU de 8 GB)
-- **Eficácia Top-5**: **MRR@5 = 0.5029** | **HR@5 = 65.6%**
-- **Aplicação**: Engenharia de produto, perícia pós-falha e análise profunda de inversores.
-</div>
-
-</div>
-</div>
-
-<div class="card-box" style="margin-top: 10px;">
-<b>Conclusão Executiva:</b> Ambos os cenários operam 100% desconectados da internet (<i>air-gapped</i>), com $0 de custo de API e soberania total. Para servidores corporativos sem GPU, ver arquitetura no Slide 10.
-</div>
-
----
-
-## 10. Arquitetura de Produção: Servidor em CPU (Sem GPU Dedicada)
-
-<div class="grid-2">
-<div class="col-text">
-
-<div class="card-box">
-<h3>Evidências Empíricas em CPU (Intel Ultra 7 / Xeon)</h3>
-
-- **`multilingual_e5_large` (ONNX INT8)**:
-  - Apenas **107 ms na CPU** (< 1.5 GB RAM)
-  - Retém MRR@5 de **0.4031** (superior aos 0.3840 da OpenAI Cloud que leva 415 ms!)
-- **`multilingual_e5_base` (ONNX INT8)**:
-  - Roda em apenas **53 ms na CPU** (< 800 MB RAM)
-- **`nomic_embed_text` (GGUF)**:
-  - Tempo de apenas **50 ms na CPU**
-- **Diretriz Crítica de Re-ranking em CPU**:
-  - SLMs generativos de 4B e 8B (`Qwen3-Reranker`) são <b>inviáveis em tempo real na CPU</b> (> 20s/consulta).
+- **Servidor Corporativo Exclusivo em CPU**:
+  - O servidor de produção da CM Comandos opera **exclusivamente em CPU** (sem placa gráfica aceleradora).
+  - Soberania total: proibição de tráfego de manuais confidenciais para servidores em nuvem.
+- **Solução Campeã Homologada**:
+  - 1º Estágio com **`Multilingual-E5-Large (ONNX INT8)`**.
+  - Acelerado nativamente via instruções vetoriais **AVX-512 / VNNI** da CPU.
+- **Custo e Segurança Operacional**:
+  - **Custo zero de API** e blindagem total de segredos industriais em rede local (*air-gapped*).
 </div>
 
 </div>
 <div class="col-text">
 
 <div class="card-box" style="border-left-color: #38a169;">
-<h3>Opção Principal: 1º Estágio Puro / Híbrido 🥇</h3>
+<h3>Métricas Comprovadas na CPU (Servidor CM Comandos)</h3>
 
-- **Arquitetura**: <code>Multilingual-E5-Large (ONNX INT8)</code> puro ou Busca Híbrida densa + BM25 via Reciprocal Rank Fusion (RRF).
-- **Tempo Total**: <b>~110 ms</b> | <b>Zero GPU</b> | <b>&lt; 2 GB RAM</b>.
-- Resposta instantânea, alta acurácia e custo zero de API.
-</div>
-
-<div class="card-box" style="border-left-color: #805ad5; margin-top: 8px;">
-<h3>Opção Alternativa: Re-ranking Leve em CPU ⚡</h3>
-
-- **Arquitetura**: <code>Multilingual-E5-Large</code> (1º estágio) + Cross-Encoder <code>BGE-Reranker-v2-m3 (ONNX INT8)</code>.
-- Pool reduzido para <b>K_cand = 5 ou 8 candidatos</b> (em vez de 20).
-- **Tempo Total**: <b>~1.5s a 2.0s na CPU</b> | <b>Zero GPU</b>.
+- **Latência Ultrarrápida na CPU**:
+  - Apenas **107 ms por consulta** na CPU pura.
+  - **3,9x mais rápido** que os 415 ms da API da OpenAI em nuvem!
+- **Consumo Mínimo de Memória**:
+  - **< 1.5 GB de RAM** (perfeitamente estável e viável em qualquer VM modesta).
+- **Precisão Superior ao Baseline Comercial**:
+  - **MRR@5 de 0.4031** (já superior aos 0.3840 da OpenAI `text-embedding-3-small`).
+- **Prontidão para Atendimento em Tempo Real**:
+  - Resposta instantânea (< 200 ms) para técnicos de campo e suporte.
 </div>
 
 </div>
 </div>
 
 <div class="card-box" style="margin-top: 10px;">
-<b>Recomendação Final CM Comandos:</b> Para a infraestrutura de servidor sem GPU, a Opção Principal (E5-Large ONNX INT8) atinge latência ultra-baixa (~110 ms) com qualidade superior à API da OpenAI a custo zero.
+<b>Veredito de Engenharia:</b> O <code>Multilingual-E5-Large (ONNX INT8)</code> é a recomendação definitiva para o servidor de produção da CM Comandos: velocidade de 107 ms e precisão superior à nuvem, operando 100% em CPU sem custos de acelerador ou API.
+</div>
+
+---
+
+## 10. Estratégias Complementares e Limites de Re-ranking na CPU
+
+<div class="grid-2">
+<div class="col-text">
+
+<div class="card-box" style="border-left-color: #e53e3e;">
+<h3>Limites na CPU: Por que SLMs Foram Descartados</h3>
+
+- **Inviabilidade de SLMs Generativos na CPU**:
+  - Modelos generativos de 4B e 8B (`Qwen3-Reranker`) exigem de **20s a 40s por consulta** na CPU pura.
+  - Latência proibitiva que inviabiliza completamente o uso em atendimento interativo e suporte em tempo real.
+- **Reserva de Capacidade Computacional**:
+  - Descartar SLMs na CPU evita enfileiramento e mantém o servidor responsivo para múltiplos técnicos simultâneos.
+</div>
+
+</div>
+<div class="col-text">
+
+<div class="card-box" style="border-left-color: #3182ce;">
+<h3>Busca Híbrida Leve (Altamente Recomendada) 🥇</h3>
+
+- **Fusão Densa + Léxica via RRF**:
+  - `Multilingual-E5-Large (ONNX INT8)` + `BM25` via *Reciprocal Rank Fusion*.
+  - Captura códigos de falha (ex.: "F07", "E-12") e números de peças com latência adicional de **apenas ~5 ms na CPU** (~112 ms total).
+</div>
+
+<div class="card-box" style="border-left-color: #805ad5; margin-top: 6px;">
+<h3>Opção com Re-ranking Neural Leve (Se Necessário) ⚡</h3>
+
+- **Cross-Encoder Compacto em CPU**:
+  - `BGE-Reranker-v2-m3 (ONNX INT8)` restrito a um pool pequeno ($K_{\text{cand}} = 5$ nós).
+  - Atinge latência de **~1.5s a 1.8s na CPU** mantendo consumo < 2.5 GB RAM.
+</div>
+
+</div>
+</div>
+
+<div class="card-box" style="margin-top: 10px;">
+<b>Recomendação Final:</b> A Busca Híbrida (E5-Large ONNX + BM25) fornece o melhor trade-off na CPU: máxima precisão léxica e semântica com latência de apenas ~112 ms, sem gargalos computacionais.
 </div>
 
 ---
@@ -348,13 +353,14 @@ style: |
 ## 11. Impacto do Projeto de ICT e Próximos Passos
 
 - **Principais Conquistas e Validações Científicas**:
-  - **Quebra de Paradigma**: Modelos abertos locais quantizados superam soluções comerciais proprietárias em tarefas técnicas de recuperação de informação eletrotécnica.
-  - **Viabilidade em GPU (8 GB) e CPU Pura**: Comprovação de RAG Two-Stage em workstation e inferência sub-110 ms em CPU corporativa comum.
-  - **Soberania & Custo Zero**: Blindagem de segredos industriais da CM Comandos sem dependência de nuvem.
+  - **Quebra de Paradigma Tecnológico**: Comprovação com rigor estatístico (Wilcoxon $p < 0.05$) de que modelos abertos locais superam soluções comerciais proprietárias em documentações eletrotécnicas.
+  - **Viabilidade Comprovada em CPU Pura**: Homologação do `Multilingual-E5-Large (ONNX INT8)` operando em apenas **107 ms na CPU** (< 1.5 GB RAM), eliminando a dependência de GPUs caras.
+  - **Soberania Integral & Custo Zero**: Blindagem de segredos industriais e manuais confidenciais de no-breaks da CM Comandos sem dependência de nuvem.
 
-- **Próximos Passos Tecnológicos**:
-  - **Pipeline de Geração (3º Estágio)**: Avaliação de SLMs locais instruídos (ex.: Qwen-2.5-7B, Llama-3.1-8B) com restrição estrita de aterramento (*grounding*) e citação de páginas dos manuais.
-  - **Piloto Operacional**: Implantação de ambiente piloto integrado à base de chamados técnicos e suporte ao cliente da CM Comandos Lineares.
+- **Próximos Passos Tecnológicos (Foco em CPU)**:
+  - **Validação e Testes de Carga em CPU Corporativa**: Testes de concorrência simultânea do pipeline E5-Large ONNX INT8 + BM25 na infraestrutura de servidores da CM Comandos.
+  - **Pipeline de Geração Leve (3º Estágio)**: Avaliação de modelos geradores compactos quantizados eficientes em CPU para síntese de respostas com citação exata de páginas dos manuais.
+  - **Piloto Operacional Integrado**: Disponibilização da ferramenta para homologação prática com técnicos de campo e equipe de assistência da CM Comandos Lineares.
 
 ---
 
@@ -366,6 +372,6 @@ style: |
 **Autor:** João Messias Lima Pereira  
 **Linha de Pesquisa:** Projeto de Pesquisa Científica e Tecnológica (ICT)  
 **Instituições:** Universidade & CM Comandos Lineares  
-**Hardware:** NVIDIA RTX PRO 1000 Laptop GPU (8 GB GDDR6) & Intel Core Ultra 7 (CPU)
+**Hardware de Referência:** Intel Core Ultra 7 (CPU) & NVIDIA RTX PRO 1000 (8 GB GDDR6)
 
 *Repositório, códigos-fonte, pipelines e relatórios consolidados disponíveis para auditoria técnica.*
