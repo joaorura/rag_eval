@@ -315,11 +315,11 @@ with open(marp_path, "w", encoding="utf-8") as f:
 print(f"Marp Markdown saved: {marp_path}")
 
 # 2. Compile with Marp to HTML and PDF passing --html
-cmd_html = ["npx", "@marp-team/marp-cli", "--html", marp_path, "-o", "docs/apresentacao_embeddings.html"]
+cmd_html = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", marp_path, "-o", "docs/apresentacao_embeddings.html"]
 res_html = subprocess.run(cmd_html, capture_output=True, text=True)
 print("Marp HTML compile code:", res_html.returncode)
 
-cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", marp_path, "--pdf", "-o", "docs/apresentacao_embeddings.pdf"]
+cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", marp_path, "--pdf", "-o", "docs/apresentacao_embeddings.pdf"]
 res_pdf = subprocess.run(cmd_pdf, capture_output=True, text=True)
 print("Marp PDF compile code:", res_pdf.returncode)
 

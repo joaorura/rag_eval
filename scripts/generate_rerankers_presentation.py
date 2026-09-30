@@ -316,11 +316,11 @@ style: |
     html_out = os.path.join(base_dir, "docs", "apresentacao_rerankers.html")
     pdf_out = os.path.join(base_dir, "docs", "apresentacao_rerankers.pdf")
 
-    cmd_html = ["npx", "@marp-team/marp-cli", "--html", marp_path, "-o", html_out]
+    cmd_html = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", marp_path, "-o", html_out]
     r_html = subprocess.run(cmd_html, capture_output=True, text=True)
     print(f"Marp HTML status: {r_html.returncode} -> {html_out}")
 
-    cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", marp_path, "--pdf", "-o", pdf_out]
+    cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", marp_path, "--pdf", "-o", pdf_out]
     r_pdf = subprocess.run(cmd_pdf, capture_output=True, text=True)
     print(f"Marp PDF status: {r_pdf.returncode} -> {pdf_out}")
 

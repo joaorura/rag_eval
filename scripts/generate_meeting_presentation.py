@@ -13,6 +13,7 @@ Gera os seguintes artefatos:
 
 from __future__ import annotations
 
+import base64
 import os
 import shutil
 import subprocess
@@ -23,10 +24,19 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.dml.color import RGBColor
 
 
+def to_base64_img(img_path: str) -> str:
+    """Converte arquivo PNG em data URI base64 para incorporar diretamente no HTML e PDF."""
+    if os.path.exists(img_path):
+        with open(img_path, "rb") as f:
+            encoded = base64.b64encode(f.read()).decode("utf-8")
+        return f"data:image/png;base64,{encoded}"
+    return img_path
+
+
 def build_marp_markdown(base_dir: str) -> str:
-    img_ranking_emb = f"{base_dir}/graficos_tcc/ranking_hitrate_mrr_k5.png"
-    img_delta_rerank = f"{base_dir}/graficos_tcc/delta_mrr5_rerankers.png"
-    img_tradeoff_rerank = f"{base_dir}/graficos_tcc/tradeoff_latencia_mrr_rerankers.png"
+    img_ranking_emb = to_base64_img(os.path.join(base_dir, "graficos_tcc", "ranking_hitrate_mrr_k5.png"))
+    img_delta_rerank = to_base64_img(os.path.join(base_dir, "graficos_tcc", "delta_mrr5_rerankers.png"))
+    img_tradeoff_rerank = to_base64_img(os.path.join(base_dir, "graficos_tcc", "tradeoff_latencia_mrr_rerankers.png"))
 
     marp_content = f"""---
 marp: true
@@ -785,7 +795,7 @@ def main() -> None:
 
     # 2. Compilar HTML via Marp CLI
     html_path = os.path.join(docs_dir, "apresentacao_pesquisa_reuniao.html")
-    cmd_html = ["npx", "@marp-team/marp-cli", "--html", md_path, "-o", html_path]
+    cmd_html = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", md_path, "-o", html_path]
     r_html = subprocess.run(cmd_html, capture_output=True, text=True)
     if r_html.returncode != 0:
         print(f"[ERRO] Falha ao compilar Marp HTML: {r_html.stderr}")
@@ -794,7 +804,7 @@ def main() -> None:
 
     # 3. Compilar PDF via Marp CLI
     pdf_path = os.path.join(docs_dir, "apresentacao_pesquisa_reuniao.pdf")
-    cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", md_path, "--pdf", "-o", pdf_path]
+    cmd_pdf = ["npx", "@marp-team/marp-cli", "--html", "--allow-local-files", md_path, "--pdf", "-o", pdf_path]
     r_pdf = subprocess.run(cmd_pdf, capture_output=True, text=True)
     if r_pdf.returncode != 0:
         print(f"[ERRO] Falha ao compilar Marp PDF: {r_pdf.stderr}")
