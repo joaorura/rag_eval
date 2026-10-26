@@ -1,0 +1,274 @@
+{
+  "none": {
+    "model": "gpt-6-sol",
+    "effort": "none",
+    "faithfulness": 0.3667,
+    "answer_relevancy": 0.7987,
+    "num_samples": 5,
+    "samples": [
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos são indicados para manter equipamentos e sistemas empresariais funcionando durante quedas ou oscilações de energia. Eles ajudam a evitar interrupções, perda de dados e danos aos equipamentos.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7358579648952586
+      },
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos podem manter equipamentos essenciais funcionando durante quedas de energia e protegê-los contra oscilações elétricas. Para as empresas, isso ajuda a evitar interrupções, perda de dados e danos aos equipamentos.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7319704783298806
+      },
+      {
+        "user_input": "impacto da proteção contra distúrbios de energia na confiabilidade produtividade operações missão crítica",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra distúrbios de energia evita interrupções e danos aos equipamentos em operações de missão crítica. Isso reduz falhas e custos de manutenção, aumentando a confiabilidade e a produtividade.",
+        "reference": "A proteção contra distúrbios de energia elétrica impacta a confiabilidade e a produtividade em operações de missão crítica, minimizando falhas e custos de manutenção.",
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.8057272584982124
+      },
+      {
+        "user_input": "De que forma a protecão contra distúrbios de energia afeta a confiabilidade nas operações críticas?",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra distúrbios de energia evita interrupções e falhas nos equipamentos, aumentando a confiabilidade e a continuidade das operações críticas.",
+        "reference": "A proteção contra distúrbios de energia elétrica afeta a confiabilidade nas operações críticas ao minimizar falhas e custos de manutenção, garantindo maior precisão e segurança nos equipamentos.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9431545431837659
+      },
+      {
+        "user_input": "implicações suporte técnico eficaz melhoria experiência usuário",
+        "retrieved_contexts": [
+          "supor te técnico pode oferecer .",
+          "supor te técnico pode oferecer ."
+        ],
+        "response": "Um suporte técnico eficaz resolve problemas com rapidez, reduz a frustração e melhora a experiência do usuário. Isso aumenta a confiança no serviço e favorece a fidelização.",
+        "reference": "O suporte técnico eficaz tem implicações significativas na melhoria da experiência do usuário.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7769879248699862
+      }
+    ]
+  },
+  "low": {
+    "model": "gpt-6-sol",
+    "effort": "low",
+    "faithfulness": 0.3667,
+    "answer_relevancy": 0.812,
+    "num_samples": 5,
+    "samples": [
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos são indicados para manter equipamentos e sistemas da empresa funcionando durante quedas ou oscilações de energia. Eles ajudam a evitar interrupções, perda de dados e danos aos equipamentos.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7510930218175649
+      },
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos são indicados para manter equipamentos e sistemas essenciais funcionando durante quedas de energia. Para as empresas, ajudam a evitar paradas, perda de dados e danos aos equipamentos.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9104849100381842
+      },
+      {
+        "user_input": "impacto da proteção contra distúrbios de energia na confiabilidade produtividade operações missão crítica",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra cortes, picos, ruídos e variações de tensão reduz falhas e interrupções em operações de missão crítica. Isso aumenta a confiabilidade e a produtividade, além de diminuir os custos de manutenção.",
+        "reference": "A proteção contra distúrbios de energia elétrica impacta a confiabilidade e a produtividade em operações de missão crítica, minimizando falhas e custos de manutenção.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6629447108659
+      },
+      {
+        "user_input": "De que forma a protecão contra distúrbios de energia afeta a confiabilidade nas operações críticas?",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra distúrbios de energia evita interrupções e danos aos equipamentos, reduzindo falhas e custos de manutenção. Isso aumenta a confiabilidade e a continuidade das operações críticas.",
+        "reference": "A proteção contra distúrbios de energia elétrica afeta a confiabilidade nas operações críticas ao minimizar falhas e custos de manutenção, garantindo maior precisão e segurança nos equipamentos.",
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.9431545431837659
+      },
+      {
+        "user_input": "implicações suporte técnico eficaz melhoria experiência usuário",
+        "retrieved_contexts": [
+          "supor te técnico pode oferecer .",
+          "supor te técnico pode oferecer ."
+        ],
+        "response": "Um suporte técnico eficaz resolve problemas com rapidez, reduz a frustração e aumenta a confiança do usuário. Isso melhora a experiência e favorece a fidelização.",
+        "reference": "O suporte técnico eficaz tem implicações significativas na melhoria da experiência do usuário.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7923115960593684
+      }
+    ]
+  },
+  "medium": {
+    "model": "gpt-6-sol",
+    "effort": "medium",
+    "faithfulness": 0.4,
+    "answer_relevancy": 0.8114,
+    "num_samples": 5,
+    "samples": [
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos são indicados para empresas que precisam manter equipamentos em funcionamento durante falhas de energia. Eles ajudam a proteger os equipamentos e a evitar paradas e perdas operacionais.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.879909871684682
+      },
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos são indicados para manter equipamentos e sistemas essenciais funcionando durante quedas de energia. Para as empresas, ajudam a evitar interrupções, perda de dados e danos aos equipamentos.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9104849100381842
+      },
+      {
+        "user_input": "impacto da proteção contra distúrbios de energia na confiabilidade produtividade operações missão crítica",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra cortes, oscilações, picos e outros distúrbios de energia reduz falhas e interrupções em operações de missão crítica. Isso aumenta a confiabilidade e a produtividade dos equipamentos e diminui os custos de manutenção.",
+        "reference": "A proteção contra distúrbios de energia elétrica impacta a confiabilidade e a produtividade em operações de missão crítica, minimizando falhas e custos de manutenção.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7271508144657766
+      },
+      {
+        "user_input": "De que forma a protecão contra distúrbios de energia afeta a confiabilidade nas operações críticas?",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra cortes, picos e variações de tensão evita interrupções e falhas nos equipamentos, aumentando a confiabilidade e a continuidade das operações críticas.",
+        "reference": "A proteção contra distúrbios de energia elétrica afeta a confiabilidade nas operações críticas ao minimizar falhas e custos de manutenção, garantindo maior precisão e segurança nos equipamentos.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7471312356802847
+      },
+      {
+        "user_input": "implicações suporte técnico eficaz melhoria experiência usuário",
+        "retrieved_contexts": [
+          "supor te técnico pode oferecer .",
+          "supor te técnico pode oferecer ."
+        ],
+        "response": "Um suporte técnico eficaz resolve problemas com rapidez, reduz a frustração e aumenta a confiança do usuário. Isso melhora sua experiência e favorece a fidelização.",
+        "reference": "O suporte técnico eficaz tem implicações significativas na melhoria da experiência do usuário.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7923115960593684
+      }
+    ]
+  },
+  "high": {
+    "model": "gpt-6-sol",
+    "effort": "high",
+    "faithfulness": 0.4,
+    "answer_relevancy": 0.7824,
+    "num_samples": 5,
+    "samples": [
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos mantêm equipamentos essenciais funcionando durante quedas de energia e ajudam a protegê-los de oscilações elétricas. Para as empresas, isso reduz paradas, perda de dados e prejuízos operacionais.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.8326725229881131
+      },
+      {
+        "user_input": "Quais são as aplicações e benefícios dos No-Breaks da CM Comandos para as empresas?",
+        "retrieved_contexts": [
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados   para    ",
+          "EMPRESA\nOs  No-Breaks  da  CM  Comandos  são  indicados  para a",
+          "A EMPRESA\nOs    No-Breaks   da   CM     Comandos  são  indicados  para "
+        ],
+        "response": "Os No-Breaks da CM Comandos podem ser usados para manter servidores, redes e outros equipamentos essenciais funcionando durante quedas de energia. Para as empresas, ajudam a evitar paradas, perda de dados e danos causados por oscilações elétricas.",
+        "reference": "Os No-Breaks da CM Comandos são indicados para empresas, proporcionando aplicações e benefícios que garantem a continuidade das operações em caso de falhas de energia.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.910961756492296
+      },
+      {
+        "user_input": "impacto da proteção contra distúrbios de energia na confiabilidade produtividade operações missão crítica",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra cortes, picos, oscilações de tensão e outros distúrbios reduz falhas e interrupções em operações de missão crítica. Isso aumenta a confiabilidade e a produtividade, além de diminuir os custos de manutenção.",
+        "reference": "A proteção contra distúrbios de energia elétrica impacta a confiabilidade e a produtividade em operações de missão crítica, minimizando falhas e custos de manutenção.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6929599326122142
+      },
+      {
+        "user_input": "De que forma a protecão contra distúrbios de energia afeta a confiabilidade nas operações críticas?",
+        "retrieved_contexts": [
+          "plicações de  \nmissão crítica, nas mais variadas corporações, oferecendo proteção \ncontra distúrbios de energia elétrica, tais como: cortes, micro-cortes, ruídos, distorção harmônica, picos, \ntransientes, sub e sobretensão e variação de frequência.APLICAÇÕES\nOs equipamentos da CM Comandos operam com maior precisão, agre-\ngam maior número de funções e são mais seguros. Características\nque geram alta conﬁ  abilidade e produtividade nas mais variadas aplicações, minimizam falhas e,\nconsequentemente, custos de manutenção. Em resumo, ser um cliente CM Comandos signiﬁ  ca ter o \nretorno do capital investido e garantias que só uma empresa com amplo sup",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. ",
+          "aplicações \nde  missã o crítica, nas mais variadas corporações , oferecendo proteção \ncontra distúr bios de ener gia elétr ica, tais como: cortes, micr o-cortes, ruídos , distorção harmônica, picos , \ntransient es, sub e sobr etensão e var iação de fr equência.APLICAÇÕES\nOs equipament os da CM Comandos operam com maior precisão , agre-\ngam maior númer o de funções e são mais segur os. Carac terísticas\nque geram alta confiabilidade e produtividade nas mais variadas aplicações , minimizam falhas e,\nconsequent ement e, cust os de manut enção . Em resumo , ser um client e CM Comandos significa ter o \nretorno do capital investido e garantias que só uma empr esa com amplo "
+        ],
+        "response": "A proteção contra cortes, picos e outros distúrbios evita interrupções e falhas nos equipamentos, aumentando a confiabilidade das operações críticas e reduzindo custos de manutenção.",
+        "reference": "A proteção contra distúrbios de energia elétrica afeta a confiabilidade nas operações críticas ao minimizar falhas e custos de manutenção, garantindo maior precisão e segurança nos equipamentos.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6985447077200184
+      },
+      {
+        "user_input": "implicações suporte técnico eficaz melhoria experiência usuário",
+        "retrieved_contexts": [
+          "supor te técnico pode oferecer .",
+          "supor te técnico pode oferecer ."
+        ],
+        "response": "Um suporte técnico eficaz resolve problemas rapidamente, reduz a frustração e melhora a experiência do usuário. Isso aumenta a confiança no serviço e favorece a fidelização.",
+        "reference": "O suporte técnico eficaz tem implicações significativas na melhoria da experiência do usuário.",
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.7769879248699862
+      }
+    ]
+  }
+}
